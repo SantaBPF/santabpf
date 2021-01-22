@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"os"
 )
 
 type AddrTime struct {
@@ -57,5 +58,8 @@ func main() {
 	http.HandleFunc("/delay", delay)
 
 	go draw()
-	http.ListenAndServe(":38500", nil)
+
+	port := os.Args[1]
+
+	http.ListenAndServe(":" + port, nil)
 }

@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"rand"
 )
 
 type client struct {
@@ -23,9 +22,7 @@ func (c *client) Get(seconds float64) {
 
 func main() {
 	c := client{os.Getenv("TEST_SERVER_ADDR")}
-	for i := 0; i < 100; i++ {
-		c.Get(
-	}
+
 	c.Get(3)
 	c.Get(6)
 }
