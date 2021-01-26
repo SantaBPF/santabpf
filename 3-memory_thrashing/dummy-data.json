@@ -2,7 +2,7 @@
   {
     "database": "datagen_it_test",
     "collection": "test_bson",
-    "count": 300000,
+    "count": 100000,
     "content": {
       "Animal": {
         "type":  "faker",
