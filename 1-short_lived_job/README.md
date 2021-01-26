@@ -48,7 +48,8 @@ pidstat(1)도 atop(1)과 비슷한 목적으로 사용가능하지만 파싱하�
 프로세스 생성을 모니터링하려면 어떻게 해야할까
 
 ![image](https://user-images.githubusercontent.com/19762154/104984758-b70f8d80-5a52-11eb-9a11-e1a2eae281a2.png)
-위 그래프를 참고해 exec syscall을 모니터링 해보기로 했다.
+
+OS 수업 내용과 위 그래프를 참고해 exec syscall을 모니터링 해보기로 했다.
 
 exec는 execvp  execv execvpe execle 등등 여러 family가 있는것처럼 보였는데
 ausyscall(8)로 확인한 결과 현재 아키텍처에서는 execve만 존재하는걸로 보였다.
