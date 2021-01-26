@@ -1,4 +1,4 @@
-# scenario 1: short-lived process with top
+# scenario 1: short-lived processes with top
 
 아래와 같이 짧은 시간동안 cpu resource를 잡아먹고 꺼지는 short-lived process가 주기적으로 실행된다고 해보자.
 > systemd에 등록된 서비스가 잘못 설정되어 계속 재시도 되는 경우
