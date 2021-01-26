@@ -10,8 +10,4 @@ COPY ./dummy-data.json ./
 COPY ./entrypoint.sh ./
 RUN chmod +x ./entrypoint.sh
 
-WORKDIR /app
-COPY ./monitor-wt.sh ./
-RUN chmod +x ./monitor-wt.sh
-
 CMD ["/tmp/entrypoint.sh"]
