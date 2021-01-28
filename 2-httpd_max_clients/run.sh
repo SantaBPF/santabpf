@@ -8,7 +8,7 @@ fi
 # safety logic
 trap 'tc qdisc del dev eth0 root; rm 32M; exit' INT
 
-pushd test-httpd
+pushd test-app
 
 # for generating high load
 sh gen_dummy_data.sh 32M
