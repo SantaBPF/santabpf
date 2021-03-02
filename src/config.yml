@@ -1,0 +1,5 @@
+core:
+    monitor_interval_sec: 5
+
+passive_scenarios: '*'
+    
