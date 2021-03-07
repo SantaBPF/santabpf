@@ -96,7 +96,7 @@ wiredTiger는 설정된 cache size의 80%를 유지한다고 한다.
 
 CPU, Memory capacity, Network interface, Storage Device I/O 등등의 resource들에 대해 utilization, saturation, errors에 대한 metric을 모니터링한다. 이번 시나리오의 경우에는 CPU utilization, Memory capacity saturation, Storage Device I/O Utilization에 대한 metric이 변하게될것이다. 어떤 값이 baseline이고 어디까지가 threshold가 될지는 시스템마다 다를텐데 이 부분도 다음 리서치로 일단 넘기기로 했다. 일단 여기서는 지난 이력을 baseline으로 삼았다고 해보자.
 
-여기서 지난 이력은 단순히 최근 5분 1시간 하루가 아니라 주기성을 고려하도록 한다. 이러한 주기성으로는 하루, 일주일, 1달, 1년등이 있다. 주기를 하루로 보면 업무시간인 9~18시에 부하가 몰릴것이고 일주일로 보면 주중인 월~금에 부하가 몰릴것이다.
+여기서 지난 이력은 단순히 최근 5분 1시간 하루가 아니라 주기성을 고려하도록 한다. 이러한 주기성으로는 하루, 일주일, 1달, 1년등이 있다. 주기를 하루로 보면 업무시간인 9\~18시에 부하가 몰릴것이고 일주일로 보면 주중인 월\~금에 부하가 몰릴것이다.
 
 지난 이력과 비교해
 CPU utilization은 내려가고 Memory capacity saturation은 올라가고 Storage Device I/O Utilization이 올라가는 상황에서,
