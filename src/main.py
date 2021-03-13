@@ -20,7 +20,9 @@ if __name__ == '__main__':
         m = f'{BASE_PATH}.{f.stem}'
         c = ''.join(t.title() for t in f.stem.split('_'))
 
-        passive_scenarios[f.stem] = getattr(import_module(m), c)()
+        param = config['param'].get(f.stem, None)
+
+        passive_scenarios[f.stem] = getattr(import_module(module), cls)(param=param)
 
     logging.info(f'{", ".join(passive_scenarios.keys())} loaded...')
 

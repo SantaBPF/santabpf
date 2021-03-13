@@ -1,5 +1,9 @@
 core:
   monitor_interval_sec: 5
 
-passive_scenarios: '*'
-    
+scenarios: '*'
+
+param:
+  insufficient_page_cache:
+    disk_util_weights: [ 0.75, 0.2, 0.05 ]
+    # page_cache_hit_ratio_threshold: 70
