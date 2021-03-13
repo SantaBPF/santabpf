@@ -36,7 +36,7 @@ def query(raw_query, duration, offset='0s', step=None):
 
         logging.debug(obj)
 
-        assert len(obj['data']['result']) == 1
+        assert len(obj['data']['result']) <= 1
 
         return Metric(obj['data']['result'][0])
     except IndexError:
