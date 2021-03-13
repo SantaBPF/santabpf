@@ -5,7 +5,9 @@ from pathlib import Path
 
 import yaml
 
-logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO,
+from util import prom
+
+logging.basicConfig(format='%(filename)s %(asctime)s %(levelname)-8s %(message)s', level=logging.DEBUG,
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
 BASE_PATH = 'scenarios.passive'
@@ -16,9 +18,9 @@ if __name__ == '__main__':
 
     passive_scenarios = {}
 
-    for f in Path.cwd().glob(f'{BASE_PATH.replace(".", "/")}/*.py'):
-        m = f'{BASE_PATH}.{f.stem}'
-        c = ''.join(t.title() for t in f.stem.split('_'))
+    for f in Path.cwd().glob(f'{BASE_PATH.replace(".", "/")}/{config["scenarios"]}.py'):
+        module = f'{BASE_PATH}.{f.stem}'
+        cls = ''.join(t.title() for t in f.stem.split('_'))
 
         param = config['param'].get(f.stem, None)
 
@@ -29,7 +31,8 @@ if __name__ == '__main__':
     while True:
         for name, scenario in passive_scenarios.items():
             logging.info(f'{name} start')
-            scenario.monitor()
+            if scenario.monitor():
+                scenario.troubleshoot()
             logging.info(f'{name} end')
 
         time.sleep(config['core']['monitor_interval_sec'])
