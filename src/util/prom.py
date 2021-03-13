@@ -8,6 +8,7 @@ from functools import cache
 
 import requests
 
+from .parser import Metric
 
 def _query_with_period(raw_query, start, end, step):
     return json.loads(requests.get(url).content)
@@ -31,4 +32,15 @@ def query(raw_query, duration, offset='0s', step=None):
 
     url = fr'http://{host}/api/v1/query_range?query={query_}&start={start.timestamp()}&end={end.timestamp()}&step={step}'
 
-    return json.loads(requests.get(url).content)['data']['result']
+    try:
+        content = requests.get(url).content
+        obj = json.loads(content)
+
+        logging.debug(obj)
+        # return obj
+        return [Metric(result) for result in obj['data']['result']]
+    except IndexError:
+        return None
+    except Exception as e:
+        logging.warning(repr(obj))
+        raise e
