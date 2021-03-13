@@ -10,8 +10,6 @@ import requests
 
 from .parser import Metric
 
-def _query_with_period(raw_query, start, end, step):
-    return json.loads(requests.get(url).content)
 
 def _parse_timedelta_str_to_sec(s):
     assert re.match(r'\d+[smhdw]', s)
