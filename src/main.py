@@ -35,4 +35,6 @@ if __name__ == '__main__':
                 scenario.troubleshoot()
             logging.info(f'{name} end')
 
+            prom.query.cache_clear()
+
         time.sleep(config['core']['monitor_interval_sec'])
