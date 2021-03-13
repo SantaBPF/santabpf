@@ -27,6 +27,8 @@ class Scenario(metaclass=ScenarioMeta):
     모든 시나리오들이 공통적으로 가져야할 메서드들을 명세한 클래스
     """
 
+    default_param = {}
+
     def __init__(self, param=None):
         self.param = param
 
