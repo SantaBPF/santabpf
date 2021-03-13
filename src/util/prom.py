@@ -4,6 +4,7 @@ import os
 import re
 import urllib.parse
 from datetime import datetime, timedelta
+from functools import cache
 
 import requests
 
@@ -15,7 +16,9 @@ def _parse_timedelta_str_to_sec(s):
     assert re.match(r'\d+[smhdw]', s)
     return int(s[:-1]) * {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w': 604800}[s[-1]]
 
-def query(raw_query, duration, step=10):
+
+@cache
+def query(raw_query, duration, offset='0s', step=None):
     host = os.environ['SANTABPF_HOST']
     query_ = urllib.parse.quote_plus(raw_query)
 
