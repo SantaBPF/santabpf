@@ -1,13 +1,18 @@
 import logging
+import os
 import time
 from importlib import import_module
 from pathlib import Path
 
+import autologging
 import yaml
 
 from util import prom
 
-logging.basicConfig(format='%(filename)s %(asctime)s %(levelname)-8s %(message)s', level=logging.DEBUG,
+log_level = os.environ.get('SANTABPF_LOG_LEVEL', 'INFO')
+log_level = {'TRACE': autologging.TRACE, 'DEBUG': logging.DEBUG, 'INFO': logging.INFO}[log_level]
+
+logging.basicConfig(format='%(filename)s %(funcName)s %(asctime)s %(levelname)-8s %(message)s', level=log_level,
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
 BASE_PATH = 'scenarios.passive'
@@ -22,7 +27,10 @@ if __name__ == '__main__':
         module = f'{BASE_PATH}.{f.stem}'
         cls = ''.join(t.title() for t in f.stem.split('_'))
 
-        param = config['param'].get(f.stem, None)
+        if config['param']:
+            param = config['param'].get(f.stem, None)
+        else:
+            param = None
 
         passive_scenarios[f.stem] = getattr(import_module(module), cls)(param=param)
 
