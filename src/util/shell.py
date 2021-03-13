@@ -2,11 +2,11 @@ import re
 import subprocess
 
 
-def run(cmd, *, timeout):
+def run(cmd, *, timeout=None):
     return _parse_table(_run(cmd, timeout=timeout))
 
 
-def raw_run(cmd, *, timeout):
+def raw_run(cmd, *, timeout=None):
     return _run(cmd, timeout=timeout)
 
 
