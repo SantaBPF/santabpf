@@ -3,7 +3,7 @@ class ScenarioMeta(type):
         return callable(getattr(obj, name, None))
 
     def __call__(self, *args, **kwargs):
-        cls = type.__call__(self, *args)
+        cls = type.__call__(self, *args, **kwargs)
 
         has_monitor = self.has_method(cls, 'monitor')
         has_trigger = self.has_method(cls, 'trigger')
@@ -24,9 +24,11 @@ class Scenario(metaclass=ScenarioMeta):
     모든 시나리오들이 공통적으로 가져야할 메서드들을 명세한 클래스
     """
 
-    def __init__(self, name=None, description=None):
-        self.name = name
-        self.description = description
+    def __init__(self, param=None):
+        self.param = param
+
+    def validate(self):
+        pass
 
     # def monitor(self):
     # def trigger(self):
