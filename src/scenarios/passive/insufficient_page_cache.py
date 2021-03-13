@@ -1,7 +1,7 @@
 import logging
 
 from scenarios._base import Scenario
-from util import prom, validator
+from util import prom
 
 
 class InsufficientPageCache(Scenario):
@@ -9,9 +9,6 @@ class InsufficientPageCache(Scenario):
         'disk_util_weights': [0.75, 0.2, 0.05],
         'page_cache_hit_ratio_threshold': 70
     }
-
-    def validate(self):
-        validator.set_default_param(self.param, self.default_param)
 
     def monitor(self):
         query_ = 'avg_over_time(netdata_disk_util___of_time_working_average[3m])'

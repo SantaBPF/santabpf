@@ -1,3 +1,6 @@
+from util import validator
+
+
 class ScenarioMeta(type):
     def has_method(self, obj, name):
         return callable(getattr(obj, name, None))
@@ -28,7 +31,8 @@ class Scenario(metaclass=ScenarioMeta):
         self.param = param
 
     def validate(self):
-        pass
+        if getattr(self, 'default_param'):
+            validator.set_default_param(self.param, self.default_param)
 
     # def monitor(self):
     # def trigger(self):
