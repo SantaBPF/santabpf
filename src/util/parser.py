@@ -7,7 +7,7 @@ class Metric:
             setattr(self, key, item)
 
         self.ticks, self.values = zip(*prom_json['values'])
-        self.values = list(map(float, self.values))
+        self.values = list(map(lambda v: round(float(v), 2), self.values))
 
         self.name = f'{self.chart}-{self.dimension}-{self.family}-{self.instance}-{self.job}'
 
@@ -29,7 +29,7 @@ class Metric:
 
     @cached_property
     def avg(self):
-        return self.sum / self.n
+        return round(self.sum / self.n, 2)
 
     def __repr__(self):
         return f'{{{self.name}: {self.values}}}'
