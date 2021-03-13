@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "santabpf"
+version = "0.1.0"
+description = "troubleshooting assistant with bpf"
+authors = ["Jung Dong Ho <dongho971220@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.25.1"
+PyYAML = "^5.4.1"
+
+[tool.poetry.dev-dependencies]
+Autologging = "^1.3.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
