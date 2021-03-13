@@ -35,8 +35,10 @@ def query(raw_query, duration, offset='0s', step=None):
         obj = json.loads(content)
 
         logging.debug(obj)
-        # return obj
-        return [Metric(result) for result in obj['data']['result']]
+
+        assert len(obj['data']['result']) == 1
+
+        return Metric(obj['data']['result'][0])
     except IndexError:
         return None
     except Exception as e:
