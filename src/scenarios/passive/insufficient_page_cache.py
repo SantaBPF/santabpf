@@ -4,15 +4,16 @@ from statistics import mean
 from autologging import traced
 
 from scenarios._base import Scenario
-from util import prom, shell
+from util import prom, cmd
 
 
 @traced
 class InsufficientPageCache(Scenario):
-    def monitor(self):
+    def check(self):
         if prom.query('avg_over_time(netdata_disk_util___of_time_working_average[5s]) > 90', '3m'):
-            self.troubleshoot()
+            return True
+        return False
 
     def troubleshoot(self):
-        cachestat = shell.run('cachestat 2 5')
+        cachestat = cmd.cachestat('cachestat 1 3')
         logging.info(mean(cachestat['HITRATIO']))

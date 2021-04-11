@@ -39,7 +39,8 @@ if __name__ == '__main__':
     while True:
         for name, scenario in passive_scenarios.items():
             logging.info(f'{name} start')
-            if scenario.monitor():
+            if scenario.check():
+                logging.info(f'{name} triggered')
                 scenario.troubleshoot()
             logging.info(f'{name} end')
 

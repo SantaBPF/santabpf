@@ -2,24 +2,26 @@ from util import validator
 
 
 class ScenarioMeta(type):
-    def has_method(self, obj, name):
+
+    @staticmethod
+    def has_method(obj, name):
         return callable(getattr(obj, name, None))
 
-    def __call__(self, *args, **kwargs):
-        cls = type.__call__(self, *args, **kwargs)
+    def __call__(cls, *args, **kwargs):
+        instance = type.__call__(cls, *args, **kwargs)
 
-        has_monitor = self.has_method(cls, 'monitor')
-        has_trigger = self.has_method(cls, 'trigger')
+        has_check = cls.has_method(instance, 'check')
+        has_trigger = cls.has_method(instance, 'trigger')
 
-        if not (has_monitor ^ has_trigger):
-            raise Exception
+        if not (has_check ^ has_trigger):
+            raise NotImplementedError('Scenario must have either check() or trigger() not both.')
 
-        has_troubleshoot = self.has_method(cls, 'troubleshoot')
+        has_troubleshoot = cls.has_method(instance, 'troubleshoot')
 
         if not has_troubleshoot:
-            raise Exception
+            raise NotImplementedError('Scenario must have troubleshoot().')
 
-        return cls
+        return instance
 
 
 class Scenario(metaclass=ScenarioMeta):
