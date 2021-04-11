@@ -11,6 +11,7 @@ def run(cmd, pattern, headers, *, timeout=None):
         cmd: 실행할 명령
         pattern: parse_output 참고
         headers: parse_output 참고
+        timeout: {timeout}초가 넘어가면 TimeoutError 반환
 
     Returns: DataFrame 타입의 shell command output
     """
@@ -28,10 +29,9 @@ def parse_output(output, pattern, headers):
     Args:
         output: newline으로 구분된 str의 list
         pattern: 각 row를 파싱할 정규식
-        headers:
+        headers: 헤더로 사용할 문자열의 리스트, None으로 생략 가능, 자동으로 패딩됨
 
-    Returns:
-
+    Returns: 각 row를 pattern의 group들로 하고 column을 headers로 하는 DataFrame
     """
 
     body = []
