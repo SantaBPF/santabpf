@@ -8,5 +8,5 @@
 # Overview
 # Usage
 # Installation
-# Contribution
+# Contributing
 # License
