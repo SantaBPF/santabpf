@@ -97,7 +97,17 @@ bpftrace -e 'tracepoint:syscalls:sys_exit_read { @[comm] = hist(args->ret); }'
 **설치 방법은 환경마다 다르므로 [bcc/INSTALL.md](https://github.com/iovisor/bcc/blob/master/INSTALL.md) 와 [bpftrace/INSTALL.md (https://github.com/iovisor/bpftrace/blob/master/INSTALL.md)를 참고한다.**
 
 # 3. monitoring component 배포
-python으로 core를 작성하고 
+SantaBPF는 시스템 장애/성능저하 발생 시 이를 어떻게 탐지할 수 있는가? 어떤 이슈는 현재 시스템의 스냅샷 정보만을 가지고도 식별할 수 있을테지만, 어떤 이슈는 지난 ?분동안의 avg cpu util에 anomaly가
+발생했다는 것처럼 metric의 지난 이력들을 참고하는 식으로 탐지할 수 있을 것이다. 또한 이렇게 metric의 history를 로깅하는 것은 임의의 임계치에 대한 기준치를 제공해 줄 수 있다.
+
+모니터링은 여기서 끝나지 않는다. 관리자의 의사결정을 도와줄 정보들을 효과적으로 시각화 하기 위해 dashboard 또한 제공되어야 한다. 
+
+SantaBPF는 metric 수집과 시각화에 [netdata](https://github.com/netdata/netdata)를 사용하고
+metric query를 위해 [prometheus](https://github.com/prometheus/prometheus)를 사용한다.
+
+각 component들은 현재 docker container로 배포 스크립트가 작성되어 있으므로 [/deployments](https://github.com/SantaBPF/santabpf/tree/main/deployments)를 참고
+
+---
 
 <a name="footnote-bpf">1</a>: BPF는 원래 Berkeley Packet Filter의 두문자어였지만 BPF를 In-kernel VM으로 개선한 뒤에는 더이상 Berkeley, Packet, Filter 이 셋과 더 이상 연관이 없게되어
 BPF를 두문자어로 보기보다 하나의 기술스택 이름으로 보는게 타당하다. 그래서 현재는 기존의 BPF는 cBPF(classic), eBPF(enhanced)라 불리던 이름은 BPF로 사용하는 추세다. 게다가 기존의 cBPF를 사용하던
