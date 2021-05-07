@@ -10,14 +10,98 @@ $ poetry install
 4. 프로젝트 루트 경로에서 `jupyter notebook`을 해서 브라우저에 Jupyter Notebook 환경이 열리면 성공. 단 (3)이 제대로 되지 않은 경우 이후 문제가 발생할 수 있다.
 
 # 2. BPF 개발 환경 구성<sup>[1](#footnote-bpf)</sup>
-1. BPF는 Linux 4.x 이후 커널에 내장된 기능으로 VM<sup>[2](#footnote-vm)</sup>내에서 임의의 코드를 돌려볼 수 있게 해준다.
-임의의 코드를 작성해 커널의 자료구조에 접근할 수 있고 이를 실행하는데 별도의 커널 재컴파일이나 모듈 작성이 필요없고 system
+BPF는 Linux 4.x 이후 커널에 내장된 기능으로 VM<sup>[2](#footnote-vm)</sup>내에서 임의의 코드를 돌려볼 수 있게 해준다.
+임의의 코드를 작성해 커널의 자료구조에 접근할 수 있다는 점, 이를 실행하는데 별도의 커널 재컴파일이나 모듈 작성이 필요없다는 점, 에러 발생 시 kernel-crash로 이어지지 않는다는 점
 덕분에 Security, Tracing & Profiling, Networking, Observability & Monitoring와 같은 분야에서 다양하게 활용되고 있다.
 
+BPF 프로그램은 BPF bytecode로 구성된다. 아무리 BPF가 좋다지만 어셈블리 수준과 다름없는 bytecode로 코딩하고 싶은 사람은 없을거다. c로 코딩하면 컴파일러가 어셈블리어로 변환해주는 것과 같이
+c나 python 기타 다른 언어로 BPF 프로그램을 작성할 수 있다. 이를 bcc라 하며 관계는 bcc(c, python, ...) -> BPF program가 된다. bcc도 작성하기 번거로운 사람들을 위해 bcc를 한 단계 더 추상화한
+bpftrace나 ply같은 것들이 있다. 각 레벨의 코드 예시는 아래와 같다:
+
+### 1. pure bpf bytecode
+```
+...
+    ld #20
+    ldx 4*([0]&0xf)
+    add x
+    tax
+
+lb_0:
+    ; Match: 076578616d706c6503636f6d00 '\x07example\x03com\x00'
+    ld [x + 0]
+    jneq #0x07657861, lb_1
+    ld [x + 4]
+    jneq #0x6d706c65, lb_1
+    ld [x + 8]
+    jneq #0x03636f6d, lb_1
+    ldb [x + 12]
+    jneq #0x00, lb_1
+    ret #1
+
+lb_1:
+    ret #0
+...
+```
+
+
+### 2. bcc w/ python
+```
+...
+REQ_WRITE = 1		# from include/linux/blk_types.h
+
+# load BPF program
+b = BPF(text="""
+#include <uapi/linux/ptrace.h>
+#include <linux/blkdev.h>
+BPF_HASH(start, struct request *);
+void trace_start(struct pt_regs *ctx, struct request *req) {
+	// stash start timestamp by request ptr
+	u64 ts = bpf_ktime_get_ns();
+	start.update(&req, &ts);
+}
+void trace_completion(struct pt_regs *ctx, struct request *req) {
+	u64 *tsp, delta;
+	tsp = start.lookup(&req);
+	if (tsp != 0) {
+		delta = bpf_ktime_get_ns() - *tsp;
+		bpf_trace_printk("%d %x %d\\n", req->__data_len,
+		    req->cmd_flags, delta / 1000);
+		start.delete(&req);
+	}
+}
+""")
+
+if BPF.get_kprobe_functions(b'blk_start_request'):
+        b.attach_kprobe(event="blk_start_request", fn_name="trace_start")
+b.attach_kprobe(event="blk_mq_start_request", fn_name="trace_start")
+b.attach_kprobe(event="blk_account_io_done", fn_name="trace_completion")
+...
+```
+
+### 3. bpftrace
+```
+# Files opened by process
+bpftrace -e 'tracepoint:syscalls:sys_enter_open { printf("%s %s\n", comm, str(args->filename)); }'
+
+# Syscall count by program
+bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count(); }'
+
+# Read bytes by process:
+bpftrace -e 'tracepoint:syscalls:sys_exit_read /args->ret/ { @[comm] = sum(args->ret); }'
+
+# Read size distribution by process:
+bpftrace -e 'tracepoint:syscalls:sys_exit_read { @[comm] = hist(args->ret); }'
+```
+
+본 프로젝트의 목적은 bpf 자체를 개발하는것이 아닌 bpf를 잘 활용하여 트러블슈팅을 보조하는 것이므로 가급적 고수준의 스택을 사용한다.
+**설치 방법은 환경마다 다르므로 [bcc/INSTALL.md](https://github.com/iovisor/bcc/blob/master/INSTALL.md) 와 [bpftrace/INSTALL.md (https://github.com/iovisor/bpftrace/blob/master/INSTALL.md)를 참고한다.**
+
+# 3. monitoring component 배포
+python으로 core를 작성하고 
 
 <a name="footnote-bpf">1</a>: BPF는 원래 Berkeley Packet Filter의 두문자어였지만 BPF를 In-kernel VM으로 개선한 뒤에는 더이상 Berkeley, Packet, Filter 이 셋과 더 이상 연관이 없게되어
 BPF를 두문자어로 보기보다 하나의 기술스택 이름으로 보는게 타당하다. 그래서 현재는 기존의 BPF는 cBPF(classic), eBPF(enhanced)라 불리던 이름은 BPF로 사용하는 추세다. 게다가 기존의 cBPF를 사용하던
 tcpdump도 eBPF를 사용하므로 BPF라고 하면 eBPF를 의미한다고 보면 된다.
 
-<a name="footnote-vm">2</a>: VM이라고 하니 무언가 중간에 레이어가 하나 낀 느낌이지만 그렇지 않다. 여기서 VM이란건 Sandbox에 가깝다. BPF는 어떻게 kernel space에서 fail-safe를 보장하는가? BPF는
+<a name="footnote-vm">2</a>: VM이라고 하니 무언가 중간에 레이어가 하나 낀 느낌이지만 그렇지 않다. BPF는 어떻게 kernel space에서 fail-safe를 보장하는가? BPF는
 kernel에 로드되기전에 BPF verifier라는 것에 의해 체크된다. 이 과정에서 unreachable instructions, unbounded loops, out-of-bounds access와 같은게 존재하면 로드에 실패한다.
