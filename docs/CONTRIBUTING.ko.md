@@ -109,7 +109,14 @@ metric query를 위해 [prometheus](https://github.com/prometheus/prometheus)를
 각 component들은 현재 docker container로 배포 스크립트가 작성되어 있으므로 [/deployments](https://github.com/SantaBPF/santabpf/tree/main/deployments)를 참고
 
 # 2. SantaBPF 아키텍처
+SantaBPF는 모니터링과 트러블슈팅을 수행하는 `Elf`, Elf와 상호작용하고 관리자의 의사결정을 돕기위한 대시보드를 제공하는 `Santa` 두 파트로 나뉘어져 있다.
+Elf들은 각 노드마다 등록된 `Scenario`들을 지속적으로 체크하고 양성으로 식별되면 Santa에게 이를 알려준다.
+
+## 1. Elf
+![working_elf](http://clipart-library.com/img/721279.gif)
+북극 어딘가 기지같은 곳에서 착한 아이와 나쁜 아이를 모니터링 하는것에서 유래했다. Elf의 역할은 각 노드의 시스템 상태를 주기적으로 수집하고 등록된 Scenario에 의해
 TODO
+
 
 ---
 
