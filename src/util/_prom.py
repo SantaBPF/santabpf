@@ -16,35 +16,38 @@ def _parse_timedelta_str_to_sec(s):
     return int(s[:-1]) * {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w': 604800}[s[-1]]
 
 
-def query_now(raw_query, duration, offset='0s', step=None):
-    host = os.environ['SANTABPF_HOST']
-    query_ = urllib.parse.quote_plus(raw_query)
+class Prom:
 
-    duration = _parse_timedelta_str_to_sec(duration)
-    offset = _parse_timedelta_str_to_sec(offset)
+    @staticmethod
+    def query_now(raw_query, duration, offset='0s', step=None):
+        host = os.environ['SANTABPF_HOST']
+        query_ = urllib.parse.quote_plus(raw_query)
 
-    end = datetime.now() - timedelta(seconds=offset)
-    start = end - timedelta(seconds=duration)
-    step = step or (duration // 32) + 1
+        duration = _parse_timedelta_str_to_sec(duration)
+        offset = _parse_timedelta_str_to_sec(offset)
 
-    url = fr'http://{host}/api/v1/query_range?query={query_}&start={start.timestamp()}&end={end.timestamp()}&step={step}'
+        end = datetime.now() - timedelta(seconds=offset)
+        start = end - timedelta(seconds=duration)
+        step = step or (duration // 32) + 1
 
-    try:
-        content = requests.get(url).content
-        obj = json.loads(content)
+        url = fr'http://{host}/api/v1/query_range?query={query_}&start={start.timestamp()}&end={end.timestamp()}&step={step}'
 
-        logging.debug(obj)
+        try:
+            content = requests.get(url).content
+            obj = json.loads(content)
 
-        assert len(obj['data']['result']) <= 1
+            logging.debug(obj)
 
-        return Metric(obj['data']['result'][0])
-    except IndexError:
-        return None
-    except Exception as e:
-        logging.warning(repr(obj))
-        raise e
+            assert len(obj['data']['result']) <= 1
 
+            return Metric(obj['data']['result'][0])
+        except IndexError:
+            return None
+        except Exception as e:
+            logging.warning(repr(obj))
+            raise e
 
-@cache
-def query(raw_query, duration, offset='0s', step=None):
-    return raw_query(raw_query, duration, offset=offset, step=step)
+    @staticmethod
+    @cache
+    def query(raw_query, duration, offset='0s', step=None):
+        return raw_query(raw_query, duration, offset=offset, step=step)
