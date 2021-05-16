@@ -14,6 +14,10 @@ def run(cmd, pattern, headers, *, timeout=None):
         timeout: {timeout}초가 넘어가면 TimeoutError 반환
 
     Returns: DataFrame 타입의 shell command output
+
+    Examples:
+        cmd.run('ps', '(\d+) (\w+)', ['pid', 'tty']).head()
+        cmd.run('ps', '(\d+) \w+ ([\w:.]+)', ['pid', 'time'])
     """
 
     return parse_output(raw_run(cmd, timeout=timeout), pattern, headers)
@@ -46,4 +50,4 @@ def parse_output(output, pattern, headers):
 
     df = pd.DataFrame(body, columns=padded_headers)[filter(None, headers)]
 
-    return df.apply(pd.to_numeric)
+    return df.apply(lambda x: pd.to_numeric(x, errors='ignore'))
