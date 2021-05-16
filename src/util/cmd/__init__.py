@@ -1,4 +1,4 @@
 from ._base import run
 
-from .cache import cachestat
-from .cpu import cpudist
+from ._cache import cachestat
+from ._cpu import cpudist
