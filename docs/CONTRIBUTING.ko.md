@@ -95,7 +95,7 @@ bpftrace -e 'tracepoint:syscalls:sys_exit_read { @[comm] = hist(args->ret); }'
 ```
 
 본 프로젝트의 목적은 bpf 자체를 개발하는것이 아닌 bpf를 잘 활용하여 트러블슈팅을 보조하는 것이므로 가급적 고수준의 스택을 사용한다.
-**설치 방법은 환경마다 다르므로 [bcc/INSTALL.md](https://github.com/iovisor/bcc/blob/master/INSTALL.md) 와 [bpftrace/INSTALL.md (https://github.com/iovisor/bpftrace/blob/master/INSTALL.md)를 참고한다.**
+**설치 방법은 환경마다 다르므로 [bcc/INSTALL.md](https://github.com/iovisor/bcc/blob/master/INSTALL.md) 와 [bpftrace/INSTALL.md] (https://github.com/iovisor/bpftrace/blob/master/INSTALL.md)를 참고한다.**
 
 ## 1.3. monitoring component 배포
 SantaBPF는 시스템 장애/성능저하 발생 시 이를 어떻게 탐지할 수 있는가? 어떤 이슈는 현재 시스템의 스냅샷 정보만을 가지고도 식별할 수 있을테지만, 어떤 이슈는 지난 ?분동안의 avg cpu util에 anomaly가
