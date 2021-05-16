@@ -4,13 +4,13 @@ from statistics import mean
 from autologging import traced
 
 from scenarios._base import Scenario
-from util import prom, cmd
+from util import _prom, cmd
 
 
 @traced
 class InsufficientPageCache(Scenario):
     def check(self):
-        if prom.query('avg_over_time(netdata_disk_util___of_time_working_average[5s]) > 90', '3m'):
+        if _prom.query('avg_over_time(netdata_disk_util___of_time_working_average[5s]) > 90', '3m'):
             return True
         return False
 
