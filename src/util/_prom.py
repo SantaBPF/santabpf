@@ -8,7 +8,7 @@ from functools import cache
 
 import requests
 
-from .parser import Metric
+from ._parser import Metric
 
 
 def _parse_timedelta_str_to_sec(s):
@@ -16,8 +16,7 @@ def _parse_timedelta_str_to_sec(s):
     return int(s[:-1]) * {'s': 1, 'm': 60, 'h': 3600, 'd': 86400, 'w': 604800}[s[-1]]
 
 
-@cache
-def query(raw_query, duration, offset='0s', step=None):
+def query_now(raw_query, duration, offset='0s', step=None):
     host = os.environ['SANTABPF_HOST']
     query_ = urllib.parse.quote_plus(raw_query)
 
@@ -44,3 +43,8 @@ def query(raw_query, duration, offset='0s', step=None):
     except Exception as e:
         logging.warning(repr(obj))
         raise e
+
+
+@cache
+def query(raw_query, duration, offset='0s', step=None):
+    return raw_query(raw_query, duration, offset=offset, step=step)
