@@ -21,7 +21,7 @@ class Prom:
     @staticmethod
     def query_now(raw_query, duration, offset='0s', step=None):
         host = os.environ['SANTABPF_HOST']
-        query_ = urllib.parse.quote_plus(raw_query)
+        query = urllib.parse.quote_plus(raw_query)
 
         duration = _parse_timedelta_str_to_sec(duration)
         offset = _parse_timedelta_str_to_sec(offset)
@@ -30,7 +30,7 @@ class Prom:
         start = end - timedelta(seconds=duration)
         step = step or (duration // 32) + 1
 
-        url = fr'http://{host}/api/v1/query_range?query={query_}&start={start.timestamp()}&end={end.timestamp()}&step={step}'
+        url = fr'http://{host}/api/v1/query_range?query={query}&start={start.timestamp()}&end={end.timestamp()}&step={step}'
 
         try:
             content = requests.get(url).content
