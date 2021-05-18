@@ -1,4 +1,4 @@
-from util import _validator
+import util
 
 
 class ScenarioMeta(type):
@@ -36,7 +36,7 @@ class Scenario(metaclass=ScenarioMeta):
 
     def validate(self):
         if getattr(self, 'default_param'):
-            _validator.set_default_param(self.param, self.default_param)
+            util.update_default_param(self.param, self.default_param)
 
     # def monitor(self):
     # def trigger(self):

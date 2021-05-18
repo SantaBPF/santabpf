@@ -7,7 +7,7 @@ from pathlib import Path
 import autologging
 import yaml
 
-from util import _prom
+from util import Prom
 
 log_level = os.environ.get('SANTABPF_LOG_LEVEL', 'INFO')
 log_level = {'TRACE': autologging.TRACE, 'DEBUG': logging.DEBUG, 'INFO': logging.INFO}[log_level]
@@ -44,6 +44,6 @@ if __name__ == '__main__':
                 scenario.troubleshoot()
             logging.info(f'{name} end')
 
-            _prom.query.cache_clear()
+            Prom.query.cache_clear()
 
         time.sleep(config['core']['monitor_interval_sec'])
