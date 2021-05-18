@@ -15,5 +15,5 @@ class InsufficientPageCache(Scenario):
         return False
 
     def troubleshoot(self):
-        cachestat = cmd.cachestat('cachestat 1 3')
+        cachestat = cmd.cachestat(1, 3)
         logging.info(mean(cachestat['HITRATIO']))
