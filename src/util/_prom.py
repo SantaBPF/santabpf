@@ -8,7 +8,7 @@ from functools import cache
 
 import requests
 
-from ._parser import Metric
+from . import Metric
 
 
 def _parse_timedelta_str_to_sec(s):
