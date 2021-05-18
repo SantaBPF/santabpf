@@ -50,4 +50,4 @@ class Prom:
     @staticmethod
     @cache
     def query(raw_query, duration, offset='0s', step=None):
-        return raw_query(raw_query, duration, offset=offset, step=step)
+        return Prom.query_now(raw_query, duration, offset=offset, step=step)
