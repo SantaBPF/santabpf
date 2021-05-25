@@ -12,3 +12,9 @@ scrape_configs:
 
     static_configs:
       - targets: ['172.17.0.1:29999']
+
+  - job_name: 'elf'
+
+    scrape_interval: 2s
+    static_configs:
+      - targets: ['172.17.0.1:40080']
