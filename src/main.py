@@ -5,6 +5,7 @@ from importlib import import_module
 from pathlib import Path
 
 import autologging
+from prometheus_client import Info, start_http_server
 import yaml
 
 from util import Prom
@@ -36,12 +37,15 @@ if __name__ == '__main__':
 
     logging.info(f'{", ".join(passive_scenarios.keys())} loaded...')
 
+    start_http_server(config.get('export_port', 40080))
+    elf_report = Info('elf_report', 'the detailed report for troubleshooting from elf')
+
     while True:
         for name, scenario in passive_scenarios.items():
             logging.info(f'{name} start')
             if scenario.check():
                 logging.info(f'{name} triggered')
-                scenario.troubleshoot()
+                elf_report.info(scenario.troubleshoot())
             logging.info(f'{name} end')
 
             Prom.query.cache_clear()
