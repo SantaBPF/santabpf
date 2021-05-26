@@ -15,10 +15,6 @@ class InsufficientPageCache(Scenario):
         return False
 
     def troubleshoot(self):
-        cachestat = cmd.cachestat(1, 3)
-        
-        logging.info(mean(cachestat['hitratio']))
-        return {'status': 'performance_degradation', 'resource': 'memory',
-                'description': 'due to lack of available memory, the page cache size is not enough to process current workload',
-                'cachestat': str(cachestat)
+        return {'name': 'insufficient_pagecache', 'description': '페이지캐시가 부족한 경우 발생하는 시나리오',
+                'report': 'test'
                 }
