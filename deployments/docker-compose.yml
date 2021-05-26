@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  netdata:
+    build: ./netdata
+    image: santa_netdata
+    container_name: netdata
+    privileged: true
+    ports:
+      - 29999:19999
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdataconfig:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /sys:/sys:ro
+      - /lib/modules:/lib/modules:ro
+      - /usr/src:/usr/src:ro
+      - ./netdata/python.d.conf:/usr/lib/netdata/conf.d/python.d.conf
+    environment:
+      - VIRTUALIZATION=${VIRTUALIZATION}
+      - DOCKER_HOST=proxy:2375
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 19090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  proxy:
+    image: tecnativa/docker-socket-proxy
+    container_name: proxy
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
