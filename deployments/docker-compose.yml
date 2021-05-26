@@ -26,6 +26,7 @@ services:
       - /lib/modules:/lib/modules:ro
       - /usr/src:/usr/src:ro
       - ./netdata/python.d.conf:/usr/lib/netdata/conf.d/python.d.conf
+      - ./netdata/go.d.conf:/usr/lib/netdata/conf.d/go.d.conf
     environment:
       - VIRTUALIZATION=${VIRTUALIZATION}
       - DOCKER_HOST=proxy:2375
