@@ -8,7 +8,7 @@ import autologging
 from prometheus_client import Info, start_http_server
 import yaml
 
-from util import Prom
+from util import Prom, validate_report
 
 log_level = os.environ.get('SANTABPF_LOG_LEVEL', 'INFO')
 log_level = {'TRACE': autologging.TRACE, 'DEBUG': logging.DEBUG, 'INFO': logging.INFO}[log_level]
@@ -45,7 +45,9 @@ if __name__ == '__main__':
             logging.info(f'{name} start')
             if scenario.check():
                 logging.info(f'{name} triggered')
-                elf_report.info(scenario.troubleshoot())
+                report = scenario.troubleshoot()
+                validate_report(report)
+                elf_report.info(report)
             logging.info(f'{name} end')
 
             Prom.query.cache_clear()
