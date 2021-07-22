@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SantaBPF custom dashboard</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- here we will add dashboard.js -->
+
+    <script>
+      var netdataTheme = 'slate'; // netdata 배경화면 어두운 테마로 설정
+      // var netdataNoBootstrap = true;
+    </script>
+
+    <script type="text/javascript" src="http://3.34.29.236:29999/dashboard.js"></script> <!-- netdata server -->
+    <!-- dashboard.js will automatically load the following:
+      1. dashboard.css, required for the netdata charts
+      2. jquery.min.js, (only if jquery is not already loaded for this web page)
+      3. bootstrap.min.js (only if bootstrap is not already loaded) and bootstrap.min.css. 
+      4. `jquery.nanoscroller.min.js`, required for the scrollbar of the chart legends.
+      5. `bootstrap-toggle.min.js` and `bootstrap-toggle.min.css`, required for the settings toggle buttons.
+      6. `font-awesome.min.css`, for icons. -->
+      
+
+
+    <style>
+      .wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .charts {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+      }
+
+      .charts > div {
+        margin-bottom: 6rem;
+        position: relative;
+      }
+      .item {
+        margin: 10px;
+        padding: 15px 10px;
+        border: 1px solid #494949;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- here we will add charts -->
+    <main class="wrap">
+      <h1>SantaBPF dashboard</h1>
+      <!-- system.load disk_space._ ipv4.tcpopens system.intr system.entropy system.io mem.writeback -->
+      <div class="container">
+        
+        <!-- system.load -->
+        <div>
+          <div
+            class="netdata-container-with-legend"
+            data-netdata="system.load"
+            data-title="load"
+            data-host="http://3.34.29.236:29999"
+            data-width="100%"
+            data-height="260px"
+            data-dygraph-valuerange="[null,null]"
+            data-chart-library="dygraph"           
+            data-after="-300"  
+          ></div>
+
+        </div>
+
+        <!-- disk_space._ -->
+        <div>
+          <div
+            data-netdata="disk_space._"
+            data-host="http://3.34.29.236:29999"
+            data-title="disk space for /"
+            data-append-options="percentage"
+            data-decimal-digits="0"
+            data-dimensions="used"
+            data-chart-library="gauge"
+            data-width="100%"
+            data-height="260px"
+            data-after="-300"
+            data-points="300"
+            data-gauge-max-value="100"
+            data-colors="#ffffff"
+            data-gauge-generate-gradient="[0, 70, 100]"
+            data-gauge-gradient-percent-color-0="#ffffff"
+            data-gauge-gradient-percent-color-70="d88b2f"
+            data-gauge-gradient-percent-color-100="#ff3300"
+            data-units="%"
+            style="margin-top:100px"
+          ></div>
+        </div>
+        
+        <!-- ipv4.tcpopens -->
+        <div>
+          <div
+            class="netdata-container-with-legend netdata-container-with-legend--bottom"
+            data-netdata="ipv4.tcpopens"
+            data-width="100%"
+            data-height="260px"
+            data-dygraph-valuerange="[null,null]"
+            data-title="ipv4.tcpopens"
+            data-host="http://3.34.29.236:29999"
+            data-chart-library="dygraph"           
+            data-after="-300" 
+            style="margin-top:100px"
+          ></div>
+        </div>
+
+        <!-- system.intr -->
+        <div>
+          <div
+            data-netdata="system.intr"
+            data-colors="#dd5555"
+            class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
+            style="margin-top:100px"
+          ></div>
+        </div>
+
+        <!-- system.entropy -->
+        <div>
+          <div
+            data-netdata="system.entropy"
+            data-decimal-digits="-1"
+            class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
+            data-colors="#cc22aa"
+            style="margin-top:100px"
+            ></div>
+        </div>
+
+        <!-- system.io -->
+        <div>
+          <div
+            data-netdata="system.io"
+            class="netdata-container-with-legend netdata-container-with-legend--bottom"
+            data-width="100%"
+            data-height="260px"
+            data-dygraph-valuerange="[null,null]"
+            style="margin-top:100px"
+          ></div>
+        </div>
+
+        <!-- mem.writeback -->
+        <div>
+          <div
+            data-netdata="mem.writeback"
+            class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
+            style="margin-top:100px"
+            ></div>
+        </div>
+
+        <div class="text-center" style="padding-top: 10px">
+          <a href="http://3.34.29.236:29999" class="btn btn-primary btn-sm" target="_blank">SantaBPF</a>
+          
+        </div>
+      
+      
+      
+      
+
+        <!-- <div class="col-md-3 item">
+          <div>
+            <div
+              data-netdata="system.cpu"
+              data-host="http://3.34.29.236:29999"
+              data-gauge-max-value="100"
+              data-chart-library="gauge"
+              data-width="50%"
+              data-after="-540"
+              data-points="540"
+              data-title="CPU"
+              data-units="%"
+              data-colors="#2c9588"
+              data-gauge-generate-gradient="[0, 80, 100]"
+              data-gauge-gradient-percent-color-0="#2c9588"
+              data-gauge-gradient-percent-color-80="#c96667"
+              data-gauge-gradient-percent-color-100="#ff3300"
+              class="netdata-container"
+            ></div>
+
+            <div
+              class="netdata-container-easypiechart"
+              data-netdata="system.ram"
+              data-host="http://3.34.29.236:29999"
+              data-dimensions="used|buffers|active|wired"
+              data-append-options="percentage"
+              data-chart-library="easypiechart"
+              data-title="Used RAM"
+              data-units="%"
+              data-easypiechart-max-value="100"
+              data-width="45%"
+              data-after="-540"
+              data-points="540"
+              data-colors="#EE9911"
+              role="application"
+            ></div>
+          </div>
+
+          <div>
+            <div
+              data-netdata="disk_space._"
+              data-host="http://3.34.29.236:29999"
+              data-title="disk space for /"
+              data-append-options="percentage"
+              data-decimal-digits="0"
+              data-dimensions="used"
+              data-chart-library="gauge"
+              data-width="100%"
+              data-height="100%"
+              data-after="-300"
+              data-points="300"
+              data-gauge-max-value="100"
+              data-colors="#ffffff"
+              data-gauge-generate-gradient="[0, 70, 100]"
+              data-gauge-gradient-percent-color-0="#ffffff"
+              data-gauge-gradient-percent-color-70="d88b2f"
+              data-gauge-gradient-percent-color-100="#ff3300"
+              data-units="%"
+            ></div>
+          </div>
+
+          <div
+            data-netdata="system.uptime"
+            data-host="http://3.34.29.236:29999"
+            data-title="uptime"
+            data-width="100%"
+            data-legend="no"
+            data-points="200"
+            data-dimensions="uptime"
+            data-show-value-of-uptime-at="california-uptime"
+          ></div>
+
+          <div class="text-center">uptime : <span id="california-uptime"></span></div>
+
+          <div class="text-center" style="padding-top: 10px">
+            <a href="http://3.34.29.236:29999" class="btn btn-primary btn-sm" target="_blank">California</a>
+          </div>
+        </div> -->
+      </div>
+    </main>
+  </body>
+</html>
