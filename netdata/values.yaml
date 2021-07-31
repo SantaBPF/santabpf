@@ -1,90 +1,6 @@
-replicaCount: 1
-deploymentStrategy:
-  type: Recreate
-
-image:
-  repository: netdata/netdata
-  tag: "{{ .Chart.AppVersion }}"
-  pullPolicy: Always
-
-sd:
-  repository: netdata/agent-sd
-  tag: v0.2.1
-  pullPolicy: Always
-  child:
-    enabled: true
-    configmap:
-      name: netdata-child-sd-config-map
-      key: config.yml
-      # if 'from' is {} the ConfigMap is not generated
-      from:
-        file: sdconfig/child.yml
-        value: {}
-    resources:
-      limits:
-        cpu: 50m
-        memory: 150Mi
-      requests:
-        cpu: 50m
-        memory: 100Mi
-
-sysctlImage:
-  enabled: true
-  repository: alpine
-  tag: latest
-  pullPolicy: Always
-  command: []
-  resources: {}
-
-wgetImage:
-  repository: netdata/wget
-  tag: latest
-  pullPolicy: Always
-
-service:
-  type: ClusterIP
-  port: 29999
-  annotations: {}
-  ## Only to be used with type LoadBalancer
-  # loadBalancerIP: 10.0.1.69
-  # loadBalancerSourceRanges: []
-  # externalTrafficPolicy: Local
-  ## Only to be used with type LoadBalancer and external traffic policy Local
-  # healthCheckNodePort:
-  ## Only to be used with type ClusterIP
-  # clusterIP: 10.1.2.3
-
-ingress:
-  enabled: false
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - netdata.k8s.local
-#  tls:
-#    - secretName: netdata-tls
-#      hosts:
-#        - netdata.k8s.local
-
-rbac:
-  create: true
-  pspEnabled: true
-
-serviceAccount:
-  create: true
-  name: netdata
-
-
 parent:
   port: 29999
   resources: {}
-    # limits:
-    #  cpu: 4
-    #  memory: 4096Mi
-    # requests:
-    #  cpu: 4
-    #  memory: 4096Mi
 
   livenessProbe:
     failureThreshold: 3
@@ -107,9 +23,8 @@ parent:
 
   priorityClassName: ""
 
-  env: {}
-    ## To disable anonymous statistics:
-    # DO_NOT_TRACK: 1
+  env:
+    DO_NOT_TRACK: 1
 
   podLabels: {}
 
@@ -117,17 +32,13 @@ parent:
 
   database:
     persistence: true
-    ## Set '-' as the storageclass to get a volume from the default storage class.
-    storageclass: "-"
     volumesize: 2Gi
 
   alarms:
     persistence: true
-    ## Set '-' as the storageclass to get a volume from the default storage class.
-    storageclass: "-"
     volumesize: 1Gi
 
-  configs:
+  configs:  # parent's config
     netdata:
       enabled: true
       path: /etc/netdata/netdata.conf
@@ -135,7 +46,71 @@ parent:
         [global]
           memory mode = save
         [plugins]
-          python.d = no
+          PATH environment variable = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+          PYTHONPATH environment variable =
+          proc = yes
+          diskspace = no
+          timex = no
+          cgroups = no
+          tc = no
+          idlejitter = no
+          enable running new plugins = no
+          check for new plugins every = 60
+          slabinfo = no
+          node.d = no
+          perf = no
+          fping = no
+          go.d = no
+          ioping = no
+          python.d = yes
+          apps = no
+          charts.d = no
+          freeipmi = no
+        [plugin:proc]
+          netdata server resources = yes
+          /proc/pagetypeinfo = no
+          /proc/stat = yes
+          /proc/uptime = no
+          /proc/loadavg = no
+          /proc/sys/kernel/random/entropy_avail = no
+          /proc/pressure = no
+          /proc/interrupts = no
+          /proc/softirqs = no
+          /proc/vmstat = no
+          /proc/meminfo = no
+          /sys/kernel/mm/ksm = no
+          /sys/block/zram = no
+          /sys/devices/system/edac/mc = no
+          /sys/devices/system/node = no
+          /proc/net/dev = no
+          /proc/net/wireless = no
+          /proc/net/sockstat = no
+          /proc/net/sockstat6 = no
+          /proc/net/netstat = no
+          /proc/net/snmp = no
+          /proc/net/snmp6 = no
+          /proc/net/sctp/snmp = no
+          /proc/net/softnet_stat = no
+          /proc/net/ip_vs/stats = no
+          /sys/class/infiniband = no
+          /proc/net/stat/conntrack = no
+          /proc/net/stat/synproxy = no
+          /proc/diskstats = no
+          /proc/mdstat = no
+          /proc/net/rpc/nfsd = no
+          /proc/net/rpc/nfs = no
+          /proc/spl/kstat/zfs/arcstats = no
+          /proc/spl/kstat/zfs/pool/state = no
+          /sys/fs/btrfs = no
+          ipc = no
+          /sys/class/power_supply = no
+    python.d:
+      enabled: true
+      path: /etc/netdata/python.d.conf
+      data: |
+        enabled: yes
+        modules:
+          example: yes
     stream:
       enabled: true
       path: /etc/netdata/stream.conf
@@ -146,51 +121,14 @@ parent:
           default memory mode = save
           health enabled by default = auto
           allow from = *
-    health:
-      enabled: false
-      path: /etc/netdata/health_alarm_notify.conf
-      data: |
-        SEND_EMAIL="NO"
-        SEND_SLACK="YES"
-        SLACK_WEBHOOK_URL=""
-        DEFAULT_RECIPIENT_SLACK=""
-        role_recipients_slack[sysadmin]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[domainadmin]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[dba]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[webmaster]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[proxyadmin]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[sitemgr]="${DEFAULT_RECIPIENT_SLACK}"
-    exporting:
-      enabled: false
-      path: /etc/netdata/exporting.conf
-      data: ""
-    example:
-      enabled: false
-      path: /etc/netdata/health.d/example.conf
-      data: |
-        alarm: example_alarm1
-          on: example.random
-        every: 2s
-        warn: $random1 > (($status >= $WARNING)  ? (70) : (80))
-        crit: $random1 > (($status == $CRITICAL) ? (80) : (90))
-        info: random
-          to: sysadmin
+
 child:
   enabled: true
   port: 28888
 
   updateStrategy: {}
-    # type: RollingUpdate
-    # rollingUpdate:
-    #   maxUnavailable: 1
 
   resources: {}
-    # limits:
-    #  cpu: 4
-    #  memory: 4096Mi
-    # requests:
-    #  cpu: 4
-    #  memory: 4096Mi
 
   livenessProbe:
     failureThreshold: 3
@@ -226,7 +164,7 @@ child:
     enabled: true
     hostPath: /var/lib/netdata-k8s-child
 
-  configs:
+  configs:  # child's config
     netdata:
       enabled: true
       path: /etc/netdata/netdata.conf
@@ -247,10 +185,6 @@ child:
           buffer size bytes = 1048576
           reconnect delay seconds = 5
           initial clock resync iterations = 60
-    exporting:
-      enabled: false
-      path: /etc/netdata/exporting.conf
-      data: ""
     kubelet:
       enabled: true
       path: /etc/netdata/go.d/k8s_kubelet.conf
@@ -271,3 +205,61 @@ child:
           - url: http://127.0.0.1:10249/metrics
   env:
     DO_NOT_TRACK: 1
+
+replicaCount: 1
+deploymentStrategy:
+  type: Recreate
+
+image:
+  repository: netdata/netdata
+  tag: "{{ .Chart.AppVersion }}"
+  pullPolicy: Always
+
+sd:
+  repository: netdata/agent-sd
+  tag: v0.2.1
+  pullPolicy: Always
+  child:
+    enabled: true
+    configmap:
+      name: netdata-child-sd-config-map
+      key: config.yml
+      from:
+        file: sdconfig/child.yml
+        value: {}
+    resources:
+      limits:
+        cpu: 50m
+        memory: 150Mi
+      requests:
+        cpu: 50m
+        memory: 100Mi
+
+sysctlImage:
+  enabled: true
+  repository: alpine
+  tag: latest
+  pullPolicy: Always
+  command: []
+  resources: {}
+
+wgetImage:
+  repository: netdata/wget
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 29999
+  annotations: {}
+
+ingress:
+  enabled: false
+
+rbac:
+  create: true
+  pspEnabled: true
+
+serviceAccount:
+  create: true
+  name: netdata
