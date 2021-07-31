@@ -1,0 +1,149 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "netdata.name" . }}-parent
+  labels:
+    app: {{ template "netdata.name" . }}
+    chart: {{ template "netdata.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    role: parent
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {{- toYaml .Values.deploymentStrategy | nindent 4 }}
+  selector:
+    matchLabels:
+      app: {{ template "netdata.name" . }}
+      release: {{ .Release.Name }}
+      role: parent
+  template:
+    metadata:
+      labels:
+        app: {{ template "netdata.name" . }}
+        release: {{ .Release.Name }}
+        role: parent
+{{- with .Values.parent.podLabels }}
+{{ toYaml . | trim | indent 8 }}
+{{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+{{- with .Values.parent.podAnnotations }}
+{{ toYaml . | trim | indent 8 }}
+{{- end }}
+    spec:
+      hostNetwork: true
+      securityContext:
+        fsGroup: 201
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- if .Values.parent.priorityClassName }}
+      priorityClassName: "{{ .Values.parent.priorityClassName }}"
+      {{- end }}
+      initContainers:
+      {{- if .Values.sysctlImage.enabled }}
+        - name: init-sysctl
+          image: "{{ .Values.sysctlImage.repository }}:{{ .Values.sysctlImage.tag }}"
+          imagePullPolicy: {{ .Values.sysctlImage.pullPolicy }}
+          command:
+{{ toYaml .Values.sysctlImage.command | indent 12 }}
+          securityContext:
+            runAsNonRoot: false
+            privileged: true
+            runAsUser: 0
+          resources:
+{{ toYaml .Values.sysctlImage.resources | indent 12 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag . }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.parent.claiming }}
+          {{- if and .enabled .token .rooms }}
+          command:
+            - "/bin/sh"
+            - "-c"
+            - exec /usr/sbin/run.sh
+              -W set2 cloud global enabled true
+              -W set2 cloud global "cloud base url" "{{ .url }}"
+              -W "claim -token={{ .token }} -rooms={{ .rooms }} -url={{ .url }}"
+          {{- end }}
+          {{- end }}
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NETDATA_LISTENER_PORT
+              value: '{{ .Values.parent.port }}'
+            {{- range $key, $value := .Values.parent.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.parent.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/v1/info
+              port: http
+            failureThreshold: {{ .Values.parent.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.parent.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.parent.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.parent.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /api/v1/info
+              port: http
+            failureThreshold: {{ .Values.parent.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.parent.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.parent.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.parent.readinessProbe.timeoutSeconds }}
+          volumeMounts:
+            {{- range $name, $config := .Values.parent.configs }}
+            {{- if $config.enabled }}
+            - name: config
+              mountPath: {{ $config.path }}
+              subPath: {{ $name }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.parent.database.persistence }}
+            - name: database
+              mountPath: /var/cache/netdata
+            {{- end }}
+            {{- if .Values.parent.alarms.persistence }}
+            - name: alarms
+              mountPath: /var/lib/netdata
+            {{- end }}
+          resources:
+{{ toYaml .Values.parent.resources | indent 12 }}
+    {{- with .Values.parent.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.parent.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.parent.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.parent.terminationGracePeriodSeconds }}
+      volumes:
+        - name: config
+          configMap:
+            name: netdata-conf-parent
+        {{- if .Values.parent.database.persistence }}
+        - name: database
+          persistentVolumeClaim:
+            claimName: {{ template "netdata.name" . }}-parent-database
+        {{- end }}
+        {{- if .Values.parent.alarms.persistence }}
+        - name: alarms
+          persistentVolumeClaim:
+            claimName: {{ template "netdata.name" . }}-parent-alarms
+        {{- end }}

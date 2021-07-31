@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Yummy custom dashboard2</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <script>
+    var netdataTheme = 'slate';
+  </script>
+
+  <!-- Add dashboard.js here! -->
+  <script type="text/javascript" src="http://3.34.29.236:29999/dashboard.js"></script>
+
+  <style>
+    .wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .charts {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+    }
+
+    .charts > div {
+      margin-bottom: 6rem;
+      position: relative;
+    }
+   </style>
+
+</head>
+<body>
+
+  <main class="wrap">
+
+    <h1>Yummy custom dashboard</h1>
+
+    <div class="charts">
+
+      <!-- Add charts here! -->
+      <!-- data-netdata : unique.id -->
+      <!-- data-after : time interval(second) --> 
+      <!-- data-height : chart height --> 
+      <!-- data-width : unique.id -->    
+        
+        <div data-netdata="system.pgpgio"
+           data-after="-300" 
+           data-height="250px"
+           data-width="calc(100% - 2rem)">
+        </div>
+
+        <div data-netdata="system.net"
+            data-after="-300"
+            data-height="250px"
+            data-width="calc(100% - 2rem)">
+        </div>
+
+        <div data-netdata="mem.pgfaults"
+            data-after="-300"
+            data-height="250px"
+            data-width="calc(100% - 2rem)">
+        </div>
+
+        <div data-netdata="system.processes"
+            data-after="-300"
+            data-height="250px"
+            data-width="calc(100% - 2rem)">
+        </div>
+
+        <div data-netdata="system.interrupts"
+            data-after="-300"
+            data-height="250px"
+            data-width="calc(100% - 2rem)">
+        </div>
+
+        <div data-netdata="ipv4.packets"
+            data-after="-300"
+            data-height="250px"
+            data-width="calc(100% - 2rem)">
+        </div>
+
+  </main>
+
+</body>
+</html>
