@@ -3,6 +3,8 @@ cd "$(dirname "$0")" && cd ..
 
 set -x
 
+docker build -t santabpf:$(cat ./TAG) ./santabpf
+
 kubectl apply -f ./yamls/storage-class.yaml
 
 sudo mkdir /mnt/netdata

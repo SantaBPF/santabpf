@@ -107,8 +107,6 @@ spec:
             - name: alarms
               mountPath: /var/lib/netdata
             {{- end }}
-            - name: foobar
-              mountPath: /foobar
           resources:
 {{ toYaml .Values.parent.resources | indent 12 }}
     {{- with .Values.parent.nodeSelector }}
