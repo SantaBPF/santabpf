@@ -211,9 +211,9 @@ deploymentStrategy:
   type: Recreate
 
 image:
-  repository: santabpf
-  tag: "{{ .Chart.AppVersion }}"
-  pullPolicy: IfNotPresent
+  repository: localhost:5000/santabpf
+  tag: v1.31.0
+  pullPolicy: Always
 
 sd:
   repository: netdata/agent-sd

@@ -3,7 +3,9 @@ cd "$(dirname "$0")" && cd ..
 
 set -x
 
-docker build -t santabpf:$(cat ./TAG) ./santabpf
+eval $(sed -nr '/^image:/{:a; n; h; s/^  (repository|tag): (.+)/SANTABPF_\U\1\E=\2/gp; g; /^ /ba;}' yamls/values.yaml)
+DOCKER_IMAGE=$SANTABPF_REPOSITORY:$SANTABPF_TAG
+docker build -t $DOCKER_IMAGE ./santabpf && docker push $DOCKER_IMAGE
 
 kubectl apply -f ./yamls/storage-class.yaml
 
