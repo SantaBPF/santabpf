@@ -1,6 +1,0 @@
-core:
-  monitor_interval_sec: 5
-
-scenarios: '*'
-
-param:

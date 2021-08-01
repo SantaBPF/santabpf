@@ -1,1 +1,0 @@
-passive & active 시나리오 나누기
