@@ -46,64 +46,18 @@ parent:
         [global]
           memory mode = save
         [plugins]
-          PATH environment variable = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
-          PYTHONPATH environment variable =
-          proc = yes
-          diskspace = no
-          timex = no
           cgroups = no
           tc = no
-          idlejitter = no
           enable running new plugins = no
-          check for new plugins every = 60
-          slabinfo = no
-          node.d = no
-          perf = no
-          fping = no
-          go.d = no
-          ioping = no
-          python.d = yes
-          apps = no
+          check for new plugins every = 72000
+          python.d = no
           charts.d = no
-          freeipmi = no
-        [plugin:proc]
-          netdata server resources = yes
-          /proc/pagetypeinfo = no
-          /proc/stat = yes
-          /proc/uptime = no
-          /proc/loadavg = no
-          /proc/sys/kernel/random/entropy_avail = no
-          /proc/pressure = no
-          /proc/interrupts = no
-          /proc/softirqs = no
-          /proc/vmstat = no
-          /proc/meminfo = no
-          /sys/kernel/mm/ksm = no
-          /sys/block/zram = no
-          /sys/devices/system/edac/mc = no
-          /sys/devices/system/node = no
-          /proc/net/dev = no
-          /proc/net/wireless = no
-          /proc/net/sockstat = no
-          /proc/net/sockstat6 = no
-          /proc/net/netstat = no
-          /proc/net/snmp = no
-          /proc/net/snmp6 = no
-          /proc/net/sctp/snmp = no
-          /proc/net/softnet_stat = no
-          /proc/net/ip_vs/stats = no
-          /sys/class/infiniband = no
-          /proc/net/stat/conntrack = no
-          /proc/net/stat/synproxy = no
-          /proc/diskstats = no
-          /proc/mdstat = no
-          /proc/net/rpc/nfsd = no
-          /proc/net/rpc/nfs = no
-          /proc/spl/kstat/zfs/arcstats = no
-          /proc/spl/kstat/zfs/pool/state = no
-          /sys/fs/btrfs = no
-          ipc = no
-          /sys/class/power_supply = no
+          go.d = no
+          node.d = no
+          apps = no
+          proc = no
+          idlejitter = no
+          diskspace = no
     python.d:
       enabled: true
       path: /etc/netdata/python.d.conf
@@ -173,6 +127,65 @@ child:
           memory mode = none
         [health]
           enabled = no
+        [plugins]
+          PATH environment variable = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+          PYTHONPATH environment variable =
+          proc = yes
+          diskspace = no
+          timex = no
+          cgroups = no
+          tc = no
+          idlejitter = no
+          enable running new plugins = no
+          check for new plugins every = 60
+          slabinfo = no
+          node.d = no
+          perf = no
+          fping = no
+          go.d = no
+          ioping = no
+          python.d = yes
+          apps = no
+          charts.d = no
+          freeipmi = no
+        [plugin:proc]
+          netdata server resources = yes
+          /proc/pagetypeinfo = no
+          /proc/stat = yes
+          /proc/uptime = no
+          /proc/loadavg = no
+          /proc/sys/kernel/random/entropy_avail = no
+          /proc/pressure = no
+          /proc/interrupts = no
+          /proc/softirqs = no
+          /proc/vmstat = no
+          /proc/meminfo = no
+          /sys/kernel/mm/ksm = no
+          /sys/block/zram = no
+          /sys/devices/system/edac/mc = no
+          /sys/devices/system/node = no
+          /proc/net/dev = no
+          /proc/net/wireless = no
+          /proc/net/sockstat = no
+          /proc/net/sockstat6 = no
+          /proc/net/netstat = no
+          /proc/net/snmp = no
+          /proc/net/snmp6 = no
+          /proc/net/sctp/snmp = no
+          /proc/net/softnet_stat = no
+          /proc/net/ip_vs/stats = no
+          /sys/class/infiniband = no
+          /proc/net/stat/conntrack = no
+          /proc/net/stat/synproxy = no
+          /proc/diskstats = no
+          /proc/mdstat = no
+          /proc/net/rpc/nfsd = no
+          /proc/net/rpc/nfs = no
+          /proc/spl/kstat/zfs/arcstats = no
+          /proc/spl/kstat/zfs/pool/state = no
+          /sys/fs/btrfs = no
+          ipc = no
+          /sys/class/power_supply = no
     stream:
       enabled: true
       path: /etc/netdata/stream.conf

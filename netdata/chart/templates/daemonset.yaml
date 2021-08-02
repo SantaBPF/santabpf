@@ -40,7 +40,6 @@ spec:
       restartPolicy: Always
       hostPID: true
       hostIPC: true
-      hostNetwork: true
       {{- if .Values.child.priorityClassName }}
       priorityClassName: "{{ .Values.child.priorityClassName }}"
       {{- end }}
