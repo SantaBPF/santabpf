@@ -37,6 +37,9 @@ spec:
     - 3.34.29.236
   ports:
     - port: {{ .Values.service.port }}
+      {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
       targetPort: http
       protocol: TCP
       name: http

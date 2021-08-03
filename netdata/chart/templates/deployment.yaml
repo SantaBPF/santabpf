@@ -31,7 +31,6 @@ spec:
 {{ toYaml . | trim | indent 8 }}
 {{- end }}
     spec:
-      hostNetwork: true
       securityContext:
         fsGroup: 201
       serviceAccountName: {{ .Values.serviceAccount.name }}

@@ -13,5 +13,5 @@ sudo mkdir /mnt/netdata
 sudo chown 201:201 /mnt/netdata
 kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-helm install -f values.yaml netdata ./chart
+helm install -f yamls/values.yaml netdata ./chart
 kubectl apply -f ./yamls/pv.yaml

@@ -1,5 +1,5 @@
 parent:
-  port: 29999
+  port: 19999
   resources: {}
 
   livenessProbe:
@@ -78,8 +78,6 @@ parent:
 
 child:
   enabled: true
-  port: 28888
-
   updateStrategy: {}
 
   resources: {}
@@ -262,8 +260,8 @@ wgetImage:
   pullPolicy: Always
 
 service:
-  type: ClusterIP
-  port: 29999
+  type: NodePort
+  nodePort: 29999
   annotations: {}
 
 ingress:
