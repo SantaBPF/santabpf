@@ -8,6 +8,8 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     role: parent
+  annotations:
+    timestamp: "{{ .Values.timestamp }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy: {{- toYaml .Values.deploymentStrategy | nindent 4 }}
