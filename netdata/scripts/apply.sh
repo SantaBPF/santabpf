@@ -8,4 +8,5 @@ DOCKER_IMAGE=$SANTABPF_REPOSITORY:$SANTABPF_TAG
 docker build -t $DOCKER_IMAGE ./santabpf && docker push $DOCKER_IMAGE
 
 helm upgrade -f ./yamls/values.yaml netdata ./chart
+kubectl rollout restart daemonset netdata-child
 kubectl get po -w
