@@ -58,13 +58,12 @@ parent:
           proc = no
           idlejitter = no
           diskspace = no
-    python.d:
+    health:
       enabled: true
-      path: /etc/netdata/python.d.conf
+      path: /etc/netdata/health_alarm_notify.conf
       data: |
-        enabled: yes
-        modules:
-          example: yes
+        SEND_EMAIL="YES"
+        role_recipients_email[sysadmin]=dongho971220@gmail.com
     stream:
       enabled: true
       path: /etc/netdata/stream.conf

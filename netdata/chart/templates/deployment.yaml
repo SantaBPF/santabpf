@@ -58,6 +58,9 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+          - configMapRef:
+              name: netdata-auth
           env:
             - name: MY_POD_NAME
               valueFrom:
