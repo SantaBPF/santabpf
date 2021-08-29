@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
+
     <!-- here we will add dashboard.js -->
 
     <script>
@@ -17,7 +18,8 @@
       // var netdataNoBootstrap = true;
     </script>
 
-    <script type="text/javascript" src="http://3.34.29.236:29999/dashboard.js"></script> <!-- netdata server -->
+    <script type="text/javascript" src="http://3.34.29.236:29999/host/host-1/dashboard.js"></script>
+
     <!-- dashboard.js will automatically load the following:
       1. dashboard.css, required for the netdata charts
       2. jquery.min.js, (only if jquery is not already loaded for this web page)
@@ -30,8 +32,14 @@
 
     <style>
       .wrap {
-        max-width: 1280px;
-        margin: 0 auto;
+        /* max-width: 1280px; */
+        width:80%;
+        border:2px solid red;
+        /* margin: 0 auto; */
+      }
+      .container{
+        width:100%;
+        border:1px solid yellow;
       }
 
       h1 {
@@ -54,6 +62,19 @@
         padding: 15px 10px;
         border: 1px solid #494949;
       }
+      /* 네비게이션바 우측 고정 */
+      .navi{
+        position:fixed;
+        height:100vh;
+        width:20%;
+        border:2px solid black; 
+        top:0;
+        right:0;
+        text-align:center;
+        padding-top:30px;
+        font-size:15px;
+        line-height:50px;
+      }
     </style>
   </head>
   <body>
@@ -64,33 +85,39 @@
       <div class="container">
         
         <!-- system.load -->
-        <div>
+        <div id="system.load">
+          <div style="margin-bottom:30px;">
+            Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
+          </div>
           <div
             class="netdata-container-with-legend"
             data-netdata="system.load"
-            data-title="load"
+            data-title="System Load Average (system.load)"
             data-host="http://3.34.29.236:29999"
             data-width="100%"
             data-height="260px"
             data-dygraph-valuerange="[null,null]"
             data-chart-library="dygraph"           
-            data-after="-300"  
+            data-after="-300"
+            style="margin-bottom:100px; padding-top:100px;"
           ></div>
-
         </div>
 
         <!-- disk_space._ -->
-        <div>
+        <div id="disk_space._">
+          <div style="margin-bottom:30px;">
+            Disk space utilization. reserved for root is automatically reserved by the system to prevent the root user from getting out of space.
+          </div>
           <div
             data-netdata="disk_space._"
             data-host="http://3.34.29.236:29999"
-            data-title="disk space for /"
+            data-title="Disk Space Usage for /"
             data-append-options="percentage"
             data-decimal-digits="0"
             data-dimensions="used"
             data-chart-library="gauge"
-            data-width="100%"
-            data-height="260px"
+            data-width="30%"
+            data-height="100px"
             data-after="-300"
             data-points="300"
             data-gauge-max-value="100"
@@ -100,12 +127,15 @@
             data-gauge-gradient-percent-color-70="d88b2f"
             data-gauge-gradient-percent-color-100="#ff3300"
             data-units="%"
-            style="margin-top:100px"
+            style="margin-bottom:100px; padding-top:100px;"
           ></div>
         </div>
         
         <!-- ipv4.tcpopens -->
-        <div>
+        <div id="ipv4.tcpopens">
+          <div style="margin-bottom:30px;">
+            active or ActiveOpens is the number of outgoing TCP connections attempted by this host. passive or PassiveOpens is the number of incoming TCP connections accepted by this host.
+          </div>
           <div
             class="netdata-container-with-legend netdata-container-with-legend--bottom"
             data-netdata="ipv4.tcpopens"
@@ -116,140 +146,183 @@
             data-host="http://3.34.29.236:29999"
             data-chart-library="dygraph"           
             data-after="-300" 
-            style="margin-top:100px"
+            style="margin-bottom:100px; padding-top:100px;"
           ></div>
         </div>
 
         <!-- system.intr -->
-        <div>
+        <div id="system.intr">
+          <div style="margin-bottom:30px;">
+            Total number of CPU interrupts. Check system.interrupts that gives more detail about each interrupt and also the CPUs section where interrupts are analyzed per CPU core.
+          </div>
           <div
             data-netdata="system.intr"
             data-colors="#dd5555"
             class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
-            style="margin-top:100px"
+            style="margin-bottom:100px; padding-top:100px; border:2px solid green;"
+            
           ></div>
         </div>
 
         <!-- system.entropy -->
-        <div>
+        <div id="system.entropy">
+          <div style="margin-bottom:30px;">
+            Entropy, is a pool of random numbers (/dev/random) that is mainly used in cryptography. If the pool of entropy gets empty, processes requiring random numbers may run a lot slower (it depends on the interface each program uses), waiting for the pool to be replenished. Ideally a system with high entropy demands should have a hardware device for that purpose (TPM is one such device). There are also several software-only options you may install, like haveged, although these are generally useful only in servers.
+          </div>
           <div
             data-netdata="system.entropy"
             data-decimal-digits="-1"
             class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
             data-colors="#cc22aa"
-            style="margin-top:100px"
-            ></div>
+            data-title="Available Entropy (system.entropy)"
+            style="margin-bottom:100px; padding-top:100px;"
+            id="system.entropy"
+          ></div>
         </div>
 
         <!-- system.io -->
-        <div>
+        <div id="system.io">
+          <div style="margin-bottom:30px;">
+            Total Disk I/O, for all physical disks. You can get detailed information about each disk at the Disks section and per application Disk usage at the Applications Monitoring section. Physical are all the disks that are listed in /sys/block, but do not exist in /sys/devices/virtual/block.
+          </div>
           <div
             data-netdata="system.io"
             class="netdata-container-with-legend netdata-container-with-legend--bottom"
             data-width="100%"
             data-height="260px"
             data-dygraph-valuerange="[null,null]"
-            style="margin-top:100px"
+            style="margin-bottom:100px; padding-top:100px;"
+            id="system.io"
           ></div>
         </div>
 
         <!-- mem.writeback -->
-        <div>
+        <div id="mem.writeback">
+          <div style="margin-bottom:30px;">
+            Dirty is the amount of memory waiting to be written to disk. Writeback is how much memory is actively being written to disk.
+          </div>
           <div
             data-netdata="mem.writeback"
             class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
-            style="margin-top:100px"
-            ></div>
+            style="margin-bottom:100px; padding-top:100px;"
+            id="mem.writeback"
+          ></div>
         </div>
 
-        <div class="text-center" style="padding-top: 10px">
+        <div class="text-center" style="padding-top: 10px; margin-bottom:300px;">
           <a href="http://3.34.29.236:29999" class="btn btn-primary btn-sm" target="_blank">SantaBPF</a>
           
         </div>
-      
-      
-      
-      
-
-        <!-- <div class="col-md-3 item">
-          <div>
-            <div
-              data-netdata="system.cpu"
-              data-host="http://3.34.29.236:29999"
-              data-gauge-max-value="100"
-              data-chart-library="gauge"
-              data-width="50%"
-              data-after="-540"
-              data-points="540"
-              data-title="CPU"
-              data-units="%"
-              data-colors="#2c9588"
-              data-gauge-generate-gradient="[0, 80, 100]"
-              data-gauge-gradient-percent-color-0="#2c9588"
-              data-gauge-gradient-percent-color-80="#c96667"
-              data-gauge-gradient-percent-color-100="#ff3300"
-              class="netdata-container"
-            ></div>
-
-            <div
-              class="netdata-container-easypiechart"
-              data-netdata="system.ram"
-              data-host="http://3.34.29.236:29999"
-              data-dimensions="used|buffers|active|wired"
-              data-append-options="percentage"
-              data-chart-library="easypiechart"
-              data-title="Used RAM"
-              data-units="%"
-              data-easypiechart-max-value="100"
-              data-width="45%"
-              data-after="-540"
-              data-points="540"
-              data-colors="#EE9911"
-              role="application"
-            ></div>
-          </div>
-
-          <div>
-            <div
-              data-netdata="disk_space._"
-              data-host="http://3.34.29.236:29999"
-              data-title="disk space for /"
-              data-append-options="percentage"
-              data-decimal-digits="0"
-              data-dimensions="used"
-              data-chart-library="gauge"
-              data-width="100%"
-              data-height="100%"
-              data-after="-300"
-              data-points="300"
-              data-gauge-max-value="100"
-              data-colors="#ffffff"
-              data-gauge-generate-gradient="[0, 70, 100]"
-              data-gauge-gradient-percent-color-0="#ffffff"
-              data-gauge-gradient-percent-color-70="d88b2f"
-              data-gauge-gradient-percent-color-100="#ff3300"
-              data-units="%"
-            ></div>
-          </div>
-
-          <div
-            data-netdata="system.uptime"
-            data-host="http://3.34.29.236:29999"
-            data-title="uptime"
-            data-width="100%"
-            data-legend="no"
-            data-points="200"
-            data-dimensions="uptime"
-            data-show-value-of-uptime-at="california-uptime"
-          ></div>
-
-          <div class="text-center">uptime : <span id="california-uptime"></span></div>
-
-          <div class="text-center" style="padding-top: 10px">
-            <a href="http://3.34.29.236:29999" class="btn btn-primary btn-sm" target="_blank">California</a>
-          </div>
-        </div> -->
       </div>
+      <!-- 네비게이션 바 -> 각 글자 클릭 시 해당 div 영역으로 이동 -->
+      <div class="navi">
+        <a href="#system.load" id="sl">system.load</a><br>
+        <a href="#disk_space._" id="ds">disk_space._</a><br>
+        <a href="#ipv4.tcpopens" id="it">ipv4.tcpopens</a><br>
+        <a href="#system.intr" id="sin">system.intr</a><br>
+        <a href="#system.entropy" id="se">system.entropy</a><br>
+        <a href="#system.io" id="sio">system.io</a><br>
+        <a href="#mem.writeback" id="mw">mem.writeback</a><br>
+    </div>
     </main>
   </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+  // jquery 시작
+  $(document).ready(function(){
+    // 스크롤 할 때 적용되는 이벤트
+    $(window).scroll(function(){
+      // 각 div의 속성을 가져올 수 있게 변수 지정
+      var sl = document.getElementById("system.load");
+      var ds = document.getElementById("disk_space._");
+      var it = document.getElementById("ipv4.tcpopens");
+      var sin = document.getElementById("system.intr");
+      var se = document.getElementById("system.entropy");
+      var sio = document.getElementById("system.io");
+      var mw = document.getElementById("mem.writeback");
+
+      // 각 div의 상단 좌표값을 가져옴(offsetTop 함수 사용)
+      var slTop=sl.offsetTop;
+      var dsTop=ds.offsetTop;
+      var itTop=it.offsetTop;
+      var sinTop=sin.offsetTop;
+      var seTop=se.offsetTop;
+      var sioTop=sio.offsetTop;
+      var mwTop=mw.offsetTop;
+
+      // 현재 스크롤의 위치 가져옴
+      let height=$(document).scrollTop()+50;
+
+      // 현재 높이가 각 div에 있을 때 해당 글자 사이즈 커지게 하는 조건문
+      if((slTop) < height){
+        $('#sl').css("font-size", 30);
+        $('#ds').css("font-size", 15);
+        $('#it').css("font-size", 15);
+        $('#sin').css("font-size", 15);
+        $('#se').css("font-size", 15);
+        $('#sio').css("font-size", 15);
+        $('#mw').css("font-size", 15);
+      }
+      if((dsTop) < height){
+        $('#sl').css("font-size", 15);
+        $('#ds').css("font-size", 30);
+        $('#it').css("font-size", 15);
+        $('#sin').css("font-size", 15);
+        $('#se').css("font-size", 15);
+        $('#sio').css("font-size", 15);
+        $('#mw').css("font-size", 15);
+      }
+      if((itTop) < height){
+        $('#sl').css("font-size", 15);
+        $('#ds').css("font-size", 15);
+        $('#it').css("font-size", 30);
+        $('#sin').css("font-size", 15);
+        $('#se').css("font-size", 15);
+        $('#sio').css("font-size", 15);
+        $('#mw').css("font-size", 15);
+      }
+      if((sinTop) < height){
+        $('#sl').css("font-size", 15);
+        $('#ds').css("font-size", 15);
+        $('#it').css("font-size", 15);
+        $('#sin').css("font-size", 30);
+        $('#se').css("font-size", 15);
+        $('#sio').css("font-size", 15);
+        $('#mw').css("font-size", 15);
+      }
+      if((seTop) < height){
+        $('#sl').css("font-size", 15);
+        $('#ds').css("font-size", 15);
+        $('#it').css("font-size", 15);
+        $('#sin').css("font-size", 15);
+        $('#se').css("font-size", 30);
+        $('#sio').css("font-size", 15);
+        $('#mw').css("font-size", 15);
+      }
+      if((sioTop) < height){
+        $('#sl').css("font-size", 15);
+        $('#ds').css("font-size", 15);
+        $('#it').css("font-size", 15);
+        $('#sin').css("font-size", 15);
+        $('#se').css("font-size", 15);
+        $('#sio').css("font-size", 30);
+        $('#mw').css("font-size", 15);
+      }
+      if((mwTop) < height){
+        $('#sl').css("font-size", 15);
+        $('#ds').css("font-size", 15);
+        $('#it').css("font-size", 15);
+        $('#sin').css("font-size", 15);
+        $('#se').css("font-size", 15);
+        $('#sio').css("font-size", 15);
+        $('#mw').css("font-size", 30);
+      }   
+
+    });
+      
+  });
+  
+
+
+</script>
