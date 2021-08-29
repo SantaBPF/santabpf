@@ -68,3 +68,22 @@ template entity의 경우 위와 같이 관심있는 context를 사용하면 된
 
 <a name="myfootnote1">1</a>. 합쳐도 좋은 경우도 있겠지만 여기서는 Netdata의 컨벤션을 따르도록 한다.
 
+#### type, component
+크게 해당 알람의 대분류, 소분류를 설정할 수 있다. 각각이 Database, MySQL인 경우 나중에 알람을 Database로 묶고 MySQL로 필터링 하거나 할 수 있다.
+
+#### os, hosts, plugin, module
+모두 특정 os, hosts, plugin, module 아래서만 알람이 동작하게 하는 필터 관련 로직이다.
+
+#### lookup
+벡터 또는 매트릭스 값인 metric으로 부터 스칼라 값을 계산한다. 즉 이전 10분간의 데이터 100개가 있으면 이를 어떤 임계치와 비교하기 위해선 평균을 내든
+최솟값을 찾든 해서 어떤 단일한 값이 필요할 것이다. 여기서 계산된 값은 나중에 `$this` 라는 이름으로 사용할 수 있다.
+
+포맷은 다음과 같다:
+`lookup: METHOD AFTER [at BEFORE] [every DURATION] [OPTIONS] [of DIMENSIONS] [foreach DIMENSIONS]`
+
+- METHOD: `average`, `min`, `max`, `sum`, `incremental-sum` 중 하나
+- AFTER: -5,-5s -> 이전 5초간, -3m, -7h, -2d -> 이전 3분, 7시간, 2일간의 데이터를 집계
+- at BEFORE: 기본 0. AFTER=-7d, BEFORE=-1d 면 이전 7일간 데이터를 전부 보는 대신, 이전 7일부터 이전 1일까지의 데이터만 집계
+- every DURATION: lookup의 갱신 주기를 설정
+- OPTIONS: `percentage`, `absolute`, `min2max`, `unaligned`, `match-ids`, `match-names` 중 하나. TODO badge doc 참고
+TODO
