@@ -13,7 +13,7 @@ parent:
     successThreshold: 1
     timeoutSeconds: 1
 
-  terminationGracePeriodSeconds: 300
+  terminationGracePeriodSeconds: 10
 
   nodeSelector: {}
 
@@ -92,7 +92,7 @@ child:
     successThreshold: 1
     timeoutSeconds: 1
 
-  terminationGracePeriodSeconds: 30
+  terminationGracePeriodSeconds: 10
 
   nodeSelector: {}
 

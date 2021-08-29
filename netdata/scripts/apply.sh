@@ -9,4 +9,5 @@ docker build -t $DOCKER_IMAGE ./santabpf && docker push $DOCKER_IMAGE
 
 helm upgrade -f ./yamls/values.yaml netdata ./chart
 kubectl rollout restart daemonset netdata-child
+kubectl rollout restart deployment netdata-parent
 kubectl get po -w
