@@ -128,4 +128,4 @@ WARNING, CRITICAL 상태일때 알람을 반복해서 보낼건지 설정
 # Variables
 임의 차트에서 사용되는 변수들을 모두 확인하고 싶다면 `http://NODE/api/v1/alarm_variables?chart=CHART_NAME` 를 사용하면 된다.
 netdata에서는 변수들을 위해 3개의 내부 인덱스를 지원한다.
-- TODO
+- **chart local variables**: TODO
