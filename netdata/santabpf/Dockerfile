@@ -3,8 +3,12 @@ FROM netdata/netdata:v1.31.0
 RUN apk update \
  && apk add vim ssmtp gettext
 
+WORKDIR /etc/netdata
+
 COPY ./init.sh ./
 RUN chmod +x ./init.sh
+
+COPY ./exec ./exec/
 
 RUN rm /usr/lib/netdata/conf.d/health.d/*
 
