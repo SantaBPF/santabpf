@@ -57,7 +57,7 @@ Netdata Cloud를 사용한다면 War Room 피쳐들을 활용해볼 수 있겠�
 #### on
 `on: CHART`  
 ![image](https://user-images.githubusercontent.com/19762154/131266636-433801eb-d416-4da5-bc03-d99bf169988e.png)  
-alarm entity의 경우 위와 같이 관심있는 차트의 이름이나 unique id를 사용하면 된다.
+alarm entity의 경우 위와 같이 관심있는 Chart의 이름이나 unique id를 사용하면 된다.
 
 `on: CONTEXT`  
 ![image](https://user-images.githubusercontent.com/19762154/131266651-2f1beb61-b268-4e74-b3a1-1ec1a6b3c8e1.png)  
@@ -86,10 +86,10 @@ template entity의 경우 위와 같이 관심있는 context를 사용하면 된
 - at BEFORE: 기본 0. AFTER=-7d, BEFORE=-1d 면 이전 7일간 데이터를 전부 보는 대신, 이전 7일부터 이전 1일까지의 데이터만 집계
 - every DURATION: lookup의 갱신 주기를 설정
 - OPTIONS: `percentage`, `absolute`, `min2max`, `unaligned`, `match-ids`, `match-names` 중 하나.
-    - percentage: 값을 반환하는대신, 전체 디멘션 합에 대한 해당 디멘션 합의 비율을 반환. 단위는 %
-    - min2max: 여러 디멘션이 주어질때, 이들을 합하는 대신 `max - min`를 반환
+    - percentage: 값을 반환하는대신, 전체 Dimension 합에 대한 해당 Dimension 합의 비율을 반환. 단위는 %
+    - min2max: 여러 Dimension이 주어질때, 이들을 합하는 대신 `max - min`를 반환
     - unaligned: 기본적으로, 데이터가 집계된 경우 (예를 들어 지난 1시간의 데이터 60개가 평균값 1개로 집계된 경우) netdata는 이들을 정렬하여
-차트가 항상 일정한 모양이 되도록 한다. (즉 지난 1분에 대한 집계는 항상 XX:XX:00 ~ XX:XX:59 에서만 이뤄진다) unaligned 옵션을 주면 XX:XX:42~XX:XY:42 와 같이 가장 최근의 60초를 집계할 수 있다.
+Chart가 항상 일정한 모양이 되도록 한다. (즉 지난 1분에 대한 집계는 항상 XX:XX:00 ~ XX:XX:59 에서만 이뤄진다) unaligned 옵션을 주면 XX:XX:42~XX:XY:42 와 같이 가장 최근의 60초를 집계할 수 있다.
 - of/foreach DEMENSIONS: TODO 필요하면 추가함
 
 lookup에서 계산된 결과는 `$this`, `$NAME`으로 사용가능하다.
@@ -102,7 +102,7 @@ lookup 이후에 다른 line에서 사용할 수 있도록 $this를 정제. look
 `every: DURATION` 매 `DURATION` 마다 해당 알람을 갱신. `DURATION`은 접미사로 s, m, h, d등을 지원
 
 ## green, red
-차트의 green, red 임계치를 설정. 둘은 각각 $green, $red로 참조 가능
+Chart의 green, red 임계치를 설정. 둘은 각각 $green, $red로 참조 가능
 
 ## warn, crit
 warning, critical alram을 언제 트리거할건지 정의. 각각의 표현식은 참/거짓으로 평가될 수 있어야 함
@@ -126,6 +126,86 @@ WARNING, CRITICAL 상태일때 알람을 반복해서 보낼건지 설정
 
 
 # Variables
-임의 차트에서 사용되는 변수들을 모두 확인하고 싶다면 `http://NODE/api/v1/alarm_variables?chart=CHART_NAME` 를 사용하면 된다.
+임의 Chart에서 사용되는 변수들을 모두 확인하고 싶다면 `http://NODE/api/v1/alarm_variables?chart=CHART_NAME` 를 사용하면 된다.
 netdata에서는 변수들을 위해 3개의 내부 인덱스를 지원한다.
-- **chart local variables**: TODO
+- **chart local variables**: Chart의 모든 Dimension들은 로컬 변수로 참조할 수 있다. 그외에 추가적으로 정의되는 특별한 변수들에는 다음과 같은것들이 있다:
+    - $last_collected_t: 마지막으로 data가 수집된 unix timestamp
+    - $collected_total_raw: 마지막으로 수집한 모든 Dimension들의 합
+    - $update_every: 해당 Chart의 갱신 주기
+    - $green, $red: 해당 Chart의 green, red 임계치
+- **family variables**: Chart를 그룹으로 묶을때 사용된다. 예를 들어 모든 `eth0` Chart들은 `family = eth0`를 가진다.
+- **host variables**: 모든 chart의 모든 dimension들, 모든 알람들을 full name으로 가지고 있다.
+- **special variables**:
+    - $this: 현재 알람의 값
+    - $status: 현재 알람의 상태
+    - $now: 현재 unix timestamp
+
+
+# Examples
+```
+template: apache_last_collected_secs
+      on: apache.requests
+    calc: $now - $last_collected_t
+   every: 10s
+    warn: $this > ( 5 * $update_every)
+    crit: $this > (10 * $update_every)
+```
+위 예시는 아파치 서버가 살아있는지 확인한다. 적용되는 범위는 `context = apache.requests`에 해당하는 모든 Chart들. 즉 5번 넘게 확인할 동안
+한번도 데이터가 수집되지 않았다면 WARNING, 10번 넘게 수집되지 않았다면 CRITICAL이 된다.
+
+---
+```
+template: disk_full_percent
+      on: disk.space
+    calc: $used * 100 / ($avail + $used)
+   every: 1m
+    warn: $this > 80
+    crit: $this > 95
+  repeat: warning 120s critical 10s
+```
+`$used`, `$avail`은 Dashboard에서 보이는 Dimension들이다. 이 알람은 WARNING 상태일땐 2분에 한번씩, CRITICAL 상태일땐 10초에 한번씩 노티를 보낸다.
+
+---
+```
+template: disk_fill_rate
+      on: disk.space
+  lookup: max -1s at -30m unaligned of avail
+    calc: ($this - $avail) / (30 * 60)
+   every: 15s
+```
+`calc` line에서 `$this`는 `lookup` line의 결과(즉 30분전의 가용공간)이고, `$avail`은 현재의 디스크 가용공간이다. 따라서
+`calc` line은 disk가 차고 있다면 양수, 공간이 확보되고 있다면 음수가 될것이다. 여기엔 `warn` 이나 `crit`이 없기에 계산만 할뿐이다.
+해당 값은 다른 알람에서 다음과 같이 사용할 수 있다:
+```
+template: disk_full_after_hours
+      on: disk.space
+    calc: $avail / $disk_fill_rate / 3600
+   every: 10s
+    warn: $this > 0 and $this < 48
+    crit: $this > 0 and $this < 24
+```
+`calc` line은 언제 디스크가 가득찰것인지 시간단위로 예측해서 보여준다. 
+
+---
+```
+template: 30min_packet_drops
+      on: net.drops
+  lookup: sum -30m unaligned absolute
+   every: 10s
+    crit: $this > 0
+```
+임의의 네트워크 인터페이스가 패킷을 유실중인지 체크하는 알람이다. `lookup` line은 가장 최근 30분간 유실된 패킷의 총 합을 구한다.
+
+---
+```
+ alarm: dim_template
+    on: system.cpu
+    os: linux
+lookup: average -3s percentage foreach system,user
+ units: %
+ every: 10s
+  warn: $this > 50
+  crit: $this > 80
+```
+`lookup` line은 system과 user Dimension에 대해 지난 3초간의 평균 CPU 사용량을 계산한다. 여기서 foreach가 사용되었기 때문에 `dim_template_system`, `dim_template_user` 알람이 각각 생성될 것이다.
+
