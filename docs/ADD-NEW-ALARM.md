@@ -85,5 +85,47 @@ template entity의 경우 위와 같이 관심있는 context를 사용하면 된
 - AFTER: -5,-5s -> 이전 5초간, -3m, -7h, -2d -> 이전 3분, 7시간, 2일간의 데이터를 집계
 - at BEFORE: 기본 0. AFTER=-7d, BEFORE=-1d 면 이전 7일간 데이터를 전부 보는 대신, 이전 7일부터 이전 1일까지의 데이터만 집계
 - every DURATION: lookup의 갱신 주기를 설정
-- OPTIONS: `percentage`, `absolute`, `min2max`, `unaligned`, `match-ids`, `match-names` 중 하나. TODO badge doc 참고
-TODO
+- OPTIONS: `percentage`, `absolute`, `min2max`, `unaligned`, `match-ids`, `match-names` 중 하나.
+    - percentage: 값을 반환하는대신, 전체 디멘션 합에 대한 해당 디멘션 합의 비율을 반환. 단위는 %
+    - min2max: 여러 디멘션이 주어질때, 이들을 합하는 대신 `max - min`를 반환
+    - unaligned: 기본적으로, 데이터가 집계된 경우 (예를 들어 지난 1시간의 데이터 60개가 평균값 1개로 집계된 경우) netdata는 이들을 정렬하여
+차트가 항상 일정한 모양이 되도록 한다. (즉 지난 1분에 대한 집계는 항상 XX:XX:00 ~ XX:XX:59 에서만 이뤄진다) unaligned 옵션을 주면 XX:XX:42~XX:XY:42 와 같이 가장 최근의 60초를 집계할 수 있다.
+- of/foreach DEMENSIONS: TODO 필요하면 추가함
+
+lookup에서 계산된 결과는 `$this`, `$NAME`으로 사용가능하다.
+
+## calc
+lookup 이후에 다른 line에서 사용할 수 있도록 $this를 정제. lookup없이도 alaram_variable을 직접 사용 가능
+문법은 https://learn.netdata.cloud/docs/agent/health/reference#expressions 참고
+
+## every
+`every: DURATION` 매 `DURATION` 마다 해당 알람을 갱신. `DURATION`은 접미사로 s, m, h, d등을 지원
+
+## green, red
+차트의 green, red 임계치를 설정. 둘은 각각 $green, $red로 참조 가능
+
+## warn, crit
+warning, critical alram을 언제 트리거할건지 정의. 각각의 표현식은 참/거짓으로 평가될 수 있어야 함
+
+## to
+알람이 상태가 변경되었을때 실행될 스크립트의 첫 인자로 넘어가게 될 값. exec line의 기본값은 alarm-notify.sh이다. 따라서 to: admin front 이라 하면 admin과 front role에 알람을 보내게 된다.
+
+## exec
+알람이 상태를 변경했을때 실행될 스크립트
+
+## delay
+알람이 너무 많이 오는것을 막기 위해 설정할 수 있는 값. 포맷은 다음과 같다:
+`delay: [[[up U] [down D] multiplier M] max X]
+
+- `up U`: 알람의 레벨이 올라갔을때 첫 `U DURATION`동안은 알람을 보내지 않는다. 알람이 트리거 되고 금방 다시 원래대로 돌아오는 경우에 유용하다.
+- `down D`: `up U`와 맥락은 유사하다. flapping alarm을 방지하는데 유용하다.
+- `multiplier M`: 알람이 delayed된 상태일때 상태가 바뀌면 `U`, D`에 `M`을 곱한다.
+
+## repeat
+WARNING, CRITICAL 상태일때 알람을 반복해서 보낼건지 설정
+
+
+# Variables
+임의 차트에서 사용되는 변수들을 모두 확인하고 싶다면 `http://NODE/api/v1/alarm_variables?chart=CHART_NAME` 를 사용하면 된다.
+netdata에서는 변수들을 위해 3개의 내부 인덱스를 지원한다.
+- TODO
