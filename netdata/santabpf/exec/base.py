@@ -2,11 +2,12 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
+from typing import List, Any
 import os
-import pandas as pd
 import re
 import sys
+
+from tabulate import tabulate
 
 @dataclass
 class Event:
@@ -51,11 +52,41 @@ def parse_argv(argv: List[str]) -> Event:
     
     return event
 
+
+
+@dataclass
+class BtRow:
+    name: str
+    header: List[str]
+    values: List[Any]
+    
+    def __repr__(self):
+        return f'<{self.name} {" ".join(f"{k}={v}" for k, v in self.cols)} value={self.value}>'
+    
+    def __iter__(self):
+        return iter([self.name, *self.values])
+    
+@dataclass
+class BtRows:
+    rows: List[BtRow]
+    
+    def __post_init__(self):
+        assert len(set(_.name for _ in self.rows)) == 1
+    
+    def __repr__(self):
+        first = self.rows[0]
+        return tabulate(self.rows, headers=['name', *first.header])
+
+
 def exec_bpftrace(program, timeout):
     name, raw_cols = re.search('(@.*?)\[(.*?)\]', program).groups()
     cols = [_.strip() for _ in raw_cols.split(',')]
 
     lines = os.popen(f"sudo bpftrace -e '{program} interval:s:{timeout} {{ exit() }}'").read().splitlines()[3:-1]
-    res = [re.search(f"({name})\[{', '.join(['(.*?)']*len(cols))}\]:\s*(.+)", _).groups() for _ in lines]
+    parsed_lines = [re.search(f"({name})\[{', '.join(['(.*?)']*len(cols))}\]:\s*(.+)", _).groups() for _ in lines]
 
-    return pd.DataFrame(res, columns=['name', *cols, 'value'])
+    rows = [BtRow(name, cols, values) for name, *values in parsed_lines]
+
+    print('[!] exec', rows, file=sys.stderr)
+
+    return BtRows(rows)
