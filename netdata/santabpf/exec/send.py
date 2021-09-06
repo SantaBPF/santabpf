@@ -9,7 +9,9 @@ password = os.getenv('AUTH_PASS')
 def send_email(recipient, title, content):
     message = f"""Subject: {title}
 
-    {content}
+<pre style="font: monospace">
+{content}
+</pre>
     """
 
     context = ssl.create_default_context()

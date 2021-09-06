@@ -112,6 +112,38 @@ spec:
             - name: alarms
               mountPath: /var/lib/netdata
             {{- end }}
+            - name: proc
+              readOnly: true
+              mountPath: /host/proc
+            - name: run
+              mountPath: /var/run/docker.sock
+            - name: sys
+              readOnly: true
+              mountPath: /host/sys
+            - name: src
+              readOnly: true
+              mountPath: /usr/src
+            - name: modules
+              readOnly: true
+              mountPath: /lib/modules
+            - name: debug
+              readOnly: true
+              mountPath: /sys/kernel/debug
+            - name: passwd
+              readOnly: true
+              mountPath: /host/etc/passwd
+            - name: group
+              readOnly: true
+              mountPath: /host/etc/group
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            capabilities:
+              add:
+                - SYS_PTRACE
+                - SYS_ADMIN
+                - CAP_SYS_ADMIN
+                - CAP_SYSLOG
           resources:
 {{ toYaml .Values.parent.resources | indent 12 }}
     {{- with .Values.parent.nodeSelector }}
@@ -128,6 +160,30 @@ spec:
     {{- end }}
       terminationGracePeriodSeconds: {{ .Values.parent.terminationGracePeriodSeconds }}
       volumes:
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: run
+          hostPath:
+            path: /var/run/docker.sock
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: src
+          hostPath:
+            path: /usr/src
+        - name: modules
+          hostPath:
+            path: /lib/modules
+        - name: debug
+          hostPath:
+            path: /sys/kernel/debug
+        - name: passwd
+          hostPath:
+            path: /etc/passwd
+        - name: group
+          hostPath:
+            path: /etc/group
         - name: config
           configMap:
             name: netdata-conf-parent

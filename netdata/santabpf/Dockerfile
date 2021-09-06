@@ -2,8 +2,10 @@ FROM netdata/netdata:v1.31.0
 
 
 RUN apk add --no-cache --update \
-	vim \
+	vim bpftrace sudo\
  && pip install tabulate
+
+RUN echo 'netdata ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/netdata
 
 WORKDIR /etc/netdata
 

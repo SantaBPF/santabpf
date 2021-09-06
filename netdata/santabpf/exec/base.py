@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Any
-import os
+import subprocess
 import re
 import sys
 
@@ -56,37 +56,36 @@ def parse_argv(argv: List[str]) -> Event:
 
 @dataclass
 class BtRow:
-    name: str
-    header: List[str]
+    headers: List[str]
     values: List[Any]
-    
+
     def __repr__(self):
-        return f'<{self.name} {" ".join(f"{k}={v}" for k, v in self.cols)} value={self.value}>'
+        return f'<{" ".join(f"{k}={v}" for k, v in zip(self.headers, self.values))}>'
     
     def __iter__(self):
-        return iter([self.name, *self.values])
+        return iter(self.values)
     
 @dataclass
 class BtRows:
     rows: List[BtRow]
     
     def __post_init__(self):
-        assert len(set(_.name for _ in self.rows)) == 1
+        # assert len(set(_.name for _ in self.rows)) == 1
+        pass
     
     def __repr__(self):
-        first = self.rows[0]
-        return tabulate(self.rows, headers=['name', *first.header])
+        return tabulate(self.rows, headers=self.rows[0].headers)
 
 
-def exec_bpftrace(program, timeout):
-    name, raw_cols = re.search('(@.*?)\[(.*?)\]', program).groups()
-    cols = [_.strip() for _ in raw_cols.split(',')]
+def exec_bpftrace(program, headers, pattern, timeout):
+    args = ['sudo', 'bpftrace', '-e', f"{program} interval:s:{timeout} {{ exit() }}"]
+    print(f'[!] args: {repr(args)}', file=sys.stderr)
 
-    lines = os.popen(f"sudo bpftrace -e '{program} interval:s:{timeout} {{ exit() }}'").read().splitlines()[3:-1]
-    parsed_lines = [re.search(f"({name})\[{', '.join(['(.*?)']*len(cols))}\]:\s*(.+)", _).groups() for _ in lines]
+    lines = subprocess.check_output(args).decode().splitlines()[4:-1]
+    print(f'[!] lines: {repr(lines)}', file=sys.stderr)
 
-    rows = [BtRow(name, cols, values) for name, *values in parsed_lines]
+    parsed_lines = [re.search(pattern, _).groups() for _ in lines]
 
-    print('[!] exec', rows, file=sys.stderr)
+    rows = [BtRow(headers, groups) for groups in parsed_lines]
 
-    return BtRows(rows)
+    return str(BtRows(rows))
