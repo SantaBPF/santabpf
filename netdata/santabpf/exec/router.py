@@ -2,8 +2,14 @@
 
 import sys
 
-from base import parse_argv
+from loguru import logger
+
 import scenarios
+from base import parse_argv
+
+logger.remove()
+logger.add('/var/log/santabpf/log', backtrace=True, diagnose=True, rotation='1 week', compression='gz')
+
 
 def route(argv):
     event = parse_argv(argv)
