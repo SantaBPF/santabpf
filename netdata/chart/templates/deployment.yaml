@@ -34,6 +34,7 @@ spec:
 {{- end }}
     spec:
       hostname: master
+      hostPID: true
       securityContext:
         fsGroup: 201
       serviceAccountName: {{ .Values.serviceAccount.name }}
