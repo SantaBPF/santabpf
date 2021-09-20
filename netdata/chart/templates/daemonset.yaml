@@ -122,9 +122,6 @@ spec:
             successThreshold: {{ .Values.child.readinessProbe.successThreshold }}
             timeoutSeconds: {{ .Values.child.readinessProbe.timeoutSeconds }}
           volumeMounts:
-            - name: proc
-              readOnly: true
-              mountPath: /host/proc
             - name: run
               mountPath: /var/run/docker.sock
             - name: sys
@@ -206,9 +203,6 @@ spec:
     {{- end }}
       terminationGracePeriodSeconds: {{ .Values.child.terminationGracePeriodSeconds }}
       volumes:
-        - name: proc
-          hostPath:
-            path: /proc
         - name: run
           hostPath:
             path: /var/run/docker.sock

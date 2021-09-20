@@ -2,7 +2,7 @@ FROM netdata/netdata:v1.31.0
 
 
 RUN apk add --no-cache --update \
-	vim bpftrace sudo\
+	vim bpftrace sudo perf perl\
  && pip install tabulate loguru
 
 RUN echo 'netdata ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/netdata
