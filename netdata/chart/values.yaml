@@ -158,35 +158,10 @@ parent:
           default memory mode = save
           health enabled by default = auto
           allow from = *
-    health:
-      enabled: true
-      path: /etc/netdata/health_alarm_notify.conf
-      data: |
-        SEND_EMAIL="NO"
-        SEND_SLACK="YES"
-        SLACK_WEBHOOK_URL=""
-        DEFAULT_RECIPIENT_SLACK=""
-        role_recipients_slack[sysadmin]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[domainadmin]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[dba]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[webmaster]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[proxyadmin]="${DEFAULT_RECIPIENT_SLACK}"
-        role_recipients_slack[sitemgr]="${DEFAULT_RECIPIENT_SLACK}"
     exporting:
       enabled: false
       path: /etc/netdata/exporting.conf
       data: ""
-    example:
-      enabled: false
-      path: /etc/netdata/health.d/example.conf
-      data: |
-        alarm: example_alarm1
-          on: example.random
-        every: 2s
-        warn: $random1 > (($status >= $WARNING)  ? (70) : (80))
-        crit: $random1 > (($status == $CRITICAL) ? (80) : (90))
-        info: random
-          to: sysadmin
 
   claiming:
     enabled: false
