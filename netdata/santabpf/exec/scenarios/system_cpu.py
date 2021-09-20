@@ -1,9 +1,9 @@
-from base import Event, exec_bpftrace
+from base import Event, BtRows
 from send import send_email
 
 
 def _1min_cpu_usage(event: Event):
-    profile = exec_bpftrace(
+    profile = BtRows.from_bpftrace(
         program='profile:hz:99 { @[pid, comm] = count(); }',
         headers=['pid', 'comm', 'count'],
         pattern=r'\[(.+?), (.+?)\]: (.+?)\n',

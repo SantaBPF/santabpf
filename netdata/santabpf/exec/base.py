@@ -2,6 +2,7 @@
 
 import re
 import subprocess
+import sys
 from dataclasses import dataclass
 from datetime import datetime
 from itertools import compress
@@ -9,6 +10,9 @@ from typing import List, Any, Dict, Callable
 
 from loguru import logger
 from tabulate import tabulate
+
+logger.remove()
+logger.add(sys.stdout, format="{time:YY/MM/DD hh:mm:ss} - {level} - {name}/{function}:{line} - {message}")
 
 
 @dataclass
@@ -58,6 +62,16 @@ class BtRow:
 class BtRows:
     rows: List[BtRow]
 
+    @classmethod
+    def from_str(cls, output, headers, pattern, types):
+        groups = re.findall(pattern, output)
+        return cls([BtRow(headers, values, types) for values in groups])
+
+    @classmethod
+    def from_bpftrace(cls, program, timeout, headers, pattern, types):
+        output = bpftrace(program=program, timeout=timeout)
+        return cls.from_str(output=output, headers=headers, pattern=pattern, types=types)
+
     def __post_init__(self):
         self._map: Dict[str, Any] = {header: i for i, header in enumerate(self.rows[0].headers)}
 
@@ -96,15 +110,8 @@ def parse_argv(argv: List[str]) -> Event:
     return event
 
 
-def exec_bpftrace(*, program, headers, pattern, types, timeout):
+def bpftrace(*, program, timeout):
     args = ['sudo', 'bpftrace', '-e', f"{program} interval:s:{timeout} {{ exit() }}"]
     logger.debug(f'args: {args}')
 
-    output = subprocess.check_output(args).decode()
-    groups = re.findall(pattern, output)
-    logger.debug(f'groups: {groups}')
-
-    rows = BtRows([BtRow(headers, values, types) for values in groups])
-    logger.debug(f'rows:\n{rows}')
-
-    return rows
+    return subprocess.check_output(args).decode()
