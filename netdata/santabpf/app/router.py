@@ -7,15 +7,20 @@ from loguru import logger
 import scenarios
 from base import parse_argv
 
-logger.remove()
-logger.add('/var/log/santabpf/log', backtrace=True, diagnose=True, rotation='1 week', compression='gz')
+import config
 
 
+@logger.catch
 def route(argv):
     event = parse_argv(argv)
 
-    target = getattr(scenarios, f'_{event.name}', None)
+    if event.status != 'CRITICAL':
+        return
+
+    scenario_name = f'_{event.name}'
+    target = getattr(scenarios, scenario_name, None)
     if target is None:
+        logger.warning(f"there's no {scenario_name}")
         return
 
     target(event)
