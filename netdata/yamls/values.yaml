@@ -260,7 +260,8 @@ wgetImage:
 
 service:
   type: NodePort
-  nodePort: 29999
+  port: 19999
+  nodePort: 19999
   annotations: {}
 
 ingress:
