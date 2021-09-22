@@ -2,7 +2,6 @@
 
 import re
 import subprocess
-import sys
 from dataclasses import dataclass
 from datetime import datetime
 from itertools import compress
@@ -10,10 +9,6 @@ from typing import List, Any, Dict, Callable
 
 from loguru import logger
 from tabulate import tabulate
-
-logger.remove()
-logger.add(sys.stdout, format="{time:YY/MM/DD hh:mm:ss} - {level} - {name}/{function}:{line} - {message}")
-
 
 @dataclass
 class Event:
@@ -107,6 +102,7 @@ def parse_argv(argv: List[str]) -> Event:
     event.duration = float(event.duration)
     event.non_clear_duration = float(event.non_clear_duration)
 
+    logger.debug(repr(event))
     return event
 
 
