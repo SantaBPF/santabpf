@@ -43,6 +43,11 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.santabpf.port }}
+      nodePort: {{ .Values.santabpf.port }}
+      targetPort: santabpf
+      protocol: TCP
+      name: santabpf
   selector:
     app: {{ template "netdata.name" . }}
     release: {{ .Release.Name }}
