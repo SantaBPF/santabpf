@@ -81,6 +81,10 @@ spec:
             - name: http
               containerPort: {{ .Values.parent.port }}
               protocol: TCP
+            - name: santabpf
+              containerPort: {{ .Values.santabpf.port }}
+              protocol: TCP
+
           livenessProbe:
             httpGet:
               path: /api/v1/info

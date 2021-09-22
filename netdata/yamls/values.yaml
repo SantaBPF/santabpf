@@ -1,3 +1,6 @@
+santabpf:
+  port: 20000
+
 parent:
   port: 19999
   resources: {}
@@ -25,6 +28,7 @@ parent:
 
   env:
     DO_NOT_TRACK: 1
+    SANTABPF_ROLE: parent
 
   podLabels: {}
 
