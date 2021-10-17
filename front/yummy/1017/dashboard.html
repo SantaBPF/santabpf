@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SantaBPF custom dashboard</title>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <!-- here we will add dashboard.js -->
+
+    <script>
+      var netdataTheme = "slate"; // netdata 배경화면 어두운 테마로 설정
+    </script>
+
+    <script
+      type="text/javascript"
+      src="http://3.34.29.236:19999/host/host-1/dashboard.js"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script>
+      /*var param = {
+        hostname: "host-1",
+        latest_alarm_log_unique_id: 1632328473,
+        status: true,
+        now: 1634287281,
+        alarms: {
+          "system.cpu.1min_cpu_usage": {
+            id: 1632328318,
+            name: "1min_cpu_usage",
+            chart: "system.cpu",
+            family: "cpu",
+            class: "Utilization",
+            component: "CPU",
+            type: "System",
+            active: true,
+            disabled: false,
+            silenced: false,
+            exec: "/usr/libexec/netdata/santabpf/app/router.py",
+            recipient: "sysadmin",
+            source: "1@/usr/lib/netdata/conf.d/health.d/cpu.conf",
+            units: "%",
+            info: "average CPU utilization over the last 1 minute (excluding iowait, nice and steal)",
+            status: "UNINITIALIZED",
+            last_status_change: 1634287258,
+            last_updated: 0,
+            next_update: 0,
+            update_every: 5,
+            delay_up_duration: 0,
+            delay_down_duration: 0,
+            delay_max_duration: 0,
+            delay_multiplier: 1.0,
+            delay: 0,
+            delay_up_to_timestamp: 0,
+            warn_repeat_every: "0",
+            crit_repeat_every: "0",
+            value_string: "-",
+            last_repeat: "0",
+            lookup_dimensions: "user,system,softirq,irq,guest",
+            db_after: 0,
+            db_before: 0,
+            lookup_method: "average",
+            lookup_after: -60,
+            lookup_before: 0,
+            lookup_options: "unaligned",
+            warn: "$this &gt; (($status &gt;= $WARNING) ? (75) : (85))",
+            warn_parsed:
+              "(${this} &gt; ((${status} &gt;= ${WARNING}) ? 75 : 85))",
+            crit: "$this &gt; (($status == $CRITICAL) ? (85) : (95))",
+            crit_parsed:
+              "(${this} &gt; ((${status} == ${CRITICAL}) ? 85 : 95))",
+            green: null,
+            red: null,
+            value: null,
+          },
+          "system.cpu.1min_steal_cpu": {
+            id: 1632328319,
+            name: "1min_steal_cpu",
+            chart: "system.cpu",
+            family: "cpu",
+            class: "Latency",
+            component: "CPU",
+            type: "System",
+            active: true,
+            disabled: false,
+            silenced: false,
+            exec: "/usr/libexec/netdata/santabpf/app/router.py",
+            recipient: "sysadmin",
+            source: "17@/usr/lib/netdata/conf.d/health.d/cpu.conf",
+            units: "%",
+            info: "average CPU steal time over the last 1 minute",
+            status: "UNINITIALIZED",
+            last_status_change: 1634287258,
+            last_updated: 0,
+            next_update: 0,
+            update_every: 5,
+            delay_up_duration: 0,
+            delay_down_duration: 0,
+            delay_max_duration: 0,
+            delay_multiplier: 1.0,
+            delay: 0,
+            delay_up_to_timestamp: 0,
+            warn_repeat_every: "0",
+            crit_repeat_every: "0",
+            value_string: "-",
+            last_repeat: "0",
+            lookup_dimensions: "steal",
+            db_after: 0,
+            db_before: 0,
+            lookup_method: "average",
+            lookup_after: -60,
+            lookup_before: 0,
+            lookup_options: "unaligned",
+            warn: "$this &gt; (($status &gt;= $WARNING) ? (5) : (10))",
+            warn_parsed:
+              "(${this} &gt; ((${status} &gt;= ${WARNING}) ? 5 : 10))",
+            crit: "$this &gt; (($status == $CRITICAL) ? (20) : (30))",
+            crit_parsed:
+              "(${this} &gt; ((${status} == ${CRITICAL}) ? 20 : 30))",
+            green: null,
+            red: null,
+            value: null,
+          },
+        },
+      };*/
+      var alarm_data;
+      $.ajax({
+        url: "http://3.34.29.236:19999/host/host-1/api/v1/alarms?all",
+        dataType: "json",
+        success: function (data) {
+          //console.log(data.alarms);
+          document.getElementById("span1").innerHTML=(data.alarms["system.cpu.1min_cpu_usage"].warn);
+          document.getElementById("span2").innerHTML=(data.alarms["system.cpu.1min_cpu_usage"].crit);
+          document.getElementById("span1-1").innerHTML=(data.alarms["system.cpu.1min_steal_cpu"].warn);
+          document.getElementById("span2-1").innerHTML=(data.alarms["system.cpu.1min_steal_cpu"].crit);
+          /*document.getElementById("span1").innerHTML=(param.alarms["system.cpu.1min_cpu_usage"].warn);
+          document.getElementById("span2").innerHTML=(param.alarms["system.cpu.1min_cpu_usage"].crit);
+          document.getElementById("span1-1").innerHTML=(param.alarms["system.cpu.1min_steal_cpu"].warn);
+          document.getElementById("span2-1").innerHTML=(param.alarms["system.cpu.1min_steal_cpu"].crit);*/
+        },
+      });
+    </script>
+          <style>
+            /* 기존 css는 main.css로 옮겨뒀습니다 */
+          </style>
+        </head>
+
+        <body>
+          <div
+            width="100%"
+            class="flex-sc-1m6gk2e-0 header__Wrapper-c0wsrq-0 bggwvn iilfBV"
+          >
+            <!-- 왼쪽 글자 -->
+            <span color="bright" class="typography-i4uj7n-0 dYpxHC"
+              >netdata-parent-767d4bbc74-rwwgk</span
+            >
+
+            <!-- 버튼 5개 -->
+            <div
+              class="flex-sc-1m6gk2e-0 mmJCq"
+              style="float: right; margin-top: 10px"
+            >
+              <div
+                class="flex-sc-1m6gk2e-0 kpDVDa"
+                style="width: 200px; float: left; margin-left: 30px"
+              >
+                <button
+                  name="update_pending"
+                  title="Need help?"
+                  data-toggle="modal"
+                  data-target="#updateModal"
+                  class="styled__StyledButton-opi1dk-0 bwMFBc"
+                  style="
+                    background-color: transparent;
+                    border: none;
+                    margin-right: 10px;
+                  "
+                >
+                  <use xlink:href="#update_pending">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      title="update_pending"
+                      class="styled__StyledIcon-sc-1pjn63w-0 fzPNJN button-icon al1"
+                    >
+                      <path
+                        d="M2 10c0-4.41 3.59-8 8-8 2.02 0 3.85.76 5.26 2H13v2h6V0h-2v2.89A9.93 9.93 0 0010 0C4.49 0 0 4.49 0 10c0 .34.02.67.05 1h2.02c-.04-.33-.07-.66-.07-1zm9.5-3.21a1.54 1.54 0 00-1.86-1.14A1.53 1.53 0 008.5 7.5l.59 2.5a.93.93 0 001.81 0l.59-2.5c.06-.23.07-.47.01-.71zM10 11.24c-.7 0-1.26.56-1.26 1.26s.56 1.26 1.26 1.26 1.26-.56 1.26-1.26-.56-1.26-1.26-1.26zM19.95 9h-2.02c.04.33.07.66.07 1 0 4.41-3.59 8-8 8-2.02 0-3.85-.76-5.26-2H7v-2H1v6h2v-2.89A9.93 9.93 0 0010 20c5.51 0 10-4.49 10-10 0-.34-.02-.67-.05-1z"
+                      ></path>
+                    </svg>
+                  </use>
+                </button>
+
+                <button
+                  name="news"
+                  title="News &amp; Features"
+                  class="styled__StyledButton-opi1dk-0 kUIInk"
+                  style="
+                    background-color: transparent;
+                    border: none;
+                    margin-right: 10px;
+                  "
+                >
+                  <use xlink:href="#insights">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 18 18"
+                      id="insights"
+                      class="button-icon al2"
+                    >
+                      <path
+                        d="M.5 6.25h1.559a7.037 7.037 0 00-.011 1.5H2a1.5 1.5 0 01-1.5-1.5zM1.541 11.145l-.001-.001 1.293-.875c.235.443.511.862.836 1.246l-.046.031a1.5 1.5 0 01-2.082-.401zM2.382 1.614l1.284.869a7.025 7.025 0 00-.85 1.236l-.033-.022a1.5 1.5 0 01-.401-2.083zM14.337 2.481l1.281-.867a1.5 1.5 0 01-.401 2.083l-.036.025a7.03 7.03 0 00-.844-1.241zM6.119 6.163C5.893 6.969 5 7 5 7a4 4 0 014-4v1a2.99 2.99 0 00-2.881 2.163z"
+                      ></path>
+                      <path
+                        d="M7.615.645A6.508 6.508 0 0115.5 7c0 2.236-1.15 4.29-3 5.472v1.122A2.91 2.91 0 019.594 16.5H8.406A2.91 2.91 0 015.5 13.594v-1.121a6.521 6.521 0 01-2.902-6.611c.444-2.586 2.46-4.683 5.017-5.217zM11 13.594v-2.016A4.998 4.998 0 009 2c-.353 0-.713.036-1.079.113-1.955.408-3.507 2.033-3.845 4.002-.405 2.358.85 4.463 2.779 5.385H10A1.5 1.5 0 018.5 13H7v.594C7 14.371 7.63 15 8.406 15h1.188C10.37 15 11 14.371 11 13.594zM14.377 11.546l-.042-.029a7.01 7.01 0 00.846-1.239l1.279.866-.001.001a1.499 1.499 0 01-2.082.401zM16 7c0-.253-.016-.503-.042-.75H17.5a1.5 1.5 0 01-1.5 1.5h-.046A6.91 6.91 0 0016 7z"
+                      ></path>
+                    </svg>
+                  </use>
+                </button>
+
+                <button
+                  data-toggle="modal"
+                  data-target="#loadSnapshotModal"
+                  title="Import a snapshot"
+                  class="styled__StyledButton-opi1dk-0 PeqZZ"
+                  style="
+                    background-color: transparent;
+                    border: none;
+                    margin-right: 10px;
+                  "
+                >
+                  <use xlink:href="#download">
+                    <svg
+                      viewBox="0 0 20 20"
+                      title="download"
+                      class="styled__StyledIcon-sc-1pjn63w-0 fzPNJN button-icon al3"
+                    >
+                      <path
+                        d="M18 13v3.1a1.9 1.9 0 01-1.9 1.9H3.9A1.9 1.9 0 012 16.1V13H0v3.1C0 18.25 1.75 20 3.9 20h12.2c2.15 0 3.9-1.75 3.9-3.9V13h-2zm-8 1.41l5.21-5.21a.996.996 0 10-1.41-1.41l-2.8 2.8V1c0-.55-.45-1-1-1S9 .45 9 1v9.59l-2.79-2.8A.996.996 0 104.8 9.2l5.2 5.21z"
+                      ></path>
+                    </svg>
+                  </use>
+                </button>
+
+                <button
+                  data-toggle="modal"
+                  data-target="#saveSnapshotModal"
+                  title="Export a snapshot"
+                  class="styled__StyledButton-opi1dk-0 PeqZZ al4"
+                  style="
+                    background-color: transparent;
+                    border: none;
+                    margin-right: 10px;
+                  "
+                >
+                  <use xlink:href="#upload">
+                    <svg
+                      viewBox="0 0 20 21"
+                      title="upload"
+                      class="styled__StyledIcon-sc-1pjn63w-0 fzPNJN button-icon al4"
+                    >
+                      <path
+                        d="M6.21 7.21L9 4.41V14c0 .55.45 1 1 1s1-.45 1-1V4.41l2.79 2.79c.2.2.45.29.71.29.26 0 .51-.1.71-.29a.996.996 0 000-1.41L10 .59l-5.21 5.2a.996.996 0 000 1.41c.39.39 1.03.4 1.42.01zM18 14v3.1a1.9 1.9 0 01-1.9 1.9H3.9A1.9 1.9 0 012 17.1V14H0v3.1C0 19.25 1.75 21 3.9 21h12.2c2.15 0 3.9-1.75 3.9-3.9V14h-2z"
+                      ></path>
+                    </svg>
+                  </use>
+                </button>
+
+                <button
+                  data-toggle="modal"
+                  data-target="#printPreflightModal"
+                  title="Print dashboard"
+                  class="styled__StyledButton-opi1dk-0 PeqZZ al5"
+                  style="background-color: transparent; border: none"
+                >
+                  <use xlink:href="#print">
+                    <svg
+                      viewBox="0 0 21 20"
+                      title="print"
+                      class="styled__StyledIcon-sc-1pjn63w-0 fzPNJN button-icon al5"
+                    >
+                      <path
+                        d="M18 8.2v6.4l-1 1v2.3c0 .1-.1.2-.2.2H3.2c-.1-.1-.2-.2-.2-.3V16h10c1.1 0 2-.9 2-2H2v-3c0-.6.5-1 1-1h13V0H4v8H3c-1.7 0-3 1.4-3 3v4.4l1 1v1.4C1 19 2 20 3.2 20h13.7c1.2 0 2.2-1 2.2-2.2v-1.4l1-1V11c-.1-1.3-.9-2.4-2.1-2.8zM6 2h8v6H6V2z"
+                      ></path>
+                    </svg>
+                  </use>
+                </button>
+              </div>
+
+              <div
+                style="
+                  width: 130px;
+                  float: left;
+                  margin-left: 30px;
+                  color: white;
+                  font-size: 12px;
+                "
+              >
+                <use xlink:href="#calendar">
+                  <!-- <svg class="styled__HeaderSvg-sc-1yj3701-1 yBcic">
+                  <path
+                    d="M17.1 2H17V1c0-.6-.4-1-1-1s-1 .4-1 1v1h-4V1c0-.6-.4-1-1-1S9 .4 9 1v1H5V1c0-.6-.4-1-1-1S3 .4 3 1v1h-.1C1.3 2 0 3.3 0 4.9v12.2C0 18.7 1.3 20 2.9 20h14.2c1.6 0 2.9-1.3 2.9-2.9V4.9C20 3.3 18.7 2 17.1 2zm.9 15.1c0 .5-.4.9-.9.9H2.9c-.5 0-.9-.4-.9-.9V8h16v9.1zM18 6H2V4.9c0-.5.4-.9.9-.9h14.2c.5 0 .9.4.9.9V6z">
+                  </path>
+                </svg> -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="bi bi-calendar yBcic"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"
+                    />
+                  </svg>
+                </use>
+                &ensp;Last 5 minutes
+              </div>
+
+              <div style="width: 80px; float: left; margin-left: 30px">
+                <div style="float: left">
+                  <use xlink:href="#alarm">
+                    <svg
+                      viewBox="0 0 18 21"
+                      color="bright"
+                      height="15px"
+                      class="styled__StyledIcon-sc-1pjn63w-0 kXUpds"
+                      style="width: 16px; height: 16px"
+                    >
+                      <path
+                        d="M17 13.6c-.6-.6-1-1.5-1-2.4V8c0-3.5-2.6-6.4-6-6.9V1c0-.6-.4-1-1-1S8 .4 8 1v.1C4.6 1.6 2 4.5 2 8v3.2c0 .9-.3 1.7-1 2.4l-1 1v2.9C0 18.9 1.1 20 2.5 20h4.8c.3.6 1 1 1.7 1s1.4-.4 1.7-1h4.8c1.4 0 2.5-1.1 2.5-2.5v-2.9l-1-1zm-1 3.9c0 .3-.2.5-.5.5h-13c-.3 0-.5-.2-.5-.5v-2.1l.4-.4H8a2 2 0 002-2H3.7c.2-.6.3-1.2.3-1.8V8c0-2.8 2.2-5 5-5s5 2.2 5 5v3.2c0 1.4.6 2.8 1.6 3.8l.4.4v2.1z"
+                      ></path>
+                    </svg>
+                  </use>
+                </div>
+
+                <div
+                  data-toggle="modal"
+                  data-target="#alarmsModal"
+                  class="
+                    flex-sc-1m6gk2e-0
+                    styled__StyledPill-sc-1rgk900-0
+                    gIfatt
+                    idLlCh
+                    al6
+                  "
+                >
+                  <span color="error" class="typography-i4uj7n-0 jqArcg">0</span>
+                </div>
+
+                <div
+                  data-toggle="modal"
+                  data-target="#alarmsModal"
+                  class="
+                    flex-sc-1m6gk2e-0
+                    styled__StyledPill-sc-1rgk900-0
+                    fBixjR
+                    dhjyGj
+                    al6
+                  "
+                >
+                  <span color="warning" class="typography-i4uj7n-0 cMzysM">0</span>
+                </div>
+              </div>
+
+              <div
+                class="signup"
+                onclick="location.href='https://app.netdata.cloud/sign-up?id=06d470a0-f423-11eb-9786-0242ac110005&amp;name=netdata-parent-767d4bbc74-rwwgk&amp;origin=http%3A%2F%2F3.34.29.236%3A29999%2F&amp;utm_source=agent&amp;utm_medium=web&amp;redirect_uri=http%3A%2F%2F3.34.29.236%3A29999%2F%23menu_system_submenu_clock_synchronization%3Bafter%3D-300%3Bbefore%3D0%3Btheme%3Dslate';"
+              >
+                SIGN UP TO CLOUD
+              </div>
+            </div>
+          </div>
+
+          <!-- here we will add charts -->
+
+          <main class="wrap" style="position: relative; margin-top: 100px">
+            <h1>SantaBPF dashboard</h1>
+            <!-- system.load disk_space._ ipv4.tcpopens system.intr system.entropy system.io mem.writeback -->
+            <div class="container">
+              <!-- system.softirqs -->
+              <div id="system.softirqs" style="padding-top: 100px">
+                <span id="title">system.softirqs</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.softirqs"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- disk_inodes._ -->
+              <div id="disk_inodes._" style="padding-top: 100px">
+                <span id="title">disk_inodes._</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="disk_inodes._"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.active_processes -->
+              <div id="system.active_processes" style="padding-top: 100px">
+                <span id="title">system.active_processes</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.active_processes"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.ram -->
+              <div id="system.ram" style="padding-top: 100px">
+                <span id="title">system.ram</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.ram"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.ctxt -->
+              <div id="system.ctxt" style="padding-top: 100px">
+                <span id="title">system.ctxt</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.ctxt"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- ipv4.sockstat_tcp_sockets -->
+              <div id="ipv4.sockstat_tcp_sockets" style="padding-top: 100px">
+                <span id="title">ipv4.sockstat_tcp_sockets</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="ipv4.sockstat_tcp_sockets"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- mem.available -->
+              <div id="mem.available" style="padding-top: 100px">
+                <span id="title">mem.available</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="mem.available"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.cpu_pressure -->
+              <div id="system.cpu_pressure" style="padding-top: 100px">
+                <span id="title">system.cpu_pressure</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="mem.available"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- mem.oom_kill -->
+              <div id="mem.oom_kill" style="padding-top: 100px">
+                <span id="title">mem.oom_kill</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="mem.oom_kill"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.forks -->
+              <div id="system.forks" style="padding-top: 100px">
+                <span id="title">system.forks</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.forks"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.cpu -->
+              <div id="system.cpu" style="padding-top: 100px">
+                <span id="title">system.cpu</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.cpu"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.uptime -->
+              <div id="system.uptime" style="padding-top: 100px">
+                <span id="title">system.uptime</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.uptime"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.pgpgio -->
+              <div id="system.pgpgio" style="padding-top: 100px">
+                <span id="title">system.pgpgio</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.pgpgio"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.net -->
+              <div id="system.net" style="padding-top: 100px">
+                <span id="title">system.net</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.net"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- mem.pgfaults -->
+              <div id="mem.pgfaults" style="padding-top: 100px">
+                <span id="title">mem.pgfaults</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="mem.pgfaults"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.processes -->
+              <div id="system.processes" style="padding-top: 100px">
+                <span id="title">system.processes</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.processes"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.interrupts -->
+              <div id="system.interrupts" style="padding-top: 100px">
+                <span id="title">system.interrupts</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="system.interrupts"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- ipv4.packets -->
+              <div id="ipv4.packets" style="padding-top: 100px">
+                <span id="title">ipv4.packets</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  data-netdata="ipv4.packets"
+                  data-after="-300"
+                  data-height="250px"
+                  data-width="calc(100% - 2rem)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.load -->
+              <div id="system.load" style="padding-top: 100px">
+                <span id="title">system.load</span>
+                <div style="margin-bottom: 30px">
+                  Current system load, i.e. the number of processes using CPU or
+                  waiting for system resources (usually CPU and disk). The 3 metrics
+                  refer to 1, 5 and 15 minute averages. The system calculates this
+                  once every 5 seconds.
+                </div>
+                <div
+                  class="netdata-container-with-legend"
+                  data-netdata="system.load"
+                  data-title="System Load Average (system.load)"
+                  data-host="http://3.34.29.236:19999"
+                  data-width="100%"
+                  data-height="250px"
+                  data-dygraph-valuerange="[null,null]"
+                  data-chart-library="dygraph"
+                  data-after="-300"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- disk_space._ -->
+              <div id="disk_space._" style="padding-top: 100px">
+                <span id="title">disk_space._</span>
+                <div style="margin-bottom: 30px">
+                  Disk space utilization. reserved for root is automatically reserved
+                  by the system to prevent the root user from getting out of space.
+                </div>
+                <div
+                  data-netdata="disk_space._"
+                  data-host="http://3.34.29.236:19999"
+                  data-title="Disk Space Usage for /"
+                  data-append-options="percentage"
+                  data-decimal-digits="0"
+                  data-dimensions="used"
+                  data-chart-library="gauge"
+                  data-width="30%"
+                  data-height="100px"
+                  data-after="-300"
+                  data-points="300"
+                  data-gauge-max-value="100"
+                  data-colors="#ffffff"
+                  data-gauge-generate-gradient="[0, 70, 100]"
+                  data-gauge-gradient-percent-color-0="#ffffff"
+                  data-gauge-gradient-percent-color-70="d88b2f"
+                  data-gauge-gradient-percent-color-100="#ff3300"
+                  data-units="%"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- ipv4.tcpopens -->
+              <div id="ipv4.tcpopens" style="padding-top: 100px">
+                <span id="title">ipv4.tcpopens</span>
+                <div style="margin-bottom: 30px">
+                  active or ActiveOpens is the number of outgoing TCP connections
+                  attempted by this host. passive or PassiveOpens is the number of
+                  incoming TCP connections accepted by this host.
+                </div>
+                <div
+                  class="
+                    netdata-container-with-legend
+                    netdata-container-with-legend--bottom
+                  "
+                  data-netdata="ipv4.tcpopens"
+                  data-width="calc(100% - 2rem)"
+                  data-height="250px"
+                  data-dygraph-valuerange="[null,null]"
+                  data-title="ipv4.tcpopens"
+                  data-host="http://3.34.29.236:19999"
+                  data-chart-library="dygraph"
+                  data-after="-300"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.intr -->
+              <div id="system.intr" style="padding-top: 100px">
+                <span id="title">system.intr</span>
+                <div style="margin-bottom: 30px">
+                  Total number of CPU interrupts. Check system.interrupts that gives
+                  more detail about each interrupt and also the CPUs section where
+                  interrupts are analyzed per CPU core.
+                </div>
+                <div
+                  data-netdata="system.intr"
+                  data-colors="#dd5555"
+                  class="
+                    netdata-chart-with-legend-bottom
+                    netdata-dygraph-chart-with-legend-right
+                    dygraph-chart--legend-bottom
+                  "
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.entropy -->
+              <div id="system.entropy" style="padding-top: 100px">
+                <span id="title">system.entropy</span>
+                <div style="margin-bottom: 30px">
+                  Entropy, is a pool of random numbers (/dev/random) that is mainly
+                  used in cryptography. If the pool of entropy gets empty, processes
+                  requiring random numbers may run a lot slower (it depends on the
+                  interface each program uses), waiting for the pool to be
+                  replenished. Ideally a system with high entropy demands should have
+                  a hardware device for that purpose (TPM is one such device). There
+                  are also several software-only options you may install, like
+                  haveged, although these are generally useful only in servers.
+                </div>
+                <div
+                  data-netdata="system.entropy"
+                  data-decimal-digits="-1"
+                  class="
+                    netdata-chart-with-legend-bottom
+                    netdata-dygraph-chart-with-legend-right
+                    dygraph-chart--legend-bottom
+                  "
+                  data-colors="#cc22aa"
+                  data-title="Available Entropy (system.entropy)"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- system.io -->
+              <div id="system.io" style="padding-top: 100px">
+                <span id="title">system.io</span>
+                <div style="margin-bottom: 30px">
+                  Total Disk I/O, for all physical disks. You can get detailed
+                  information about each disk at the Disks section and per application
+                  Disk usage at the Applications Monitoring section. Physical are all
+                  the disks that are listed in /sys/block, but do not exist in
+                  /sys/devices/virtual/block.
+                </div>
+                <div
+                  data-netdata="system.io"
+                  class="
+                    netdata-container-with-legend
+                    netdata-container-with-legend--bottom
+                  "
+                  data-width="calc(100% - 2rem)"
+                  data-height="250px"
+                  data-dygraph-valuerange="[null,null]"
+                  style="padding-top: 100px"
+                ></div>
+              </div>
+
+              <!-- mem.writeback -->
+              <div id="mem.writeback" style="padding-top: 100px">
+                <span id="title">mem.writeback</span>
+                <div style="margin-bottom: 30px">
+                  Dirty is the amount of memory waiting to be written to disk.
+                  Writeback is how much memory is actively being written to disk.
+                </div>
+                <div
+                  data-netdata="mem.writeback"
+                  class="
+                    netdata-chart-with-legend-bottom
+                    netdata-dygraph-chart-with-legend-right
+                    dygraph-chart--legend-bottom
+                  "
+                  style="padding-top: 100px"
+                  id="mem.writeback"
+                ></div>
+              </div>
+
+              <div
+                class="text-center"
+                style="padding-top: 10px; margin-bottom: 300px"
+              >
+                <a
+                  href="http://3.34.29.236:19999"
+                  class="btn btn-primary btn-sm"
+                  target="_blank"
+                  >SantaBPF</a
+                >
+              </div>
+            </div>
+
+            <!-- sidebar-->
+            <div
+              class="sidebar-body hidden-xs hidden-sm hidden-print navi"
+              id="sidebar-body"
+              role="complementary"
+              style="overflow: auto; overflow-x: hidden"
+            >
+              <nav
+                class="dashboard-sidebar hidden-print hidden-xs hidden-sm"
+                id="sidebar"
+                role="menu"
+              >
+                <ul class="nav dashboard-sidenav" style="font-size: 13px">
+                  <!-- jh -->
+                  <li class="active">
+                    <a href="#system.softirqs">system.softirqs</a>
+                  </li>
+                  <li class="active">
+                    <a href="#disk_inodes._">disk_inodes._</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.active_processes">system.active_processes</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.ram">system.ram</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.ctxt">system.ctxt</a>
+                  </li>
+                  <li class="active">
+                    <a href="#ipv4.sockstat_tcp_sockets">ipv4.sockstat_tcp_sockets</a>
+                  </li>
+
+                  <!-- cy -->
+                  <li class="active">
+                    <a href="#mem.available">mem.available</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.cpu_pressure">system.cpu_pressure</a>
+                  </li>
+                  <li class="active">
+                    <a href="#mem.oom_kill">mem.oom_kill</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.forks">system.forks</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.cpu">system.cpu</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.uptime">system.uptime</a>
+                  </li>
+
+                  <!-- yjw-->
+                  <li class="active">
+                    <a href="#system.pgpgio">system.pgpgio</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.net">system.net</a>
+                  </li>
+                  <li class="active">
+                    <a href="#mem.pgfaults">mem.pgfaults</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.processes">system.processes</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.interrupts">system.interrupts</a>
+                  </li>
+                  <li class="active">
+                    <a href="#ipv4.packets">ipv4.packets</a>
+                  </li>
+
+                  <!-- cjw -->
+                  <li class="active">
+                    <a href="#system.load">system.load</a>
+                  </li>
+                  <li class="active">
+                    <a href="#disk_space._">disk_space._</a>
+                  </li>
+                  <li class="active">
+                    <a href="#ipv4.tcpopens">ipv4.tcpopens</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.intr">system.intr</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.entropy">system.entropy</a>
+                  </li>
+                  <li class="active">
+                    <a href="#system.io">system.io</a>
+                  </li>
+                  <li class="active">
+                    <a href="#mem.writeback">mem.writeback</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </main>
+
+          <!-- 알람 -->
+          <div
+            class="modal-dialog alarm1"
+            role="document"
+            style="
+              display: none;
+              position: absolute;
+              height: 510px;
+              width: 600px;
+              top: 50%;
+              left: 50%;
+              margin-top: -240px;
+              margin-left: -300px;
+            "
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="updateModalLabel">Update Check</h4>
+              </div>
+              <div class="modal-body">
+                Your netdata version:
+                <b
+                  ><code><span id="netdataVersion">v1.31.0</span></code></b
+                ><br /><br />
+                <div style="padding: 10px"></div>
+                <div id="versionCheckLog">
+                  <p><strong>New version of netdata available!</strong></p>
+                  <p>
+                    Latest version: <b><code>v1.31.0-222-nightly</code></b>
+                  </p>
+                  <p>
+                    <a
+                      href="https://learn.netdata.cloud/docs/agent/changelog/"
+                      target="_blank"
+                      >Click here for the changes log</a
+                    >
+                    and<br /><a
+                      href="https://github.com/netdata/netdata/tree/master/packaging/installer/UPDATE.md"
+                      target="_blank"
+                      >click here for directions on updating</a
+                    >
+                    your netdata installation.
+                  </p>
+                  <p>
+                    We suggest to review the changes log for new features you may be
+                    interested, or important bug fixes you may need.<br />Keeping your
+                    netdata updated is generally a good idea.
+                  </p>
+                </div>
+                <div>
+                  <hr />
+                </div>
+                <div>
+                  For progress reports and key netdata updates:
+                  <strong
+                    ><a href="https://community.netdata.cloud"
+                      >Join the Netdata Community</a
+                    ></strong
+                  ><br />You can also
+                  <a href="https://twitter.com/linuxnetdata" target="_blank"
+                    >follow netdata on
+                    <svg
+                      class="svg-inline--fa fa-twitter fa-w-16"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="twitter"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      data-fa-i2svg=""
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"
+                      ></path>
+                    </svg>
+                    twitter</a
+                  >,
+                  <a href="https://www.facebook.com/linuxnetdata/" target="_blank"
+                    >follow netdata on
+                    <svg
+                      class="svg-inline--fa fa-facebook fa-w-16"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="facebook"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      data-fa-i2svg=""
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"
+                      ></path>
+                    </svg>
+                    facebook</a
+                  >, or
+                  <a href="https://github.com/netdata/netdata" target="_blank"
+                    >watch netdata on
+                    <svg
+                      class="svg-inline--fa fa-github fa-w-16"
+                      aria-hidden="true"
+                      focusable="false"
+                      data-prefix="fab"
+                      data-icon="github"
+                      role="img"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 496 512"
+                      data-fa-i2svg=""
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
+                      ></path>
+                    </svg>
+                    github</a
+                  >.
+                </div>
+              </div>
+              <div class="modal-footer">
+                <a
+                  href="#"
+                  onclick="return notifyForUpdate(!0),!1"
+                  type="button"
+                  class="btn btn-default"
+                  >Check Now</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-default alclose1"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+          -->
+          <div
+            class="modal-dialog modal-lg"
+            role="document"
+            style="
+              display: none;
+              position: absolute;
+              width: 900px;
+              height: 620px;
+              top: 50%;
+              left: 50%;
+              margin-left: -450px;
+              margin-top: -240px;
+            "
+          >
+            <div class="modal-content alarm3">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="loadSnapshotModalLabel">
+                  Import a netdata snapshot
+                </h4>
+              </div>
+              <div id="loadSnapshotDragAndDrop" class="modal-body">
+                <p>
+                  netdata can export and import dashboard snapshots. Any netdata can
+                  import the snapshot of any other netdata. The snapshots are not
+                  uploaded to a server. They are handled entirely by your web browser,
+                  on your computer.
+                </p>
+                <p style="text-align: center">
+                  <label class="btn btn-default"
+                    >Click here to select the netdata snapshot file to import
+                    <input
+                      type="file"
+                      id="loadSnapshotSelectFiles"
+                      value="Import"
+                      style="display: none"
+                      onchange="loadSnapshotPreflight()"
+                  /></label>
+                </p>
+                <div id="loadSnapshotStatus" class="alert alert-info" role="alert">
+                  Browse for a snapshot file (or drag it and drop it here), then click
+                  <b>Import</b> to render it.
+                </div>
+                <p></p>
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <th>Filename</th>
+                      <td id="loadSnapshotFilename"></td>
+                    </tr>
+                    <tr>
+                      <th>Hostname</th>
+                      <td id="loadSnapshotHostname"></td>
+                    </tr>
+                    <tr>
+                      <th>Origin URL</th>
+                      <td id="loadSnapshotURL"></td>
+                    </tr>
+                    <tr>
+                      <th>Charts Info</th>
+                      <td id="loadSnapshotCharts"></td>
+                    </tr>
+                    <tr>
+                      <th>Snapshot Info</th>
+                      <td id="loadSnapshotInfo"></td>
+                    </tr>
+                    <tr>
+                      <th>Time Range</th>
+                      <td id="loadSnapshotTimeRange"></td>
+                    </tr>
+                    <tr>
+                      <th>Comments</th>
+                      <td id="loadSnapshotComments"></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p></p>
+              </div>
+              <div class="modal-footer">
+                <span style="display: inline-block; padding-right: 20px"
+                  >Snapshot files contain both data and javascript code. Make sure
+                  <b>you trust the files</b> you import!</span
+                >
+                <a
+                  id="loadSnapshotImport"
+                  href="#"
+                  onclick="return loadSnapshot(),!1"
+                  type="button"
+                  class="btn btn-success disabled"
+                  >Import</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-default alclose3"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal-dialog modal-lg alarm4"
+            role="document"
+            style="
+              display: none;
+              position: absolute;
+              height: 616px;
+              width: 900px;
+              top: 50%;
+              left: 50%;
+              margin-top: -238px;
+              margin-left: -450px;
+            "
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="saveSnapshotModalLabel">
+                  Export a snapshot
+                </h4>
+              </div>
+              <div class="modal-body">
+                <div
+                  id="saveSnapshotModalProgressSection"
+                  hidden=""
+                  style="display: none"
+                >
+                  Please wait while we collect all the dashboard data...
+                  <div
+                    class="progress progress-striped active"
+                    style="height: 2em !important"
+                  >
+                    <div
+                      id="saveSnapshotModalProgressBar"
+                      class="progress-bar progress-bar-info"
+                      role="progressbar"
+                      aria-valuenow="0"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      style="min-width: 2em"
+                    >
+                      <span
+                        id="saveSnapshotModalProgressBarText"
+                        style="
+                          padding-left: 10px;
+                          padding-top: 4px;
+                          font-size: 1.2em;
+                          text-align: left;
+                          width: 100%;
+                          position: absolute;
+                          display: block;
+                        "
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+                <div id="saveSnapshotResolutionRadio" style="text-align: center">
+                  Select the desired resolution of the snapshot. This is the
+                  <b>seconds of data per point</b>.<br />&nbsp;<br />&nbsp;<br />
+                  <div
+                    class="slider slider-horizontal"
+                    id="saveSnapshotResolutionSlider"
+                    style="width: 80%"
+                  >
+                    <div class="slider-track">
+                      <div
+                        class="slider-track-low"
+                        style="left: 0px; width: 0%"
+                      ></div>
+                      <div
+                        class="slider-selection tick-slider-selection"
+                        style="left: 0%; width: 0%"
+                      ></div>
+                      <div
+                        class="slider-track-high"
+                        style="right: 0px; width: 100%"
+                      ></div>
+                    </div>
+                    <div
+                      class="tooltip tooltip-main top in"
+                      role="presentation"
+                      style="left: 0%"
+                    >
+                      <div class="tooltip-arrow"></div>
+                      <div class="tooltip-inner">
+                        1 second per point, server default
+                      </div>
+                    </div>
+                    <div
+                      class="tooltip tooltip-min top"
+                      role="presentation"
+                      style="display: none"
+                    >
+                      <div class="tooltip-arrow"></div>
+                      <div class="tooltip-inner"></div>
+                    </div>
+                    <div
+                      class="tooltip tooltip-max top"
+                      role="presentation"
+                      style="display: none"
+                    >
+                      <div class="tooltip-arrow"></div>
+                      <div class="tooltip-inner"></div>
+                    </div>
+                    <div class="slider-tick-container">
+                      <div
+                        class="slider-tick round in-selection"
+                        style="left: 0%"
+                      ></div>
+                      <div
+                        class="slider-tick round in-selection"
+                        style="left: 0%"
+                      ></div>
+                      <div class="slider-tick round" style="left: 100%"></div>
+                    </div>
+                    <div
+                      class="slider-handle min-slider-handle round"
+                      role="slider"
+                      aria-valuemin="1"
+                      aria-valuemax="10"
+                      aria-valuenow="1"
+                      aria-valuetext="1 second per point, server default"
+                      tabindex="1"
+                      style="left: 0%"
+                    ></div>
+                    <div
+                      class="slider-handle max-slider-handle round hide"
+                      role="slider"
+                      aria-valuemin="1"
+                      aria-valuemax="10"
+                      aria-valuenow="1"
+                      aria-valuetext="1 second per point, server default"
+                      tabindex="0"
+                      style="left: 0%"
+                    ></div>
+                  </div>
+                  <input
+                    id="saveSnapshotResolutionSlider"
+                    data-slider-id="saveSnapshotResolutionSlider"
+                    style="width: 80%; display: none"
+                    tabindex="0"
+                    data-value="1"
+                    value="1"
+                  /><br />&nbsp;<br />
+                  <div class="input-group">
+                    <span
+                      class="input-group-addon"
+                      id="sizing-saveSnapshotFilename"
+                      style="width: 100px"
+                      >Filename</span
+                    >
+                    <input
+                      id="saveSnapshotFilename"
+                      class="form-control"
+                      placeholder="Filename of the generated snapshot"
+                      aria-describedby="sizing-saveSnapshotFilename"
+                      tabindex="2"
+                    />
+                    <div class="input-group-btn">
+                      <div class="input-group-btn">
+                        <button
+                          type="button"
+                          class="btn btn-default dropdown-toggle"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          <span id="saveSnapshotCompressionName"
+                            >pako.deflate.base64</span
+                          >
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li class="disabled">
+                            <a href="#" class="disabled">Select Compression</a>
+                          </li>
+                          <li role="separator" class="divider"></li>
+                          <li>
+                            <a
+                              href="#"
+                              onclick='return saveSnapshotSetCompression("none"),!1'
+                              >uncompressed</a
+                            >
+                          </li>
+                          <li role="separator" class="divider"></li>
+                          <li>
+                            <a
+                              href="#"
+                              onclick='return saveSnapshotSetCompression("pako.deflate"),!1'
+                              >pako.deflate (gzip, binary)</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              onclick='return saveSnapshotSetCompression("pako.deflate.base64"),!1'
+                              >pako.deflate.base64 (gzip, ascii)</a
+                            >
+                          </li>
+                          <li role="separator" class="divider"></li>
+                          <li>
+                            <a
+                              href="#"
+                              onclick='return saveSnapshotSetCompression("lzstring.uri"),!1'
+                              >lzstring.uri (LZ, ascii)</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              onclick='return saveSnapshotSetCompression("lzstring.utf16"),!1'
+                              >lzstring.utf16 (LZ, utf16)</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              onclick='return saveSnapshotSetCompression("lzstring.base64"),!1'
+                              >lzstring.base64 (LZ, ascii)</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-group" style="padding-top: 10px; width: 100%">
+                    <span
+                      class="input-group-addon"
+                      id="sizing-saveSnapshotComments"
+                      style="width: 100px"
+                      >Comments</span
+                    >
+                    <input
+                      id="saveSnapshotComments"
+                      class="form-control"
+                      placeholder="Any comments about this snapshot?"
+                      aria-describedby="sizing-saveSnapshotComments"
+                      tabindex="3"
+                    />
+                  </div>
+                </div>
+                &nbsp;
+                <div id="saveSnapshotStatus" class="alert alert-success" role="alert">
+                  The snapshot will have 180 points per dimension. Expected size on
+                  disk 0.1 MB, at browser memory 0.1 MB.<br />A nice small snapshot!
+                </div>
+                <p>
+                  The generated snapshot will include all charts of this dashboard,
+                  <b>for the visible timeframe</b>, so align, pan and zoom the charts
+                  as needed. The scroll position of the dashboard will also be saved.
+                  The snapshot will be downloaded as a file, to your computer, that
+                  can be imported back into any netdata dashboard (no need to import
+                  it back on this server).
+                </p>
+                <p>
+                  <small
+                    >Snapshot files include all the information of the dashboard,
+                    including the URL of the origin server, its netdata unique ID,
+                    etc. So, if you share the snapshot file with third parties, they
+                    will be able to access the origin server, if this server is
+                    exposed on the internet.<br />Snapshots are handled entirely by
+                    the web browser. The netdata servers are not aware of them.</small
+                  >
+                </p>
+              </div>
+              <div class="modal-footer">
+                <a
+                  id="saveSnapshotExport"
+                  href="#"
+                  onclick="return saveSnapshot(),!1"
+                  type="button"
+                  class="btn btn-success"
+                  tabindex="4"
+                  >Export</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-default alclose4"
+                  data-dismiss="modal"
+                  tabindex="5"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal fade"
+            id="alarmsModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="alarmsModalLabel"
+            style="display: none"
+          >
+            <div class="modal-dialog modal-lg" role="document" style="display: table">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                  <h4 class="modal-title" id="alarmsModalLabel">netdata alarms</h4>
+                </div>
+                <div class="modal-body">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                      <a
+                        href="#alarms_active"
+                        aria-controls="alarms_active"
+                        role="tab"
+                        data-toggle="tab"
+                        >Active</a
+                      >
+                    </li>
+                    <li role="presentation">
+                      <a
+                        href="#alarms_all"
+                        aria-controls="alarms_all"
+                        role="tab"
+                        data-toggle="tab"
+                        >All</a
+                      >
+                    </li>
+                    <li role="presentation">
+                      <a
+                        href="#alarms_log"
+                        aria-controls="alarms_log"
+                        role="tab"
+                        data-toggle="tab"
+                        >Log</a
+                      >
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="alarms_active">
+                      loading...
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="alarms_all">
+                      <h3>Rasing Alarms</h3>
+                      <a href="http://3.34.29.236:19999/host/host-1/api/v1/alarms?all"
+                        >system - cpu</a
+                      >
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td
+                              style="vertical-align: middle; word-break: break-word"
+                              width="40%"
+                            >
+                              <b>systme.cpu</b>
+                              
+                            </td>
+                            <td>
+                              <table class="table">
+                                <tbody>
+                                  <tr>
+                                    <td width="10%" style="text-align: right">
+                                      warning&nbsp;when
+                                    </td>
+                                    <td>
+                                      <span id="span1" style="color: orange;"></span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td width="10%" style="text-align: right">
+                                      critical&nbsp;when
+                                    </td>
+                                    <td>
+                                      <span id="span2" style="color: red;"></span>
+                                    </td>
+                                  </tr>
+                                  
+
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td
+                              style="vertical-align: middle; word-break: break-word"
+                              width="40%"
+                            >
+                              <b>systme.cpu</b>
+                              
+                            </td>
+                            <td>
+                              <table class="table">
+                                <tbody>
+                                  <tr>
+                                    <td width="10%" style="text-align: right">
+                                      warning&nbsp;when
+                                    </td>
+                                    <td>
+                                      <span id="span1-1" style="color: orange;"></span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td width="10%" style="text-align: right">
+                                      critical&nbsp;when
+                                    </td>
+                                    <td>
+                                      <span id="span2-1" style="color: red;"></span>
+                                    </td>
+                                  </tr>
+                                  
+
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="alarms_log">
+                      loading...
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal-dialog modal-lg alarm5"
+            role="document"
+            style="
+              display: none;
+              position: absolute;
+              height: 310px;
+              width: 900px;
+              top: 50%;
+              left: 50%;
+              margin-top: -240px;
+              margin-left: -450px;
+            "
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="printPreflightModalLabel">
+                  Print this netdata dashboard
+                </h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  netdata dashboards cannot be captured, since we are lazy loading and
+                  hiding all but the visible charts.<br />To capture the whole page
+                  with all the charts rendered, a new browser window will pop-up that
+                  will render all the charts at once. The new browser window will
+                  maintain the current pan and zoom settings of the charts. So, align
+                  the charts before proceeding.
+                </p>
+                <p>
+                  <small
+                    >This process will put some CPU and memory pressure on your
+                    browser.<br />For the netdata server, we will sequencially
+                    download all the charts, to avoid congesting network and server
+                    resources.<br /><b
+                      >Please, do not print netdata dashboards on paper!</b
+                    ></small
+                  >
+                </p>
+              </div>
+              <div class="modal-footer">
+                <a
+                  href="#"
+                  onclick="return printPreflight(),!1"
+                  type="button"
+                  class="btn btn-default"
+                  >Print</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-default alclose5"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal-dialog modal-lg alarm5"
+            role="document"
+            style="
+              display: none;
+              position: absolute;
+              height: 310px;
+              width: 900px;
+              top: 50%;
+              left: 50%;
+              margin-top: -240px;
+              margin-left: -450px;
+            "
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="printPreflightModalLabel">
+                  Print this netdata dashboard
+                </h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  netdata dashboards cannot be captured, since we are lazy loading and
+                  hiding all but the visible charts.<br />To capture the whole page
+                  with all the charts rendered, a new browser window will pop-up that
+                  will render all the charts at once. The new browser window will
+                  maintain the current pan and zoom settings of the charts. So, align
+                  the charts before proceeding.
+                </p>
+                <p>
+                  <small
+                    >This process will put some CPU and memory pressure on your
+                    browser.<br />For the netdata server, we will sequencially
+                    download all the charts, to avoid congesting network and server
+                    resources.<br /><b
+                      >Please, do not print netdata dashboards on paper!</b
+                    ></small
+                  >
+                </p>
+              </div>
+              <div class="modal-footer">
+                <a
+                  href="#"
+                  onclick="return printPreflight(),!1"
+                  type="button"
+                  class="btn btn-default"
+                  >Print</a
+                >
+                <button
+                  type="button"
+                  class="btn btn-default alclose5"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal-dialog modal-lg alarm6"
+            role="document"
+            style="
+              display: table;
+              position: absolute;
+              height: 390px;
+              width: 900px;
+              top: 50%;
+              left: 50%;
+              margin-top: -240px;
+              margin-left: -450px;
+            "
+          >
+            <div class="modal-content" style="display: none">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="alarmsModalLabel">netdata alarms</h4>
+              </div>
+              <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation" class="active">
+                    <a
+                      href="#alarms_active"
+                      aria-controls="alarms_active"
+                      role="tab"
+                      data-toggle="tab"
+                      >Active</a
+                    >
+                  </li>
+                  <li role="presentation">
+                    <a
+                      href="#alarms_all"
+                      aria-controls="alarms_all"
+                      role="tab"
+                      data-toggle="tab"
+                      >All</a
+                    >
+                  </li>
+                  <li role="presentation">
+                    <a
+                      href="#alarms_log"
+                      aria-controls="alarms_log"
+                      role="tab"
+                      data-toggle="tab"
+                      >Log</a
+                    >
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="alarms_active">
+                    <h3>Raised Alarms</h3>
+                    <table class="table"></table>
+                    <div style="width: 100%; height: 100px; text-align: center">
+                      <span style="font-size: 50px"
+                        ><svg
+                          class="svg-inline--fa fa-thumbs-up fa-w-16"
+                          aria-hidden="true"
+                          focusable="false"
+                          data-prefix="fas"
+                          data-icon="thumbs-up"
+                          role="img"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512 512"
+                          data-fa-i2svg=""
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M104 224H24c-13.255 0-24 10.745-24 24v240c0 13.255 10.745 24 24 24h80c13.255 0 24-10.745 24-24V248c0-13.255-10.745-24-24-24zM64 472c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zM384 81.452c0 42.416-25.97 66.208-33.277 94.548h101.723c33.397 0 59.397 27.746 59.553 58.098.084 17.938-7.546 37.249-19.439 49.197l-.11.11c9.836 23.337 8.237 56.037-9.308 79.469 8.681 25.895-.069 57.704-16.382 74.757 4.298 17.598 2.244 32.575-6.148 44.632C440.202 511.587 389.616 512 346.839 512l-2.845-.001c-48.287-.017-87.806-17.598-119.56-31.725-15.957-7.099-36.821-15.887-52.651-16.178-6.54-.12-11.783-5.457-11.783-11.998v-213.77c0-3.2 1.282-6.271 3.558-8.521 39.614-39.144 56.648-80.587 89.117-113.111 14.804-14.832 20.188-37.236 25.393-58.902C282.515 39.293 291.817 0 312 0c24 0 72 8 72 81.452z"
+                          ></path></svg
+                        ><!-- <i class="fas fa-thumbs-up"></i> Font Awesome fontawesome.com --></span
+                      ><br />Everything is normal. No raised alarms.
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="alarms_all">
+                    <h3>All Running Alarms</h3>
+                    <div
+                      class="panel-group"
+                      id="alarms_all_accordion"
+                      role="tablist"
+                      aria-multiselectable="true"
+                    ></div>
+                    <h4>No alarms are running in this system.</h4>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="alarms_log">
+                    <h3>Alarm Log</h3>
+                    <div class="bootstrap-table">
+                      <div class="fixed-table-toolbar">
+                        <div class="columns columns-right btn-group pull-right">
+                          <button
+                            class="btn btn-default"
+                            type="button"
+                            name="refresh"
+                            aria-label="refresh"
+                            title="Refresh"
+                          >
+                            <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+                          </button>
+                          <div class="keep-open btn-group" title="Columns">
+                            <button
+                              type="button"
+                              aria-label="columns"
+                              class="btn btn-default dropdown-toggle"
+                              data-toggle="dropdown"
+                            >
+                              <i class="glyphicon glyphicon-th icon-th"></i>
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="hostname"
+                                    value="1"
+                                  />
+                                  Host</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="unique_id"
+                                    value="2"
+                                  />
+                                  Unique ID</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="alarm_id"
+                                    value="3"
+                                  />
+                                  Alarm ID</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="alarm_event_id"
+                                    value="4"
+                                  />
+                                  Alarm Event ID</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="family"
+                                    value="6"
+                                  />
+                                  Family</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="value_string"
+                                    value="8"
+                                    checked="checked"
+                                  />
+                                  Friendly Value</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="old_value_string"
+                                    value="9"
+                                  />
+                                  Friendly Old Value</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="old_value"
+                                    value="10"
+                                  />
+                                  Old Value</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="value"
+                                    value="11"
+                                  />
+                                  Value</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="units"
+                                    value="12"
+                                  />
+                                  Units</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="old_status"
+                                    value="13"
+                                  />
+                                  Old Status</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="duration"
+                                    value="15"
+                                  />
+                                  Last Duration</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="non_clear_duration"
+                                    value="16"
+                                  />
+                                  Raised Duration</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="recipient"
+                                    value="17"
+                                  />
+                                  Recipient</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="processed"
+                                    value="18"
+                                  />
+                                  Processed Status</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="updated"
+                                    value="19"
+                                  />
+                                  Updated Status</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="updated_by_id"
+                                    value="20"
+                                  />
+                                  Updated By ID</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="updates_id"
+                                    value="21"
+                                  />
+                                  Updates ID</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="exec"
+                                    value="22"
+                                  />
+                                  Script</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="exec_run"
+                                    value="23"
+                                  />
+                                  Script Run At</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="exec_code"
+                                    value="24"
+                                  />
+                                  Script Return Value</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="delay"
+                                    value="25"
+                                  />
+                                  Script Delay</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="delay_up_to_timestamp"
+                                    value="26"
+                                  />
+                                  Script Delay Run At</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="info"
+                                    value="27"
+                                  />
+                                  Description</label
+                                >
+                              </li>
+                              <li role="menuitem">
+                                <label
+                                  ><input
+                                    type="checkbox"
+                                    data-field="source"
+                                    value="28"
+                                  />
+                                  Alarm Source</label
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="export btn-group">
+                            <button
+                              class="btn btn-default dropdown-toggle"
+                              aria-label="export type"
+                              title="Export data"
+                              data-toggle="dropdown"
+                              type="button"
+                            >
+                              <i class="glyphicon glyphicon-export icon-share"></i>
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                              <li role="menuitem" data-type="json">
+                                <a href="javascript:void(0)">JSON</a>
+                              </li>
+                              <li role="menuitem" data-type="xml">
+                                <a href="javascript:void(0)">XML</a>
+                              </li>
+                              <li role="menuitem" data-type="csv">
+                                <a href="javascript:void(0)">CSV</a>
+                              </li>
+                              <li role="menuitem" data-type="txt">
+                                <a href="javascript:void(0)">TXT</a>
+                              </li>
+                              <li role="menuitem" data-type="sql">
+                                <a href="javascript:void(0)">SQL</a>
+                              </li>
+                              <li role="menuitem" data-type="excel">
+                                <a href="javascript:void(0)">MS-Excel</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="pull-left search">
+                          <input
+                            class="form-control"
+                            type="text"
+                            placeholder="Search"
+                          />
+                        </div>
+                      </div>
+                      <div class="fixed-table-container" style="padding-bottom: 0px">
+                        <div class="fixed-table-header" style="display: none">
+                          <table></table>
+                        </div>
+                        <div class="fixed-table-body">
+                          <div
+                            class="fixed-table-loading"
+                            style="top: 1px; display: none"
+                          >
+                            Loading, please wait...
+                          </div>
+                          <table id="alarms_log_table" class="table table-hover">
+                            <thead style="">
+                              <tr>
+                                <th
+                                  title="The date and time the even took place"
+                                  style="text-align: center; vertical-align: middle"
+                                  data-field="when"
+                                >
+                                  <div class="th-inner sortable both">Event Date</div>
+                                  <div class="fht-cell"></div>
+                                </th>
+                                <th
+                                  title="The chart the alarm is attached to"
+                                  style="text-align: center; vertical-align: middle"
+                                  data-field="chart"
+                                >
+                                  <div class="th-inner sortable both">Chart</div>
+                                  <div class="fht-cell"></div>
+                                </th>
+                                <th
+                                  title="The alarm name that generated this event"
+                                  style="text-align: center; vertical-align: middle"
+                                  data-field="name"
+                                >
+                                  <div class="th-inner sortable both">Alarm</div>
+                                  <div class="fht-cell"></div>
+                                </th>
+                                <th
+                                  title="The value of the alarm, that triggered this event"
+                                  style="text-align: right; vertical-align: middle"
+                                  data-field="value_string"
+                                >
+                                  <div class="th-inner sortable both">
+                                    Friendly Value
+                                  </div>
+                                  <div class="fht-cell"></div>
+                                </th>
+                                <th
+                                  title="The status of the alarm, that was set due to this event"
+                                  style="text-align: center; vertical-align: middle"
+                                  data-field="status"
+                                >
+                                  <div class="th-inner sortable both">Status</div>
+                                  <div class="fht-cell"></div>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr class="no-records-found">
+                                <td colspan="5">No matching records found</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="fixed-table-footer" style="display: none">
+                          <table>
+                            <tbody>
+                              <tr></tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="fixed-table-pagination" style="display: none">
+                          <div class="pull-left pagination-detail">
+                            <span class="pagination-info"
+                              >Showing 1 to 0 of 0 rows</span
+                            ><span class="page-list" style="display: none"
+                              ><span class="btn-group dropup"
+                                ><button
+                                  type="button"
+                                  class="btn btn-default dropdown-toggle"
+                                  data-toggle="dropdown"
+                                >
+                                  <span class="page-size">10</span>
+                                  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li role="menuitem" class="active">
+                                    <a href="#">10</a>
+                                  </li>
+                                </ul>
+                              </span>
+                              rows per page</span
+                            >
+                          </div>
+                          <div class="pull-right pagination" style="display: none">
+                            <ul class="pagination">
+                              <li class="page-pre"><a href="#">‹</a></li>
+                              <li class="page-next"><a href="#">›</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default alclose6"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+      <script
+        type="text/javascript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+      >
+    </script>
+    <script>
+      $(".al1").click(function () {
+        $(".alarm1").css("display", "block");
+      });
+
+      $(".alclose1").click(function () {
+        $(".alarm1").css("display", "none");
+      });
+
+      $(".al3").click(function () {
+        $(".alarm3").css("display", "block");
+      });
+
+      $(".alclose3").click(function () {
+        $(".alarm3").css("display", "none");
+      });
+
+      $(".al4").click(function () {
+        $(".alarm4").css("display", "block");
+      });
+
+      $(".alclose4").click(function () {
+        $(".alarm4").css("display", "none");
+      });
+
+      $(".al5").click(function () {
+        $(".alarm5").css("display", "block");
+      });
+
+      $(".alclose5").click(function () {
+        $(".alarm5").css("display", "none");
+      });
+
+      $(".al6").click(function () {
+        $(".alarm6").css("display", "block");
+      });
+
+      $(".alclose6").click(function () {
+        $(".alarm6").css("display", "none");
+      });
+    </script>
+  </head>
+</html>

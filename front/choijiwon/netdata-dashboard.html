@@ -18,7 +18,7 @@
     var netdataTheme = 'slate'; // netdata 배경화면 어두운 테마로 설정
   </script>
 
-  <script type="text/javascript" src="http://3.34.29.236:29999/host/host-1/dashboard.js"></script>
+  <script type="text/javascript" src="http://3.34.29.236:19999/host/host-1/dashboard.js"></script>
 
   <!-- dashboard.js will automatically load the following:
       1. dashboard.css, required for the netdata charts
@@ -85,12 +85,12 @@
       position: fixed;
       height: 100vh;
       width: 20%;
-      top: 100px;
+      top: 30px;
       right: 0;
       text-align: center;
       padding-top: 30px;
-      font-size: 15px;
-      line-height: 50px;
+      font-size: 20px;
+      line-height: 8px;
       /* border: 1px solid purple; */
     }
 
@@ -105,7 +105,7 @@
       background-color: rgb(0, 154, 200);
       overflow-x: hidden;
       transition: 0.5s ease-in-out;
-      padding-top: 60px;
+      padding-top: 10px;
     }
 
     .sidenav a {
@@ -115,6 +115,7 @@
       color: #fff;
       display: block;
       transition: 0.2s ease-in-out;
+      font-size:10px;
     }
 
     .sidenav a:hover,
@@ -422,245 +423,234 @@
     <div class="container">
 
       <!-- system.softirqs -->
-      <div id="system.softirqs">
+      <div id="system.softirqs" style="padding-top:100px;">
         <span id="title">system.softirqs</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.softirqs" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- disk_inodes._ -->
-      <div id="disk_inodes._">
+      <div id="disk_inodes._" style="padding-top:100px;">
         <span id="title">disk_inodes._</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="disk_inodes._" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.active_processes -->
-      <div id="system.active_processes">
+      <div id="system.active_processes" style="padding-top:100px;">
         <span id="title">system.active_processes</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.active_processes" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.ram -->
-      <div id="system.ram">
+      <div id="system.ram" style="padding-top:100px;">
         <span id="title">system.ram</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.ram" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.ctxt -->
-      <div id="system.ctxt">
+      <div id="system.ctxt" style="padding-top:100px;">
         <span id="title">system.ctxt</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.ctxt" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- ipv4.sockstat_tcp_sockets -->
-      <div id="ipv4.sockstat_tcp_sockets">
+      <div id="ipv4.sockstat_tcp_sockets" style="padding-top:100px;">
         <span id="title">ipv4.sockstat_tcp_sockets</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="ipv4.sockstat_tcp_sockets" data-after="-300" data-height="250px"
-          data-width="calc(100% - 2rem)" style="margin-bottom:100px; padding-top:100px;"></div>
+          data-width="calc(100% - 2rem)" style="padding-top:100px;"></div>
       </div>
 
       <!-- mem.available -->
-      <div id="mem.available">
+      <div id="mem.available" style="padding-top:100px;">
         <span id="title">mem.available</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="mem.available" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
+      </div>
+
+      <!-- system.cpu_pressure -->
+      <div id="system.cpu_pressure" style="padding-top:100px;">
+        <span id="title">system.cpu_pressure</span>
+        <div style="margin-bottom:30px;">
+          Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
+          disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
+        </div>
+        <div data-netdata="mem.available" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- mem.oom_kill -->
-      <div id="mem.oom_kill">
+      <div id="mem.oom_kill" style="padding-top:100px;">
         <span id="title">mem.oom_kill</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="mem.oom_kill" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.forks -->
-      <div id="system.forks">
+      <div id="system.forks" style="padding-top:100px;">
         <span id="title">system.forks</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
-        <div data-netdata="system.forks" data-after="-300" data-height="250px" data-width="calc(50% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+        <div data-netdata="system.forks" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.cpu -->
-      <div id="system.cpu">
+      <div id="system.cpu" style="padding-top:100px;">
         <span id="title">system.cpu</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.cpu" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.uptime -->
-      <div id="system.uptime">
+      <div id="system.uptime" style="padding-top:100px;">
         <span id="title">system.uptime</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.uptime" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
-      </div>
-
-      <!-- system.uptime -->
-      <div id="system.uptime">
-        <span id="title">system.uptime</span>
-        <div style="margin-bottom:30px;">
-          Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
-          disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
-        </div>
-        <div data-netdata="system.uptime" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.pgpgio -->
-      <div id="system.pgpgio">
+      <div id="system.pgpgio" style="padding-top:100px;">
         <span id="title">system.pgpgio</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.pgpgio" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.net -->
-      <div id="system.net">
+      <div id="system.net" style="padding-top:100px;">
         <span id="title">system.net</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.net" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- mem.pgfaults -->
-      <div id="mem.pgfaults">
+      <div id="mem.pgfaults" style="padding-top:100px;">
         <span id="title">mem.pgfaults</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="mem.pgfaults" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.processes -->
-      <div id="system.processes">
+      <div id="system.processes" style="padding-top:100px;">
         <span id="title">system.processes</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.processes" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.interrupts -->
-      <div id="system.interrupts">
+      <div id="system.interrupts" style="padding-top:100px;">
         <span id="title">system.interrupts</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="system.interrupts" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
-      </div>
-
-      <!-- system.interrupts -->
-      <div id="system.interrupts">
-        <span id="title">system.interrupts</span>
-        <div style="margin-bottom:30px;">
-          Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
-          disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
-        </div>
-        <div data-netdata="system.interrupts" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- ipv4.packets -->
-      <div id="ipv4.packets">
+      <div id="ipv4.packets" style="padding-top:100px;">
         <span id="title">ipv4.packets</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div data-netdata="ipv4.packets" data-after="-300" data-height="250px" data-width="calc(100% - 2rem)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.load -->
-      <div id="system.load">
+      <div id="system.load" style="padding-top:100px;">
         <span id="title">system.load</span>
         <div style="margin-bottom:30px;">
           Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and
           disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds.
         </div>
         <div class="netdata-container-with-legend" data-netdata="system.load"
-          data-title="System Load Average (system.load)" data-host="http://3.34.29.236:29999" data-width="100%"
+          data-title="System Load Average (system.load)" data-host="http://3.34.29.236:19999" data-width="100%"
           data-height="250px" data-dygraph-valuerange="[null,null]" data-chart-library="dygraph" data-after="-300"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- disk_space._ -->
-      <div id="disk_space._">
+      <div id="disk_space._" style="padding-top:100px;">
         <span id="title">disk_space._</span>
         <div style="margin-bottom:30px;">
           Disk space utilization. reserved for root is automatically reserved by the system to prevent the root user
           from getting out of space.
         </div>
-        <div data-netdata="disk_space._" data-host="http://3.34.29.236:29999" data-title="Disk Space Usage for /"
+        <div data-netdata="disk_space._" data-host="http://3.34.29.236:19999" data-title="Disk Space Usage for /"
           data-append-options="percentage" data-decimal-digits="0" data-dimensions="used" data-chart-library="gauge"
           data-width="30%" data-height="100px" data-after="-300" data-points="300" data-gauge-max-value="100"
           data-colors="#ffffff" data-gauge-generate-gradient="[0, 70, 100]"
           data-gauge-gradient-percent-color-0="#ffffff" data-gauge-gradient-percent-color-70="d88b2f"
           data-gauge-gradient-percent-color-100="#ff3300" data-units="%"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- ipv4.tcpopens -->
-      <div id="ipv4.tcpopens">
+      <div id="ipv4.tcpopens" style="padding-top:100px;">
         <span id="title">ipv4.tcpopens</span>
         <div style="margin-bottom:30px;">
           active or ActiveOpens is the number of outgoing TCP connections attempted by this host. passive or
@@ -668,12 +658,12 @@
         </div>
         <div class="netdata-container-with-legend netdata-container-with-legend--bottom" data-netdata="ipv4.tcpopens"
           data-width="calc(100% - 2rem)" data-height="250px" data-dygraph-valuerange="[null,null]"
-          data-title="ipv4.tcpopens" data-host="http://3.34.29.236:29999" data-chart-library="dygraph" data-after="-300"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          data-title="ipv4.tcpopens" data-host="http://3.34.29.236:19999" data-chart-library="dygraph"
+          data-after="-300" style="padding-top:100px;"></div>
       </div>
 
       <!-- system.intr -->
-      <div id="system.intr">
+      <div id="system.intr" style="padding-top:100px;">
         <span id="title">system.intr</span>
         <div style="margin-bottom:30px;">
           Total number of CPU interrupts. Check system.interrupts that gives more detail about each interrupt and also
@@ -681,11 +671,11 @@
         </div>
         <div data-netdata="system.intr" data-colors="#dd5555"
           class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.entropy -->
-      <div id="system.entropy">
+      <div id="system.entropy" style="padding-top:100px;">
         <span id="title">system.entropy</span>
         <div style="margin-bottom:30px;">
           Entropy, is a pool of random numbers (/dev/random) that is mainly used in cryptography. If the pool of entropy
@@ -697,11 +687,11 @@
         <div data-netdata="system.entropy" data-decimal-digits="-1"
           class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
           data-colors="#cc22aa" data-title="Available Entropy (system.entropy)"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- system.io -->
-      <div id="system.io">
+      <div id="system.io" style="padding-top:100px;">
         <span id="title">system.io</span>
         <div style="margin-bottom:30px;">
           Total Disk I/O, for all physical disks. You can get detailed information about each disk at the Disks section
@@ -710,11 +700,11 @@
         </div>
         <div data-netdata="system.io" class="netdata-container-with-legend netdata-container-with-legend--bottom"
           data-width="calc(100% - 2rem)" data-height="250px" data-dygraph-valuerange="[null,null]"
-          style="margin-bottom:100px; padding-top:100px;"></div>
+          style="padding-top:100px;"></div>
       </div>
 
       <!-- mem.writeback -->
-      <div id="mem.writeback">
+      <div id="mem.writeback" style="padding-top:100px;">
         <span id="title">mem.writeback</span>
         <div style="margin-bottom:30px;">
           Dirty is the amount of memory waiting to be written to disk. Writeback is how much memory is actively being
@@ -722,36 +712,100 @@
         </div>
         <div data-netdata="mem.writeback"
           class="netdata-chart-with-legend-bottom netdata-dygraph-chart-with-legend-right dygraph-chart--legend-bottom"
-          style="margin-bottom:100px; padding-top:100px;" id="mem.writeback"></div>
+          style="padding-top:100px;" id="mem.writeback"></div>
       </div>
 
       <div class="text-center" style="padding-top: 10px; margin-bottom:300px;">
-        <a href="http://3.34.29.236:29999" class="btn btn-primary btn-sm" target="_blank">SantaBPF</a>
+        <a href="http://3.34.29.236:19999" class="btn btn-primary btn-sm" target="_blank">SantaBPF</a>
       </div>
     </div>
-    <div class="sidebar-body hidden-xs hidden-sm hidden-print navi" id="sidebar-body" role="complementary">
+
+    <!-- sidebar-->
+    <div class="sidebar-body hidden-xs hidden-sm hidden-print navi" id="sidebar-body" role="complementary" style="overflow:scroll; overflow-x:hidden; height:95%;">
       <nav class="dashboard-sidebar hidden-print hidden-xs hidden-sm" id="sidebar" role="menu">
-        <ul class="nav dashboard-sidenav">
+        <ul class="nav dashboard-sidenav" style="font-size:13px;">
+          <!-- jh -->
           <li class="active">
-            <a href="#system.load" onclick="return scrollTold('system.load');">system.load</a>
+            <a href="#system.softirqs">system.softirqs</a>
           </li>
           <li class="active">
-            <a href="#disk_space._" onclick="return scrollTold('disk_space._');">disk_space._</a>
-          </li>
-          <!-- <li class="active">
-            <a href="ipv4.tcpopens" onclick="return scrollTold('ipv4.tcpopens');">ipv4.tcpopens</a>
-          </li> -->
-          <li class="active">
-            <a href="#system.intr" onclick="return scrollTold('system.intr');">system.intr</a>
+            <a href="#disk_inodes._">disk_inodes._</a>
           </li>
           <li class="active">
-            <a href="#system.entropy" onclick="return scrollTold('system.entropy');">system.entropy</a>
+            <a href="#system.active_processes">system.active_processes</a>
           </li>
           <li class="active">
-            <a href="#system.io" onclick="return scrollTold('system.io');">system.io</a>
+            <a href="#system.ram">system.ram</a>
           </li>
           <li class="active">
-            <a href="#mem.writeback" onclick="return scrollTold('mem.writeback');">mem.writeback</a>
+            <a href="#system.ctxt">system.ctxt</a>
+          </li>
+          <li class="active">
+            <a href="#ipv4.sockstat_tcp_sockets">ipv4.sockstat_tcp_sockets</a>
+          </li>
+
+          <!-- cy -->
+          <li class="active">
+            <a href="#mem.available">mem.available</a>
+          </li>
+          <li class="active">
+            <a href="#system.cpu_pressure">system.cpu_pressure</a>
+          </li>
+          <li class="active">
+            <a href="#mem.oom_kill">mem.oom_kill</a>
+          </li>
+          <li class="active">
+            <a href="#system.forks">system.forks</a>
+          </li>
+          <li class="active">
+            <a href="#system.cpu">system.cpu</a>
+          </li>
+          <li class="active">
+            <a href="#system.uptime">system.uptime</a>
+          </li>
+
+
+          <!-- yjw-->
+          <li class="active">
+            <a href="#system.pgpgio">system.pgpgio</a>
+          </li>
+          <li class="active">
+            <a href="#system.net">system.net</a>
+          </li>
+          <li class="active">
+            <a href="#mem.pgfaults">mem.pgfaults</a>
+          </li>
+          <li class="active">
+            <a href="#system.processes">system.processes</a>
+          </li>
+          <li class="active">
+            <a href="#system.interrupts">system.interrupts</a>
+          </li>
+          <li class="active">
+            <a href="#ipv4.packets">ipv4.packets</a>
+          </li>
+
+          <!-- cjw -->
+          <li class="active">
+            <a href="#system.load">system.load</a>
+          </li>
+          <li class="active">
+            <a href="#disk_space._">disk_space._</a>
+          </li>
+          <li class="active">
+            <a href="#ipv4.tcpopens">ipv4.tcpopens</a>
+          </li>
+          <li class="active">
+            <a href="#system.intr">system.intr</a>
+          </li>
+          <li class="active">
+            <a href="#system.entropy">system.entropy</a>
+          </li>
+          <li class="active">
+            <a href="#system.io">system.io</a>
+          </li>
+          <li class="active">
+            <a href="#mem.writeback">mem.writeback</a>
           </li>
         </ul>
       </nav>
@@ -761,7 +815,8 @@
 
 
   <!-- 알람 -->
-  <div class="modal-dialog alarm1" role="document" style="display:none; position:absolute; height:510px; width:600px; top:50%; left:50%; margin-top:-240px; margin-left:-300px;">
+  <div class="modal-dialog alarm1" role="document"
+    style="display:none; position:absolute; height:510px; width:600px; top:50%; left:50%; margin-top:-240px; margin-left:-300px;">
     <div class="modal-content">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">×</span></button>
@@ -882,7 +937,8 @@
       </div>
     </div>
   </div> -->
-  <div class="modal-dialog modal-lg" role="document" style="display:none; position:absolute; width:900px; height:620px; top:50%; left:50%; margin-left:-450px; margin-top:-240px;">
+  <div class="modal-dialog modal-lg" role="document"
+    style="display:none; position:absolute; width:900px; height:620px; top:50%; left:50%; margin-left:-450px; margin-top:-240px;">
     <div class="modal-content alarm3">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">×</span></button>
@@ -939,7 +995,8 @@
     </div>
   </div>
 
-  <div class="modal-dialog modal-lg alarm4" role="document" style="display:none; position:absolute; height:616px; width:900px; top:50%; left:50%; margin-top:-238px; margin-left:-450px;">
+  <div class="modal-dialog modal-lg alarm4" role="document"
+    style="display:none; position:absolute; height:616px; width:900px; top:50%; left:50%; margin-top:-238px; margin-left:-450px;">
     <div class="modal-content">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">×</span></button>
@@ -1040,6 +1097,35 @@
     </div>
   </div>
 
+  <div class="modal fade" id="alarmsModal" tabindex="-1" role="dialog" aria-labelledby="alarmsModalLabel"
+    style="display: none;">
+    <div class="modal-dialog modal-lg" role="document" style="display:table">
+      <div class="modal-content">
+        <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="alarmsModalLabel">netdata alarms</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#alarms_active" aria-controls="alarms_active" role="tab"
+                data-toggle="tab">Active</a></li>
+            <li role="presentation"><a href="#alarms_all" aria-controls="alarms_all" role="tab"
+                data-toggle="tab">All</a></li>
+            <li role="presentation"><a href="#alarms_log" aria-controls="alarms_log" role="tab"
+                data-toggle="tab">Log</a></li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="alarms_active">loading...</div>
+            <div role="tabpanel" class="tab-pane" id="alarms_all">loading...</div>
+            <div role="tabpanel" class="tab-pane" id="alarms_log">loading...</div>
+          </div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-dialog modal-lg alarm5" role="document"
     style="display:none; position:absolute; height:310px; width:900px; top:50%; left:50%; margin-top:-240px; margin-left:-450px;">
     <div class="modal-content">
@@ -1062,7 +1148,30 @@
     </div>
   </div>
 
-  <div class="modal-dialog modal-lg alarm6" role="document" style="display:table; position:absolute; height:390px; width:900px; top:50%; left:50%; margin-top:-240px; margin-left:-450px;">
+  <div class="modal-dialog modal-lg alarm5" role="document"
+    style="display:none; position:absolute; height:310px; width:900px; top:50%; left:50%; margin-top:-240px; margin-left:-450px;">
+    <div class="modal-content">
+      <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="printPreflightModalLabel">Print this netdata dashboard</h4>
+      </div>
+      <div class="modal-body">
+        <p>netdata dashboards cannot be captured, since we are lazy loading and hiding all but the visible charts.<br>To
+          capture the whole page with all the charts rendered, a new browser window will pop-up that will render all the
+          charts at once. The new browser window will maintain the current pan and zoom settings of the charts. So,
+          align the charts before proceeding.</p>
+        <p><small>This process will put some CPU and memory pressure on your browser.<br>For the netdata server, we will
+            sequencially download all the charts, to avoid congesting network and server resources.<br><b>Please, do not
+              print netdata dashboards on paper!</b></small></p>
+      </div>
+      <div class="modal-footer"><a href="#" onclick="return printPreflight(),!1" type="button"
+          class="btn btn-default">Print</a> <button type="button" class="btn btn-default alclose5"
+          data-dismiss="modal">Close</button></div>
+    </div>
+  </div>
+
+  <div class="modal-dialog modal-lg alarm6" role="document"
+    style="display:table; position:absolute; height:390px; width:900px; top:50%; left:50%; margin-top:-240px; margin-left:-450px;">
     <div class="modal-content" style="display:none; ">
       <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
             aria-hidden="true">×</span></button>
@@ -1246,7 +1355,8 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer"><button type="button" class="btn btn-default alclose6" data-dismiss="modal">Close</button></div>
+      <div class="modal-footer"><button type="button" class="btn btn-default alclose6"
+          data-dismiss="modal">Close</button></div>
     </div>
   </div>
 
@@ -1256,43 +1366,43 @@
 </html>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
-  $('.al1').click(function(){
+  $('.al1').click(function () {
     $(".alarm1").css("display", "block");
   })
 
-  $('.alclose1').click(function(){
+  $('.alclose1').click(function () {
     $(".alarm1").css("display", "none");
   })
 
-  $('.al3').click(function(){
+  $('.al3').click(function () {
     $(".alarm3").css("display", "block");
   })
 
-  $('.alclose3').click(function(){
+  $('.alclose3').click(function () {
     $(".alarm3").css("display", "none");
   })
 
-  $('.al4').click(function(){
+  $('.al4').click(function () {
     $(".alarm4").css("display", "block");
   })
 
-  $('.alclose4').click(function(){
+  $('.alclose4').click(function () {
     $(".alarm4").css("display", "none");
   })
 
-  $('.al5').click(function(){
+  $('.al5').click(function () {
     $(".alarm5").css("display", "block");
   })
 
-  $('.alclose5').click(function(){
+  $('.alclose5').click(function () {
     $(".alarm5").css("display", "none");
   })
 
-  $('.al6').click(function(){
+  $('.al6').click(function () {
     $(".alarm6").css("display", "block");
   })
 
-  $('.alclose6').click(function(){
+  $('.alclose6').click(function () {
     $(".alarm6").css("display", "none");
   })
 
