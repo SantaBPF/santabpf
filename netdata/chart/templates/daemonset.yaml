@@ -142,6 +142,9 @@ spec:
             - name: group
               readOnly: true
               mountPath: /host/etc/group
+            - name: cgroup
+              readOnly: true
+              mountPath: /sys/fs/cgroup
             {{- range $name, $config := .Values.child.configs }}
             {{- if $config.enabled }}
             - name: config
@@ -224,6 +227,9 @@ spec:
         - name: group
           hostPath:
             path: /etc/group
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
         - name: config
           configMap:
             name: netdata-conf-child
