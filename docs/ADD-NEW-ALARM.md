@@ -15,7 +15,7 @@ Netdata Cloud를 사용한다면 War Room 피쳐들을 활용해볼 수 있겠�
 ## Health entity
 
 #### Entity types
-- alarams: 특정 chart와 연결되고 `alarm` 레이블을 사용.
+- alarms: 특정 chart와 연결되고 `alarm` 레이블을 사용.
 - templates: 특정 context의 모든 chart에 적용되는 규칙을 정의하고 `templaet` 레이블을 사용. 하나의 entity를 모든 디스크들, 모든 네트워크 인터페이스들
 과 같은곳에 적용하기에 좋다.
 
