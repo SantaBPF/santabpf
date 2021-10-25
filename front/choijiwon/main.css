@@ -1,0 +1,564 @@
+.charts {
+    display: inline-block;
+    width: 90%;
+}
+
+.navbar-highlight {
+    display: none;
+    position: fixed;
+    margin-top: 5px;
+    height: 26px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    z-index: 30;
+    pointer-events: none !important;
+}
+
+.navbar-highlight-content {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    height: 26px;
+    min-width: 500px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+    color: lightgrey;
+    pointer-events: auto !important;
+}
+
+.navbar-highlight-bar {
+    cursor: pointer;
+}
+
+.navbar-highlight-button-right {
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.dashboard-sidebar {
+    max-height: calc(100% - 70px) !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* By default it's not affixed in mobile views, so undo that */
+.dashboard-sidebar.affix {
+    position: static;
+}
+
+/* First level of nav */
+.dashboard-sidenav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* All levels of nav */
+.dashboard-sidebar .nav > li > a {
+    display: block;
+    padding: 4px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #767676;
+}
+
+.dashboard-sidebar {
+    color: #767676;
+}
+
+.dashboard-sidebar .nav > li > a > .svg-inline--fa {
+    width: 20px;
+    text-align: center;
+}
+
+.dashboard-sidebar .nav > li > a:hover,
+.dashboard-sidebar .nav > li > a:focus {
+    padding-left: 19px;
+    color: #563d7c;
+    text-decoration: none;
+    background-color: transparent;
+    border-left: 1px solid #563d7c;
+}
+
+.dashboard-sidebar .nav > .active > a,
+.dashboard-sidebar .nav > .active:hover > a,
+.dashboard-sidebar .nav > .active:focus > a {
+    padding-left: 18px;
+    font-weight: bold;
+    color: #563d7c;
+    background-color: transparent;
+    border-left: 2px solid #563d7c;
+}
+
+/* Nav: second level (shown on .active) */
+.dashboard-sidebar .nav .nav {
+    display: none; /* Hide by default, but at >768px, show it */
+    padding-bottom: 10px;
+}
+
+.dashboard-sidebar .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.dashboard-sidebar .nav .nav > li > a:hover,
+.dashboard-sidebar .nav .nav > li > a:focus {
+    padding-left: 29px;
+}
+
+.dashboard-sidebar .nav .nav > .active > a,
+.dashboard-sidebar .nav .nav > .active:hover > a,
+.dashboard-sidebar .nav .nav > .active:focus > a {
+    padding-left: 28px;
+    font-weight: 500;
+}
+
+
+
+.sidebar-body {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: none;
+    height: 100vh;
+}
+
+.chart_text {
+    width: 100%;
+}
+
+ 
+@media (min-width: 1400px) {
+    #hostname {
+        max-width: 600px !important;
+    }
+
+    #hostnametext {
+        max-width: 540px !important;
+    }
+}
+
+ @media (min-width: 1360px) {
+    .container {
+        padding-left: 3% !important;
+    }
+
+    #hostname {
+        max-width: 280px !important;
+     }
+ 
+     #hostnametext {
+        max-width: 220px !important;
+     }
+    
+    .charts-body {
+        width: calc(100% - 263px) !important;
+        padding-left: 1% !important;
+        padding-right: 2% !important;
+    }
+
+    .sidebar-body {
+        display: inline-block !important;
+        width: 263px !important;
+    }
+
+    /* // Widen the fixed sidebar again  */
+    .dashboard-sidebar.affix,
+    .dashboard-sidebar.affix-top,
+    .dashboard-sidebar.affix-bottom {
+        width: 263px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    #hostname {
+        max-width: 100px;
+    }
+ 
+    #hostnametext {
+        max-width: 40px;
+    }
+    .container {
+        padding-left: 2% !important;
+    }
+
+
+    .charts-body {
+        width: calc(100% - 233px) !important;
+        padding-left: 1% !important;
+        padding-right: 1% !important;
+    }
+
+    .sidebar-body {
+        display: inline-block !important;
+        width: 233px !important;
+    }
+
+    .dashboard-sidebar.affix,
+    .dashboard-sidebar.affix-top,
+    .dashboard-sidebar.affix-bottom {
+        width: 233px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        padding-left: 0% !important;
+    }
+
+    .charts-body {
+        width: calc(100% - 213px) !important;
+        padding-left: 1% !important;
+        padding-right: 0% !important;
+    }
+
+    .sidebar-body {
+        display: inline-block !important;
+        width: 213px !important;
+    }
+
+    .dashboard-sidebar .nav > .active > ul {
+        display: block;
+    }
+
+    .dashboard-sidebar.affix,
+    .dashboard-sidebar.affix-top,
+    .dashboard-sidebar.affix-bottom {
+        width: 213px !important;
+    }
+
+    .dashboard-sidebar.affix {
+        position: fixed;
+        top: 20px;
+    }
+
+    .dashboard-sidebar.affix-bottom {
+        position: absolute;
+    }
+
+    .dashboard-sidebar.affix-bottom .dashboard-sidenav,
+    .dashboard-sidebar.affix .dashboard-sidenav {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 860px) {
+    .dashboard-sidebar {
+        padding-left: 20px;
+    }
+
+}
+
+ @media (min-width: 768px) {
+    .dashboard-sidebar {
+        padding-left: 20px;
+    }
+
+    .charts-body {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+
+    .back-to-top,
+    .dashboard-theme-toggle {
+        display: block;
+    }
+}
+
+@media print {
+    body {
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact;
+        page-break-inside: auto;
+        page-break-before: auto;
+        page-break-after: auto;
+    }
+
+    .dashboard-section {
+        page-break-inside: auto;
+        page-break-before: auto;
+        page-break-after: auto;
+    }
+
+    .dashboard-subsection {
+        page-break-before: avoid;
+        page-break-after: auto;
+        page-break-inside: auto;
+    }
+
+    .charts-body {
+        padding-left: 0%;
+        padding-right: 0%;
+        display: block;
+        page-break-inside: auto;
+        page-break-before: auto;
+        page-break-after: auto;
+    }
+
+    .back-to-top,
+    .dashboard-theme-toggle {
+        display: block;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.top {
+    /* border: 2px solid white; */
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    z-index: 1;
+    top: 0;
+}
+
+#title {
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff;
+}
+
+.wrap {
+    width: 80%;
+}
+
+.contain {
+    width: 100%;
+    padding-left:30px;
+}
+
+h1 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.charts {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.charts>div {
+    margin-bottom: 6rem;
+    position: relative;
+}
+
+.item {
+    margin: 10px;
+    padding: 15px 10px;
+}
+
+/* 네비게이션바 우측 고정 */
+.navi {
+    position: fixed;
+    height: 100vh;
+    width: 20%;
+    top: 30px;
+    right: 0;
+    text-align: center;
+    padding-top: 30px;
+    font-size: 20px;
+    line-height: 8px;
+    /* border: 1px solid purple; */
+}
+
+/* 사이드바 */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 154, 200);
+    transition: 0.5s ease-in-out;
+    padding-top: 10px;
+    overflow-x: hidden;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #fff;
+    display: block;
+    transition: 0.2s ease-in-out;
+    font-size:10px;
+}
+
+.sidenav a:hover,
+.offcanvas a:focus {
+    color: #000;
+}
+
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px !important;
+    margin-left: 50px;
+}
+
+.openmenu:hover {
+    color: rgb(0, 154, 200);
+    transition: 0.5s ease-in-out;
+}
+
+.openmenu {
+    font-size: 25px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+
+.openmenu>i {
+    font-size: 30px;
+}
+
+/* 미디어쿼리 적용 */
+@media screen and (max-height:450px) {
+    .sidenav {
+    padding-top: 15px;
+    }
+
+    .sidenav a {
+    font-size: 18px;
+    }
+}
+
+.dYpxHC {
+    font-family: "IBM Plex Sans", sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(253, 253, 253);
+    /* border:1px solid white; */
+    /* padding-top:10px; */
+}
+
+.bggwvn {
+    /* display: flex; */
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    padding: 8px 16px;
+    width: 100%;
+    background-color: rgb(53, 65, 74);
+    z-index: 20;
+    height: 56px;
+}
+
+.iilfBV {
+    pointer-events: all;
+}
+
+.bwMFBc.bwMFBc .button-icon {
+    fill: rgb(255, 195, 0);
+    width: 16px;
+    height: 16px;
+}
+
+.kUIInk.kUIInk .button-icon {
+    fill: rgb(255, 195, 0);
+    height: 16px;
+    width: 16px;
+}
+
+.PeqZZ.PeqZZ .button-icon {
+    fill: #fff;
+    height: 16px;
+    width: 16px;
+}
+
+.gIfatt {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 8px;
+    background-color: rgb(255, 65, 54);
+    border: 1px solid rgb(255, 65, 54);
+    border-radius: 3996px;
+    width: 25px;
+    height: 20px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 12px;
+    float: left;
+    margin-left: 5px;
+}
+
+.idLlCh {
+    background: rgb(255, 235, 239);
+    cursor: pointer;
+}
+
+.fBixjR {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 8px;
+    background-color: rgb(255, 195, 0);
+    border: 1px solid rgb(255, 195, 0);
+    border-radius: 45px;
+    width: 25px;
+    height: 20px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 12px;
+    float: left;
+    margin-left: 5px;
+
+}
+
+.dhjyGj {
+    background: rgb(255, 248, 225);
+    cursor: pointer;
+}
+
+.signup {
+    width: 128px;
+    height: 40px;
+    float: right;
+    background-color: #00AB44;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 3px;
+    margin-left: 30px;
+    margin-top: -10px;
+}
+
+.yBcic {
+    fill: #fff;
+    height: 15px;
+    width: 15px;
+}
+
+.cVAtRB {
+    position: absolute;
+    display: flex;
+    z-index: 35;
+    outline: none;
+    pointer-events: all;
+    max-height: 100%;
+    max-width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.nav li{
+    padding-bottom:15px;
+}
