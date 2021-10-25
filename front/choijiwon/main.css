@@ -496,6 +496,8 @@ h1 {
     font-size: 12px;
     float: left;
     margin-left: 5px;
+    color:rgb(255, 65, 54);
+    font-weight:bold;
 }
 
 .idLlCh {
@@ -517,7 +519,8 @@ h1 {
     font-size: 12px;
     float: left;
     margin-left: 5px;
-
+    color:rgb(255, 195, 0);
+    font-weight:bold;
 }
 
 .dhjyGj {
