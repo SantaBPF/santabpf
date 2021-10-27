@@ -34,126 +34,27 @@
 
 
   <script>
-    var param = {
-      hostname: "host-1",
-      latest_alarm_log_unique_id: 1632328473,
-      status: true,
-      now: 1634287281,
-      alarms: {
-        "system.cpu.1min_cpu_usage": {
-          id: 1632328318,
-          name: "1min_cpu_usage",
-          chart: "system.cpu",
-          family: "cpu",
-          class: "Utilization",
-          component: "CPU",
-          type: "System",
-          active: true,
-          disabled: false,
-          silenced: false,
-          exec: "/usr/libexec/netdata/santabpf/app/router.py",
-          recipient: "sysadmin",
-          source: "1@/usr/lib/netdata/conf.d/health.d/cpu.conf",
-          units: "%",
-          info: "average CPU utilization over the last 1 minute (excluding iowait, nice and steal)",
-          status: "UNINITIALIZED",
-          last_status_change: 1634287258,
-          last_updated: 0,
-          next_update: 0,
-          update_every: 5,
-          delay_up_duration: 0,
-          delay_down_duration: 0,
-          delay_max_duration: 0,
-          delay_multiplier: 1.0,
-          delay: 0,
-          delay_up_to_timestamp: 0,
-          warn_repeat_every: "0",
-          crit_repeat_every: "0",
-          value_string: "-",
-          last_repeat: "0",
-          lookup_dimensions: "user,system,softirq,irq,guest",
-          db_after: 0,
-          db_before: 0,
-          lookup_method: "average",
-          lookup_after: -60,
-          lookup_before: 0,
-          lookup_options: "unaligned",
-          warn: "$this &gt; (($status &gt;= $WARNING) ? (75) : (85))",
-          warn_parsed:
-            "(${this} &gt; ((${status} &gt;= ${WARNING}) ? 75 : 85))",
-          crit: "$this &gt; (($status == $CRITICAL) ? (85) : (95))",
-          crit_parsed:
-            "(${this} &gt; ((${status} == ${CRITICAL}) ? 85 : 95))",
-          green: null,
-          red: null,
-          value: null,
-        },
-        "system.cpu.1min_steal_cpu": {
-          id: 1632328319,
-          name: "1min_steal_cpu",
-          chart: "system.cpu",
-          family: "cpu",
-          class: "Latency",
-          component: "CPU",
-          type: "System",
-          active: true,
-          disabled: false,
-          silenced: false,
-          exec: "/usr/libexec/netdata/santabpf/app/router.py",
-          recipient: "sysadmin",
-          source: "17@/usr/lib/netdata/conf.d/health.d/cpu.conf",
-          units: "%",
-          info: "average CPU steal time over the last 1 minute",
-          status: "UNINITIALIZED",
-          last_status_change: 1634287258,
-          last_updated: 0,
-          next_update: 0,
-          update_every: 5,
-          delay_up_duration: 0,
-          delay_down_duration: 0,
-          delay_max_duration: 0,
-          delay_multiplier: 1.0,
-          delay: 0,
-          delay_up_to_timestamp: 0,
-          warn_repeat_every: "0",
-          crit_repeat_every: "0",
-          value_string: "-",
-          last_repeat: "0",
-          lookup_dimensions: "steal",
-          db_after: 0,
-          db_before: 0,
-          lookup_method: "average",
-          lookup_after: -60,
-          lookup_before: 0,
-          lookup_options: "unaligned",
-          warn: "$this &gt; (($status &gt;= $WARNING) ? (5) : (10))",
-          warn_parsed:
-            "(${this} &gt; ((${status} &gt;= ${WARNING}) ? 5 : 10))",
-          crit: "$this &gt; (($status == $CRITICAL) ? (20) : (30))",
-          crit_parsed:
-            "(${this} &gt; ((${status} == ${CRITICAL}) ? 20 : 30))",
-          green: null,
-          red: null,
-          value: null,
-        },
+    var alarm_data;
+    $.ajax({
+      url: "http://3.34.29.236:19999/host/host-1/api/v1/alarms?all",
+      dataType: "json",
+      success: function (data) {
+        //console.log(data.alarms);
+        document.getElementById("span1").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].warn);
+        document.getElementById("span2").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].crit);
+        document.getElementById("span3").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].update_every);
+        document.getElementById("span4").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].exec);
+        document.getElementById("span5").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].source);
+
+
+        document.getElementById("span1-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].warn);
+        document.getElementById("span2-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].crit);
+        document.getElementById("span3-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].update_every);
+        document.getElementById("span4-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].exec);
+        document.getElementById("span5-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].source);
+        
       },
-    };
-    // var alarm_data;
-    // $.ajax({
-    //   url: "http://3.34.29.236:19999/host/host-1/api/v1/alarms?all",
-    //   dataType: "json",
-    //   success: function (data) {
-    //     //console.log(data.alarms);
-    //     document.getElementById("span1").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].warn);
-    //     document.getElementById("span2").innerHTML = (data.alarms["system.cpu.1min_cpu_usage"].crit);
-    //     document.getElementById("span1-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].warn);
-    //     document.getElementById("span2-1").innerHTML = (data.alarms["system.cpu.1min_steal_cpu"].crit);
-    //     /*document.getElementById("span1").innerHTML=(param.alarms["system.cpu.1min_cpu_usage"].warn);
-    //     document.getElementById("span2").innerHTML=(param.alarms["system.cpu.1min_cpu_usage"].crit);
-    //     document.getElementById("span1-1").innerHTML=(param.alarms["system.cpu.1min_steal_cpu"].warn);
-    //     document.getElementById("span2-1").innerHTML=(param.alarms["system.cpu.1min_steal_cpu"].crit);*/
-    //   },
-    // });
+    });
   </script>
 </head>
 
@@ -165,10 +66,10 @@
 
     <!-- 알람 버튼 -->
     <div class="flex-sc-1m6gk2e-0 mmJCq" style="float:right; margin-top:10px;">
-      <div style="width:80px; float:left;">
-        <div style="float:left;">
+      <div style="width:100px; float:left;">
+        <div style="float:left; margin-top:2px; fill:#fff;">
           <use xlink:href="#alarm">
-            <svg viewBox="0 0 18 21" color="bright" height="15px" class="styled__StyledIcon-sc-1pjn63w-0 kXUpds"
+            <svg viewBox="0 0 18 21" color="bright" height="18px" class="styled__StyledIcon-sc-1pjn63w-0 kXUpds"
               style="width:16px; height:16px;">
               <path
                 d="M17 13.6c-.6-.6-1-1.5-1-2.4V8c0-3.5-2.6-6.4-6-6.9V1c0-.6-.4-1-1-1S8 .4 8 1v.1C4.6 1.6 2 4.5 2 8v3.2c0 .9-.3 1.7-1 2.4l-1 1v2.9C0 18.9 1.1 20 2.5 20h4.8c.3.6 1 1 1.7 1s1.4-.4 1.7-1h4.8c1.4 0 2.5-1.1 2.5-2.5v-2.9l-1-1zm-1 3.9c0 .3-.2.5-.5.5h-13c-.3 0-.5-.2-.5-.5v-2.1l.4-.4H8a2 2 0 002-2H3.7c.2-.6.3-1.2.3-1.8V8c0-2.8 2.2-5 5-5s5 2.2 5 5v3.2c0 1.4.6 2.8 1.6 3.8l.4.4v2.1z">
@@ -553,7 +454,7 @@
       </div>
 
       <div class="text-center" style="padding-top: 10px; margin-bottom: 300px">
-        <a href="http://3.34.29.236:19999" class="btn btn-primary btn-sm" target="_blank">SantaBPF</a>
+        <a href="http://3.34.29.236:19999/host/host-1" class="btn btn-primary btn-sm" target="_blank">SantaBPF</a>
       </div>
     </div>
 
@@ -972,7 +873,7 @@
   </div>
 
   <div class="modal fade" id="alarmsModal" tabindex="-1" role="dialog" aria-labelledby="alarmsModalLabel"
-    style="display: none">
+    style="display: none;">
     <div class="modal-dialog modal-lg" role="document" style="display: table">
       <div class="modal-content">
         <div class="modal-header">
@@ -998,70 +899,128 @@
               loading...
             </div>
             <div role="tabpanel" class="tab-pane" id="alarms_all">
-              <h3>Rasing Alarms</h3>
-              <a href="http://3.34.29.236:19999/host/host-1/api/v1/alarms?all">system - cpu</a>
-              <table class="table">
+              <h3>All Running Alarms</h3>
+              <a class="modalclick">system - cpu</a>
+              <!-- <p class="modalclick">system - cpu</p> -->
+              <!-- 111111111111 -->
+              <table class="table" style="margin-top: 10px;">
                 <tbody>
                   <tr>
                     <td style="vertical-align: middle; word-break: break-word" width="40%">
-                      <b>systme.cpu</b>
-
+                      <b>system.cpu</b>
                     </td>
                     <td>
                       <table class="table">
                         <tbody>
+
                           <tr>
                             <td width="10%" style="text-align: right">
                               warning&nbsp;when
                             </td>
                             <td>
-                              <span id="span1" style="color: orange;"></span>
+                              <span id="span1" style="color: #fe7d37;"></span>
                             </td>
                           </tr>
+
                           <tr>
                             <td width="10%" style="text-align: right">
                               critical&nbsp;when
                             </td>
                             <td>
-                              <span id="span2" style="color: red;"></span>
+                              <span id="span2" style="color: #e05d44;"></span>
                             </td>
                           </tr>
 
+                          <tr>
+                            <td width="10%" style="text-align: right">
+                              check every
+                            </td>
+                            <td>
+                              <span id="span3"></span>
+                              secs
+                            </td>
+                          </tr>
 
+                          <tr>
+                            <td width="10%" style="text-align: right">
+                              executes
+                            </td>
+                            <td>
+                              <span id="span4"></span>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td width="10%" style="text-align: right">
+                              sources
+                            </td>
+                            <td>
+                              <span id="span5"></span>
+                            </td>
+                          </tr>
+                          
                         </tbody>
                       </table>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <!-- 2222222222222 -->
               <table class="table">
                 <tbody>
                   <tr>
                     <td style="vertical-align: middle; word-break: break-word" width="40%">
                       <b>systme.cpu</b>
-
                     </td>
                     <td>
                       <table class="table">
                         <tbody>
+
                           <tr>
                             <td width="10%" style="text-align: right">
                               warning&nbsp;when
                             </td>
                             <td>
-                              <span id="span1-1" style="color: orange;"></span>
+                              <span id="span1-1" style="color: #fe7d37;"></span>
                             </td>
                           </tr>
+
                           <tr>
                             <td width="10%" style="text-align: right">
                               critical&nbsp;when
                             </td>
                             <td>
-                              <span id="span2-1" style="color: red;"></span>
+                              <span id="span2-1" style="color: #e05d44;"></span>
                             </td>
                           </tr>
 
+                          <tr>
+                            <td width="10%" style="text-align: right">
+                              check every
+                            </td>
+                            <td>
+                              <span id="span3-1"></span>
+                              secs
+                            </td>
+                          </tr>
 
+                          <tr>
+                            <td width="10%" style="text-align: right">
+                              executes
+                            </td>
+                            <td>
+                              <span id="span4-1"></span>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td width="10%" style="text-align: right">
+                              sources
+                            </td>
+                            <td>
+                              <span id="span5-1"></span>
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </td>
@@ -1472,6 +1431,16 @@
   $(".alclose6").click(function () {
     $(".alarm6").css("display", "none");
   });
+
+  $(".modalclick").click(function(){
+    if($(".table").css("display")=="none"){
+      $(".table").show();
+    }
+    else{
+      $(".table").hide();
+    }
+  });
+  
 </script>
 
 </html>
