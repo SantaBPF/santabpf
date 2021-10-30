@@ -4,13 +4,8 @@
 
 ### Santa's Omniscience + BPF's Omnipotence -> Ultimate Linux Troubleshooting Assistant
 
+### Docs
 
-# Overview
-# Usage
-# Installation
-# Contributing
-SantaBPF 개발에 기여하고 싶다면 아래 문서를 참고
-
-- [한국어](https://github.com/SantaBPF/santabpf/blob/main/docs/CONTRIBUTING.ko.md)
-
-# License
+1. [how to add alarms](https://github.com/SantaBPF/santabpf/blob/main/docs/ADD-NEW-ALARM.md)
+2. [hot to add plugins](https://github.com/SantaBPF/santabpf/blob/main/docs/ADD-NEW-PLUGIN.md)
+3. [CONTRIBUTING](https://github.com/SantaBPF/santabpf/blob/main/docs/CONTRIBUTING.ko.md)
