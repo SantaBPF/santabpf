@@ -24,4 +24,8 @@ RUN mkdir /var/log/santabpf && chown -R netdata:netdata /var/log/santabpf
 
 WORKDIR ./app
 RUN ln -s /var/log/santabpf ./log
+
+COPY ./tmp/_1min_cpu_usage_211017-164024.svg /usr/libexec/netdata/santabpf/svg/
+RUN chown netdata:netdata /usr/libexec/netdata/santabpf/svg/_1min_cpu_usage_211017-164024.svg
+
 ENTRYPOINT ["sh", "run.sh"]

@@ -1,8 +1,6 @@
-import io
-
 from fastapi import FastAPI
 from loguru import logger
-from starlette.responses import StreamingResponse
+from starlette.responses import HTMLResponse
 
 import config
 
@@ -14,5 +12,5 @@ app = FastAPI()
 @app.get("/svg")
 @logger.catch
 def get_svg(*, id: str):
-    with open(config.SVG_PATH / id, 'rb') as f:
-        return StreamingResponse(io.BytesIO(f.read()), media_type="image/png")
+    with open(config.SVG_PATH / id, 'r') as f:
+        return HTMLResponse(content=f.read(), status_code=200)

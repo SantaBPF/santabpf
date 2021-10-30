@@ -26,14 +26,15 @@ def _1min_cpu_usage(event: Event):
 
 
 def _1min_steal_cpu(event: Event):
-    profile = exec_bpftrace(
-        program='profile:hz:99 { @[pid, comm] = count(); }',
-        headers=['pid', 'comm', 'count'],
-        pattern='\[(.+?), (.+?)\]: (.+?)$',
-        types=[int, str, int],
-        timeout=3
-    )
-
-    msg = f'TODO\n\n{profile}'
-
-    send_email('dongho971220@gmail.com', repr(event), msg)
+    # profile = exec_bpftrace(
+    #     program='profile:hz:99 { @[pid, comm] = count(); }',
+    #     headers=['pid', 'comm', 'count'],
+    #     pattern='\[(.+?), (.+?)\]: (.+?)$',
+    #     types=[int, str, int],
+    #     timeout=3
+    # )
+    #
+    # msg = f'TODO\n\n{profile}'
+    #
+    # send_email('dongho971220@gmail.com', repr(event), msg)
+    pass
